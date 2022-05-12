@@ -1,0 +1,14 @@
+Package: estimateW
+Type: Package
+Title: Estimation of W matrices
+Version: 0.1.0
+Authors@R: c(
+    person("Krisztin", "Tamás",email = "krisztin@iiasa.ac.at",role =  c("aut", "cre"),comment = c(ORCID = "0000-0002-9241-8628")),
+    person("Philipp", "Piribauer",email = "philipp.piribauer@wifo.ac.at",role =   "aut"),
+    person("Ringwald", "Leopold",email = "ringwald@iiasa.ac.at", role =  "aut")
+    )
+Maintainer: Tamás Krisztin <krisztin@iiasa.ac.at>
+Description: Bayesian estimation of W matrices.
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
