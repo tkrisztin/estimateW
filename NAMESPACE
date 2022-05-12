@@ -2,3 +2,4 @@
 
 export(SAR_W)
 export(lndetPaceBarry)
+export(sarwsim)

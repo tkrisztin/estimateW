@@ -11,8 +11,8 @@ SAR_W(
   tt,
   niter = 1000,
   nretain = 250,
-  beta_prior_mean = matrix(0, ncol(X) + 1, 1),
-  beta_prior_var = diag(ncol(X) + 1) * 10,
+  beta_prior_mean = matrix(0, ncol(X), 1),
+  beta_prior_var = diag(ncol(X)) * 10,
   sigma_a = 0.1,
   sigma_b = 0.1,
   rho_pr = 1.1,
@@ -86,4 +86,9 @@ List with posterior samples for \eqn{\rho}, \eqn{\beta}, \eqn{\sigma^2}, \eqn{w}
 }
 \description{
 A sampler for estimating the W matrix in a SAR type model \eqn{Y = \rho WY + X \beta + \epsilon}, with \eqn{\epsilon \sim N(0,\sigma^2)}
+}
+\examples{
+n = 20; tt = 10
+dgp_dat = sarwsim(n =n, tt = 10, k=3, rho = .5, beta = c(1,-1,1), sigma2 = .5)
+res = SAR_W(Y = dgp_dat$Y,X = dgp_dat$X,tt = tt,W_prior = matrix(.5,n,n),niter = 100,nretain = 50)
 }

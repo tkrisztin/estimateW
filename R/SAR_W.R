@@ -28,9 +28,14 @@
 #'
 #' @return List with posterior samples for \eqn{\rho}, \eqn{\beta}, \eqn{\sigma^2}, \eqn{w}, and direct, indirect, and total effects.
 #' @export SAR_W
+#'
+#' @examples
+#' n = 20; tt = 10
+#' dgp_dat = sarwsim(n =n, tt = 10, k=3, rho = .5, beta = c(1,-1,1), sigma2 = .5)
+#' res = SAR_W(Y = dgp_dat$Y,X = dgp_dat$X,tt = tt,W_prior = matrix(.5,n,n),niter = 100,nretain = 50)
 SAR_W <- function(Y, X, W_prior, tt, niter = 1000, nretain = 250,
-                   beta_prior_mean = matrix(0, ncol(X) + 1, 1),
-                   beta_prior_var = diag(ncol(X) + 1) * 10,
+                   beta_prior_mean = matrix(0, ncol(X), 1),
+                   beta_prior_var = diag(ncol(X)) * 10,
                    sigma_a = .1, sigma_b = .1,
                    rho_pr = 1.1, griddy_n = 105, rmin = 0, rmax = 1,
                    bbinom_a = 1, bbinom_b = 1, bb_pr = TRUE,
@@ -41,13 +46,13 @@ SAR_W <- function(Y, X, W_prior, tt, niter = 1000, nretain = 250,
   } else {
     varnames <- colnames(X)
   }
-  varnames <- c("(Intercept)", varnames)
+  #varnames <- c("(Intercept)", varnames)
   if (!ROW_STANDARDIZED && GRIDDY_GIBBS) {
     stop("No support for Griddy Gibbs without row-standardization!")
   }
 
   ndiscard <- niter - nretain
-  k <- ncol(X) + 1
+  k <- ncol(X)
   smallk <- k - 1
   n <- nrow(X) / tt
 
@@ -156,7 +161,7 @@ SAR_W <- function(Y, X, W_prior, tt, niter = 1000, nretain = 250,
     }
   }
 
-  tX <- cbind(1, X)
+  tX <- X
   tY <- matrix(Y, n, tt)
   tAy <- matrix(0, n, tt)
   curr.beta <- solve(crossprod(tX)) %*% crossprod(tX, Y)
@@ -167,7 +172,7 @@ SAR_W <- function(Y, X, W_prior, tt, niter = 1000, nretain = 250,
 
   ### Gibbs sampling
   curr.A <- Matrix::.sparseDiagonal(n) - curr.rho * curr.w
-  curr.logdet <- log(det(curr.A))
+  curr.logdet <- log(Matrix::det(curr.A))
   for (iter in 1:niter) {
     if (VERBOSE) {
       cat(
@@ -211,7 +216,7 @@ SAR_W <- function(Y, X, W_prior, tt, niter = 1000, nretain = 250,
         curr.rho <- logdets[ind, 2]
         curr.A <- Matrix::.sparseDiagonal(n) - curr.rho * curr.w
         curr.AI <- as.matrix(solve(curr.A))
-        curr.logdet <- log(det(curr.A))
+        curr.logdet <- log(Matrix::det(curr.A))
       }
     } else {
       # draw p(rho | .) using MH-step
