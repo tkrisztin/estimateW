@@ -7,6 +7,8 @@
 #' @param min_k Minimum number of elements (defaults to 0)
 #' @param max_k Maximum number of elements (defaults to nsize + 1)
 #'
+#' @export bbinompdf
+#'
 #' @return Density of neighbors
 bbinompdf <- function(x, nsize, a, b, min_k = 0, max_k = nsize) {
   x2 <- base::beta(a + x, b + nsize - x) / base::beta(a, b)
