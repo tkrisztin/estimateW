@@ -58,7 +58,7 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
   }
   if (k_dum > 0) {ind_baseX = c(ind_baseX,(2*smallk + 1):k)}
 
-  rho_scale <- 1
+  rho_scale <- rho_prior$init_rho_scale
   rho_accept <- 0
 
   # save the posterior draws here
@@ -74,116 +74,32 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
   post.total <- matrix(0, smallk + k_dum, nretain)
   rownames(post.direct) <- rownames(post.indirect) <- rownames(post.total) <- varnames[ind_baseX]
 
-  # pre-calculate some terms for faster draws
-  curr.W <- matrix(0, n, n) # not standardized W
-  ### generate curr.W from the prior distribution
-  if (W_prior$SYMMETRIC) {
-    ii_samples <- sample(2:n, n - 1, replace = F)
-  } else {
-    ii_samples <- sample(1:n, n, replace = F)
-  }
-  for (i in ii_samples) {
-    if (W_prior$SYMMETRIC) {
-      jj_samples <- sample(c(1:(i - 1)), i - 1, replace = F)
-    } else {
-      jj_samples <- sample(1:n, n, replace = F)
-    }
-    for (j in jj_samples) {
-      curr.Wpr <- W_prior$W_prior[i, j]
-      if (W_prior$SYMMETRIC) {
-        neighb1 <- sum((curr.W + t(curr.W))[i, ])
-      } else {
-        neighb1 <- sum(curr.W[i, ])
-      }
-      if (W_prior$rjct_pr) {
-        if (W_prior$SYMMETRIC) {
-          rjct_n <- max(neighb1, sum((curr.W + t(curr.W))[j, ]))
-        } else {
-          rjct_n <- neighb1
-        }
-        if (rjct_n < W_prior$min_k) {
-          curr.Wpr <- 1
-        } else if (rjct_n == W_prior$max_k) {
-          curr.Wpr <- 0
-        }
-      }
-      if (W_prior$bb_pr) {
-        bbprior1 <- bbinompdf(neighb1, n - 1, W_prior$bbinom_a, W_prior$bbinom_b) * curr.Wpr
-        bbprior0 <- (1 - bbinompdf(neighb1, n - 1, W_prior$bbinom_a, W_prior$bbinom_b)) * (1 - curr.Wpr)
-        bbprior_ <- bbprior1 / (bbprior1 + bbprior0)
-      } else {
-        bbprior_ <- curr.Wpr
-      }
-      prob.delta <- bbprior_ / (bbprior_ + (1 - bbprior_))
-      if (prob.delta == 1) {
-        curr.W[i, j] <- 1
-      } else if (prob.delta != 0) {
-        curr.W[i, j] <- stats::rbinom(1, 1, prob.delta)
-      }
-    }
-  }
-  # # set-up random W, so that all have min_k neighbours
-  # nr_gen_neighbours = min((min_k + max_k)/2,ceiling(n/10))
-  # iter = 1
-  # sample_from = 1:n
-  # while (any(rowSums(curr.W) < min_k) && iter < n*100) {
-  #   nneigh = sample(sample_from,2)
-  #   prop.W = curr.W
-  #   prop.W[nneigh[1],nneigh[2]] = 1
-  #   prop.W[nneigh[2],nneigh[1]] = 1
-  #   if ( all(sum(prop.W[nneigh,]) < max_k) ) {
-  #     curr.W = prop.W
-  #   }
-  #   if (any(rowSums(curr.W[sample_from,]) >= min_k) && length(sample_from) > 1) {
-  #     sample_from = c(1:n)[-which(rowSums(curr.W)>=min_k)]
-  #   }
-  #   iter = iter + 1
-  # }
-  if (W_prior$SYMMETRIC) {
-    curr.W[upper.tri(curr.W, diag = tt)] <- 0
-  }
-  # curr.w - row-standardized
-  curr.w <- matrix(0, n, n)
-  if (W_prior$ROW_STANDARDIZED) {
-    if (W_prior$SYMMETRIC) {
-      curr.w <- (curr.W + t(curr.W)) / rowSums((curr.W + t(curr.W)))
-    } else {
-      curr.w <- curr.W / rowSums(curr.W)
-    }
-    curr.w[is.na(curr.w)] <- 0
-  } else {
-    if (W_prior$SYMMETRIC) {
-      curr.w <- curr.W + t(curr.W)
-    } else {
-      curr.w <- curr.W
-    }
-  }
+  # initilize wdraws
+  curr.rho <- 0
+  curr.wdraws = init_sampler_W(W_prior,rho = curr.rho)
 
-  curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),curr.w) %*% X)
+  curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),curr.wdraws$curr.w) %*% X)
   tX = cbind(X,curr.WX,Z)
   tY <- matrix(Y, n, tt)
   tAy <- matrix(0, n, tt)
   curr.beta <- solve(crossprod(tX)) %*% crossprod(tX, Y)
   curr.sigma <- as.double(crossprod(Y - tX %*% curr.beta)) / (tt * n - k)
-  curr.gamma <- matrix(0, n, n)
-  curr.rho <- 0
-  curr.AI <- as.matrix(solve(Matrix::.sparseDiagonal(n) - curr.rho * curr.w))
+  curr.AI <- curr.wdraws$curr.AI
+  curr.A <- curr.wdraws$curr.A
+  curr.logdet <- curr.wdraws$curr.logdets
 
   ### Gibbs sampling
-  curr.A <- Matrix::.sparseDiagonal(n) - curr.rho * curr.w
-  curr.logdet <- log(Matrix::det(curr.A))
   for (iter in 1:niter) {
     if (VERBOSE) {
       cat(
         "iter:", iter,
-        "W:", sum(curr.w > 0),
-        "min_k", min(rowSums(curr.w > 0)),
+        "W:", sum(curr.wdraws$curr.w > 0),
+        "min_k", min(rowSums(curr.wdraws$curr.w > 0)),
         "sigma:", round(curr.sigma, 2),
         "rho:", curr.rho, "\n"
       )
     }
-    curr.A <- Matrix::.sparseDiagonal(n) - curr.rho * curr.w
-    Ay <- matrix(curr.A %*% tY, n * tt, 1)
+    Ay <- matrix(curr.wdraws$curr.A %*% tY, n * tt, 1)
 
     # draw beta
     # e1 = try({
@@ -200,9 +116,9 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
 
     ## Griddy-Gibbs step for rho
     if (rho_prior$GRIDDY_GIBBS) {
-      logdets <- lndetPaceBarry(curr.w, length.out = rho_prior$griddy_n,
+      logdets <- lndetPaceBarry(curr.wdraws$curr.w, length.out = rho_prior$griddy_n,
                                 rmin = rho_prior$rmin, rmax = rho_prior$rmax)[-rho_prior$griddy_n, ]
-      wY <- curr.w %*% tY
+      wY <- curr.wdraws$curr.w %*% tY
       # ess.grid1 = sapply(logdets[,2], function(x) sum(dnorm(as.matrix(tY - x*wY),curr.txb,sqrt(curr.sigma),log = tt))  )
       ess.grid <- sapply(logdets[, 2], function(x) -sum(((tY - x * wY) - curr.txb)^2) / (2 * curr.sigma))
       den <- tt * logdets[, 1] + ess.grid + log(beta_prob(logdets[, 2], rho_prior$rho_pr))
@@ -214,9 +130,9 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
       ind <- min(which(rnd <= z))
       if (is.integer(ind) && ind <= length(logdets[, 2])) {
         curr.rho <- logdets[ind, 2]
-        curr.A <- Matrix::.sparseDiagonal(n) - curr.rho * curr.w
-        curr.AI <- as.matrix(solve(curr.A))
-        curr.logdet <- log(Matrix::det(curr.A))
+        curr.wdraws$curr.A <- Matrix::.sparseDiagonal(n) - curr.rho * curr.wdraws$curr.w
+        curr.wdraws$curr.AI <- as.matrix(solve(curr.wdraws$curr.A))
+        curr.wdraws$curr.logdet <- log(Matrix::det(curr.wdraws$curr.A))
       }
     } else {
       # draw p(rho | .) using MH-step
@@ -227,14 +143,11 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
           accept <- 1
         }
       }
-      prop.A <- Matrix::.sparseDiagonal(n) - prop.rho * curr.w
+      prop.A <- Matrix::.sparseDiagonal(n) - prop.rho * curr.wdraws$curr.w
       prop.logdet <- suppressWarnings(log(det(prop.A)))
 
-      if (iter == 1) {
-        curr.logdet <- log(det(curr.A))
-      }
-      post_curr <- tt * curr.logdet +
-        sum(stats::dnorm(as.matrix(curr.A %*% tY), curr.txb, sqrt(curr.sigma), log = T)) +
+      post_curr <- tt * curr.wdraws$curr.logdet +
+        sum(stats::dnorm(as.matrix(curr.wdraws$curr.A %*% tY), curr.txb, sqrt(curr.sigma), log = T)) +
         log(beta_prob(curr.rho, rho_prior$rho_pr))
       post_prop <- tt * prop.logdet +
         sum(stats::dnorm(as.matrix(prop.A %*% tY), curr.txb, sqrt(curr.sigma), log = T)) +
@@ -244,9 +157,9 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
       if (is.nan(acc_prob) == FALSE) {
         if ((acc_prob) > log(stats::runif(1, 0, 1))) {
           curr.rho <- prop.rho
-          curr.A <- prop.A
-          curr.AI <- as.matrix(solve(prop.A))
-          curr.logdet <- prop.logdet
+          curr.wdraws$curr.A <- prop.A
+          curr.wdraws$curr.AI <- as.matrix(solve(prop.A))
+          curr.wdraws$curr.logdet <- prop.logdet
           rho_accept <- rho_accept + 1
         }
       }
@@ -263,170 +176,10 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
 
     # Gibbs step for W - element-wise
     # curr.txb = matrix(curr.xb,n,tt)
-    if (W_prior$SYMMETRIC) {
-      ii_samples <- sample(2:n, n - 1, replace = F)
-    } else {
-      ii_samples <- sample(1:n, n, replace = F)
-    }
-    for (ii in ii_samples) {
-      if (W_prior$SYMMETRIC) {
-        jj_samples <- sample(c(1:(ii - 1)), ii - 1, replace = F)
-      } else {
-        jj_samples <- sample(1:n, n, replace = F)
-      }
-      for (jj in jj_samples) {
-        if (W_prior$W_prior[ii, jj] == 0) {
-          curr.W[ii, jj] <- 0
-        } else if (W_prior$W_prior[ii, jj] == 1) {
-          curr.W[ii, jj] <- 1
-        } else {
-          if (W_prior$SYMMETRIC) {
-            ch_elmnt <- c(ii, jj)
-          } else {
-            ch_elmnt <- ii
-          }
-          W0 <- W1 <- curr.W
-          was1 <- (curr.W[ii, jj] == 1)
-          if (was1) {
-            W0[ii, jj] <- 0
-            if (W_prior$SYMMETRIC) {
-              WW0 <- (W0 + t(W0))
-            } else {
-              WW0 <- W0
-            }
-            w0 <- w1 <- curr.w
-            if (W_prior$ROW_STANDARDIZED) {
-              w0[ch_elmnt, ] <- WW0[ch_elmnt, ] / rowSums(WW0[ch_elmnt, , drop = F])
-            } else {
-              w0[ch_elmnt, ] <- WW0[ch_elmnt, ]
-            }
-            w0[is.na(w0)] <- 0
-            A0 <- diag(n) - curr.rho * w0
-            A1 <- curr.A
-            diff0 <- A0[ch_elmnt, , drop = F] - curr.A[ch_elmnt, , drop = F]
-            res0 <- update_ldetAI(ch_elmnt, diff0, curr.AI, curr.logdet)
-            logdet0 <- res0$logdet
-            logdet1 <- curr.logdet
-          } else {
-            W1[ii, jj] <- 1
-            if (W_prior$SYMMETRIC) {
-              WW1 <- (W1 + t(W1))
-            } else {
-              WW1 <- W1
-            }
-            w0 <- w1 <- curr.w
-            if (W_prior$ROW_STANDARDIZED) {
-              w1[ch_elmnt, ] <- WW1[ch_elmnt, ] / rowSums(WW1[ch_elmnt, , drop = F])
-            } else {
-              w1[ch_elmnt, ] <- WW1[ch_elmnt, ]
-            }
-            w1[is.na(w1)] <- 0
-            A1 <- diag(n) - curr.rho * w1
-            A0 <- curr.A
-            diff1 <- A1[ch_elmnt, , drop = F] - curr.A[ch_elmnt, , drop = F]
-            logdet0 <- curr.logdet
-            res1 <- update_ldetAI(ch_elmnt, diff1, curr.AI, curr.logdet)
-            logdet1 <- res1$logdet
-          }
+    curr.wdraws = sample_W(tY = tY,curr.txb = curr.txb,curr.sigma = curr.sigma,
+                           W_prior = W_prior,wdraws = curr.wdraws,curr.rho = curr.rho)
 
-          curr.W_prior <- W_prior$W_prior
-          # # rejection prior
-          if (W_prior$rjct_pr) {
-            if (W_prior$SYMMETRIC) {
-              W_reject1 <- rowSums(w1[c(ii, jj), ] > 0) > W_prior$max_k
-            } else {
-              W_reject1 <- sum(W1[ii, ]) > W_prior$max_k
-            }
-            if (sum(W_reject1) > 0) {
-              curr.W_prior[ii, jj] <- 0
-            }
-            if (W_prior$SYMMETRIC) {
-              W_reject0 <- rowSums(w0[c(ii, jj), ] > 0) < W_prior$min_k
-            } else {
-              W_reject0 <- sum(W0[ii, ]) < W_prior$min_k
-            }
-            if (sum(W_reject0) > 0) {
-              curr.W_prior[ii, jj] <- 1
-            }
-          }
-          if (W_prior$bb_pr) {
-            if (W_prior$SYMMETRIC) {
-              neighb0 <- sum((W0 + t(W0))[ii, ])
-            } else {
-              neighb0 <- sum(W0[ii, ])
-            }
-            # bbprior0 = bbinompdf(neighb0,n-1,bbinom_a,bbinom_b) * (1 - curr.W_prior[ii,jj])
-            bbprior0 <- bbinompdf(neighb0, n - 1,W_prior$bbinom_a, W_prior$bbinom_b, W_prior$min_k, W_prior$max_k) *
-              (1 - curr.W_prior[ii, jj])
-            # if (neighb0 == 0) {bbprior0 = 0}
-            if (W_prior$SYMMETRIC) {
-              neighb1 <- sum((W1 + t(W1))[ii, ])
-            } else {
-              neighb1 <- sum(W1[ii, ])
-            }
-            # bbprior1 = bbinompdf(neighb1,n-1,bbinom_a,bbinom_b) * curr.W_prior[ii,jj]
-            bbprior1 <- bbinompdf(neighb1, n - 1, W_prior$bbinom_a, W_prior$bbinom_b, W_prior$min_k, W_prior$max_k) *
-              curr.W_prior[ii, jj]
-            bbprior_ <- bbprior1 / (bbprior1 + bbprior0)
-          } else {
-            bbprior_ <- curr.W_prior[ii, jj]
-          }
-
-          err1 <- sum((A1[ch_elmnt, ] %*% tY - curr.txb[ch_elmnt, ])^2)
-          err0 <- sum((A0[ch_elmnt, ] %*% tY - curr.txb[ch_elmnt, ])^2)
-          adj <- min(err0, err1)
-          err1 <- err1 - adj
-          err0 <- err0 - adj
-
-          # change 23.02.2022
-          #p1 =   bbprior_ * exp(logdet1*tt) * dnorm(err1,0,sqrt(curr.sigma))
-          #p0 = (1- bbprior_) * exp(logdet0*tt) * dnorm(err0,0,sqrt(curr.sigma))
-          p1 <- bbprior_ * exp(logdet1 * tt) * exp(-err1 / (curr.sigma))
-          p0 <- (1 - bbprior_) * exp(logdet0 * tt) * exp(-err0 / (curr.sigma))
-
-          prob.delta <- p1 / (p1 + p0)
-          if (is.na(prob.delta)) {
-            prob.delta <- 0
-          }
-          rnd_draw <- stats::runif(1)
-          if (rnd_draw <= prob.delta) {
-            curr.W[ii, jj] <- 1
-            if (!was1) {
-              curr.logdet <- logdet1
-              curr.A <- A1
-              curr.AI <- res1$AI
-              curr.w <- w1
-            }
-          } else {
-            curr.W[ii, jj] <- 0
-            if (was1) {
-              curr.logdet <- logdet0
-              curr.A <- A0
-              curr.AI <- res0$AI
-              curr.w <- w0
-            }
-          }
-        }
-        curr.gamma[ii, jj] <- curr.W[ii, jj]
-      }
-    }
-    if (W_prior$ROW_STANDARDIZED) {
-      if (W_prior$SYMMETRIC) {
-        curr.w <- (curr.W + t(curr.W)) / rowSums(curr.W + t(curr.W))
-      } else {
-        curr.w <- curr.W / rowSums(curr.W)
-      }
-      if (any(is.na(curr.w))) {
-        curr.w[is.na(curr.w)] <- 0
-      }
-    } else {
-      if (W_prior$SYMMETRIC) {
-        curr.w <- curr.W + t(curr.W)
-      } else {
-        curr.w <- curr.W
-      }
-    }
-    curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),curr.w) %*% X)
+    curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),curr.wdraws$curr.w) %*% X)
     tX = cbind(X,curr.WX,Z)
 
     # we are past the burn-in, save the draws
@@ -435,16 +188,16 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
       postb[, s] <- as.matrix(curr.beta)
       posts[s] <- curr.sigma
       postr[s] <- curr.rho
-      postw[, , s] <- curr.w
+      postw[, , s] <- curr.wdraws$curr.w
 
-      post.direct[, s] <- sum(diag(curr.AI)) / n * curr.beta[ind_baseX]
-      post.total[, s] <- sum(curr.AI) / n * curr.beta[ind_baseX]
+      post.direct[, s] <- sum(diag(curr.wdraws$curr.AI)) / n * curr.beta[ind_baseX]
+      post.total[, s] <- sum(curr.wdraws$curr.AI) / n * curr.beta[ind_baseX]
       # if we have WX
       if (smallk > 0) {
         post.direct[ind_lagFX,s] = post.direct[ind_lagFX,s] +
-          sum(diag(curr.AI))/n * curr.beta[ind_WX]
+          sum(diag(curr.wdraws$curr.AI))/n * curr.beta[ind_WX]
         post.total[ind_lagFX,s] = post.total[ind_lagFX,s] +
-          sum(curr.AI)/n * curr.beta[ind_WX]
+          sum(curr.wdraws$curr.AI)/n * curr.beta[ind_WX]
       }
       post.indirect[, s] <- post.total[, s] - post.direct[, s]
     }

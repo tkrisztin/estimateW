@@ -32,16 +32,19 @@ W_priors = function(n,
 #'
 #' @param rho_pr Prior for the four-part beta ditribution
 #' @param griddy_n Number of griddy gibbs steps
-#' @param rmin Minimum range of \eqn{\rho}
-#' @param rmax Maximum range of \eqn{\rho}
+#' @param rmin Minimum range of \eqn{\rho} (default: 1)
+#' @param rmax Maximum range of \eqn{\rho} (default: -1)
+#' @param init_rho_scale For Metropolis-Hastings step the initial candidate variance (default: 1)
 #' @param GRIDDY_GIBBS Should griddy-Gibbs be used for \eqn{\rho} estimation?
 #' Does not work if \code{ROW_STANDARDIZED = FALSE} is specified in the \eqn{W} prior specification. Main advantage is that less draws are required for \eqn{\rho}
 #'
 #' This function gives access to a larger set of prior distributions for \eqn{\rho} in case the default choice is unsatisfactory.
 #'
 #' @export
-rho_priors = function(rho_pr = 1.1, griddy_n = 105, rmin = 0, rmax = 1, GRIDDY_GIBBS = TRUE) {
-  return(list(rho_pr = rho_pr, griddy_n = griddy_n, rmin = rmin, rmax = rmax, GRIDDY_GIBBS = GRIDDY_GIBBS))
+rho_priors = function(rho_pr = 1.1, griddy_n = 105, rmin = 0, rmax = 1, init_rho_scale = 1,
+                      GRIDDY_GIBBS = TRUE) {
+  return(list(rho_pr = rho_pr, griddy_n = griddy_n, rmin = rmin, rmax = rmax, init_rho_scale,
+              GRIDDY_GIBBS = GRIDDY_GIBBS))
 }
 
 #' Specify Prior Distributions for the slope parameters

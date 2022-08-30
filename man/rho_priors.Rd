@@ -9,6 +9,7 @@ rho_priors(
   griddy_n = 105,
   rmin = 0,
   rmax = 1,
+  init_rho_scale = 1,
   GRIDDY_GIBBS = TRUE
 )
 }
@@ -17,9 +18,11 @@ rho_priors(
 
 \item{griddy_n}{Number of griddy gibbs steps}
 
-\item{rmin}{Minimum range of \eqn{\rho}}
+\item{rmin}{Minimum range of \eqn{\rho} (default: 1)}
 
-\item{rmax}{Maximum range of \eqn{\rho}}
+\item{rmax}{Maximum range of \eqn{\rho} (default: -1)}
+
+\item{init_rho_scale}{For Metropolis-Hastings step the initial candidate variance (default: 1)}
 
 \item{GRIDDY_GIBBS}{Should griddy-Gibbs be used for \eqn{\rho} estimation?
 Does not work if \code{ROW_STANDARDIZED = FALSE} is specified in the \eqn{W} prior specification. Main advantage is that less draws are required for \eqn{\rho}
