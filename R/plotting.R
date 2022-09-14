@@ -4,21 +4,44 @@
 #' Graphical Summary of the estimated W matrix
 #'
 #' @param x \code{estimateW} object.
+#' @param cols Main colors to use for the plot
+#' @param breaks Breaks for the colours
+#' @param main Legend title
 #' @param \dots further arguments are passed on to the invoked
 #'
 #' @import plot.matrix
 #' @export
-plot.estimateW = function(x,...) {
+plot.estimateW = function(x,
+                          cols = c("white","lightgrey","black"),
+                          breaks=c(0,0.5,0.75,1),
+                          main="Posterior incl. prob. of W",
+                          ...) {
   w_pip <- apply(x$postw>0,c(1,2),mean)
-  #colnames(w_pip) <- rownames(w_pip) <- shp$ISO3
-  #w_pip2 <- w_pip[order(shp$LON,decreasing = FALSE),order(shp$LON,decreasing = FALSE)]
-  #apply(x$postb,MARGIN = 1,FUN=quantile, c(0.05,0.5,0.95))
-
-  upper_graph_pip=0.75
   graphics::par(mar=c(3.0, 3.0, 3.0, 3.0))
   plot(w_pip,
-       col=c("white","lightgrey","black"),
-       breaks=c(0,0.5,upper_graph_pip,1),
-       xlab="",ylab="",main="",border=NA,font=3,cex.axis=0.75,las=2)
-  graphics::abline(nrow(x$X)+1,-1)
+       col=cols,main = main,
+       breaks=breaks,border = NA,...)
+  graphics::abline(nrow(x$postw)+1,-1)
+}
+
+#' Graphical summary of a generated spatial weight matrix
+#'
+#' @param x \code{sim_sdmw} object
+#' @param cols Main colors to use for the plot
+#' @param breaks Breaks for the colours
+#' @param main Legend title
+#' @param \dots further arguments are passed on to the invoked
+#'
+#' @import plot.matrix
+#' @export
+plot.sim_sdmw = function(x,
+                          cols = c("white","lightgrey","black"),
+                          breaks=c(0,0.5,0.75,1),
+                          main="Spatial weight matrix",
+                          ...) {
+  graphics::par(mar=c(3.0, 3.0, 3.0, 3.0))
+  plot(x$W,
+       col=cols,main = main,
+       breaks=breaks,border = NA,...)
+  graphics::abline(nrow(x$W)+1,-1)
 }
