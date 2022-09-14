@@ -81,6 +81,7 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
   curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),curr.wdraws$curr.w) %*% X)
   tX = cbind(X,curr.WX,Z)
   tY <- matrix(Y, n, tt)
+  curr.txb1 = curr.txb2 = matrix(0,n,tt)
   tAy <- matrix(0, n, tt)
   curr.beta <- solve(crossprod(tX)) %*% crossprod(tX, Y)
   curr.sigma <- as.double(crossprod(Y - tX %*% curr.beta)) / (tt * n - k)
@@ -108,6 +109,12 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
     # curr.beta = mvrnorm(1,b,V)
     curr.beta <- b + t(chol(V)) %*% stats::rnorm(k)
     curr.xb <- tX %*% curr.beta
+    if (smallk > 0) {
+      curr.txb1 = tX[,-ind_WX] %*% curr.beta[,-ind_WX]
+      curr.txb2 = X %*% curr.beta[,ind_WX]
+    } else {
+      curr.txb1 = curr.xb
+    }
     curr.txb <- matrix(curr.xb, n, tt)
 
     # draw sigma
@@ -176,7 +183,9 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
 
     # Gibbs step for W - element-wise
     # curr.txb = matrix(curr.xb,n,tt)
-    curr.wdraws = sample_W(tY = tY,curr.txb = curr.txb,curr.sigma = curr.sigma,
+    curr.wdraws = sample_W(tY = tY,curr.txb1 = curr.txb1,
+                           curr.txb2 = curr.txb2,
+                           curr.sigma = curr.sigma,
                            W_prior = W_prior,wdraws = curr.wdraws,curr.rho = curr.rho)
 
     curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),curr.wdraws$curr.w) %*% X)
