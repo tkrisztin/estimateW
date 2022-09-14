@@ -11,39 +11,39 @@ init_sampler_W = function(W_prior,
   n = nrow(W_prior$W_prior)
   curr.W <- matrix(0, n, n) # not standardized W
   ### generate curr.W from the prior distribution
-  if (W_prior$SYMMETRIC) {
+  if (W_prior$symmetric_prior) {
     ii_samples <- sample(2:n, n - 1, replace = F)
   } else {
     ii_samples <- sample(1:n, n, replace = F)
   }
   for (i in ii_samples) {
-    if (W_prior$SYMMETRIC) {
+    if (W_prior$symmetric_prior) {
       jj_samples <- sample(c(1:(i - 1)), i - 1, replace = F)
     } else {
       jj_samples <- sample(1:n, n, replace = F)
     }
     for (j in jj_samples) {
       curr.Wpr <- W_prior$W_prior[i, j]
-      if (W_prior$SYMMETRIC) {
+      if (W_prior$symmetric_prior) {
         neighb1 <- sum((curr.W + t(curr.W))[i, ])
       } else {
         neighb1 <- sum(curr.W[i, ])
       }
-      if (W_prior$rjct_pr) {
-        if (W_prior$SYMMETRIC) {
+      if (W_prior$use_reject_prior) {
+        if (W_prior$symmetric_prior) {
           rjct_n <- max(neighb1, sum((curr.W + t(curr.W))[j, ]))
         } else {
           rjct_n <- neighb1
         }
-        if (rjct_n < W_prior$min_k) {
+        if (rjct_n < W_prior$min_neighbors) {
           curr.Wpr <- 1
-        } else if (rjct_n == W_prior$max_k) {
+        } else if (rjct_n == W_prior$max_neighbors) {
           curr.Wpr <- 0
         }
       }
-      if (W_prior$bb_pr) {
-        bbprior1 <- bbinompdf(neighb1, n - 1, W_prior$bbinom_a, W_prior$bbinom_b) * curr.Wpr
-        bbprior0 <- (1 - bbinompdf(neighb1, n - 1, W_prior$bbinom_a, W_prior$bbinom_b)) * (1 - curr.Wpr)
+      if (W_prior$use_bbinom_prior) {
+        bbprior1 <- bbinompdf(neighb1, n - 1, W_prior$bbinom_a_prior, W_prior$bbinom_b_prior) * curr.Wpr
+        bbprior0 <- (1 - bbinompdf(neighb1, n - 1, W_prior$bbinom_a_prior, W_prior$bbinom_b_prior)) * (1 - curr.Wpr)
         bbprior_ <- bbprior1 / (bbprior1 + bbprior0)
       } else {
         bbprior_ <- curr.Wpr
@@ -56,19 +56,19 @@ init_sampler_W = function(W_prior,
       }
     }
   }
-  if (W_prior$SYMMETRIC) {
+  if (W_prior$symmetric_prior) {
     curr.W[upper.tri(curr.W, diag = TRUE)] <- 0
   }
   curr.w <- matrix(0, n, n)
-  if (W_prior$ROW_STANDARDIZED) {
-    if (W_prior$SYMMETRIC) {
+  if (W_prior$row_standardized_prior) {
+    if (W_prior$symmetric_prior) {
       curr.w <- (curr.W + t(curr.W)) / rowSums((curr.W + t(curr.W)))
     } else {
       curr.w <- curr.W / rowSums(curr.W)
     }
     curr.w[is.na(curr.w)] <- 0
   } else {
-    if (W_prior$SYMMETRIC) {
+    if (W_prior$symmetric_prior) {
       curr.w <- curr.W + t(curr.W)
     } else {
       curr.w <- curr.W
@@ -108,13 +108,13 @@ sample_W = function(tY,curr.txb,curr.sigma,W_prior,wdraws,curr.rho = NULL) {
   curr.AI = wdraws$curr.AI
   curr.logdet = wdraws$curr.logdet
 
-  if (W_prior$SYMMETRIC) {
+  if (W_prior$symmetric_prior) {
     ii_samples <- sample(2:n, n - 1, replace = F)
   } else {
     ii_samples <- sample(1:n, n, replace = F)
   }
   for (ii in ii_samples) {
-    if (W_prior$SYMMETRIC) {
+    if (W_prior$symmetric_prior) {
       jj_samples <- sample(c(1:(ii - 1)), ii - 1, replace = F)
     } else {
       jj_samples <- sample(1:n, n, replace = F)
@@ -125,7 +125,7 @@ sample_W = function(tY,curr.txb,curr.sigma,W_prior,wdraws,curr.rho = NULL) {
       } else if (W_prior$W_prior[ii, jj] == 1) {
         curr.W[ii, jj] <- 1
       } else {
-        if (W_prior$SYMMETRIC) {
+        if (W_prior$symmetric_prior) {
           ch_elmnt <- c(ii, jj)
         } else {
           ch_elmnt <- ii
@@ -134,13 +134,13 @@ sample_W = function(tY,curr.txb,curr.sigma,W_prior,wdraws,curr.rho = NULL) {
         was1 <- (curr.W[ii, jj] == 1)
         if (was1) {
           W0[ii, jj] <- 0
-          if (W_prior$SYMMETRIC) {
+          if (W_prior$symmetric_prior) {
             WW0 <- (W0 + t(W0))
           } else {
             WW0 <- W0
           }
           w0 <- w1 <- curr.w
-          if (W_prior$ROW_STANDARDIZED) {
+          if (W_prior$row_standardized_prior) {
             w0[ch_elmnt, ] <- WW0[ch_elmnt, ] / rowSums(WW0[ch_elmnt, , drop = F])
           } else {
             w0[ch_elmnt, ] <- WW0[ch_elmnt, ]
@@ -154,13 +154,13 @@ sample_W = function(tY,curr.txb,curr.sigma,W_prior,wdraws,curr.rho = NULL) {
           logdet1 <- curr.logdet
         } else {
           W1[ii, jj] <- 1
-          if (W_prior$SYMMETRIC) {
+          if (W_prior$symmetric_prior) {
             WW1 <- (W1 + t(W1))
           } else {
             WW1 <- W1
           }
           w0 <- w1 <- curr.w
-          if (W_prior$ROW_STANDARDIZED) {
+          if (W_prior$row_standardized_prior) {
             w1[ch_elmnt, ] <- WW1[ch_elmnt, ] / rowSums(WW1[ch_elmnt, , drop = F])
           } else {
             w1[ch_elmnt, ] <- WW1[ch_elmnt, ]
@@ -176,41 +176,41 @@ sample_W = function(tY,curr.txb,curr.sigma,W_prior,wdraws,curr.rho = NULL) {
 
         curr.W_prior <- W_prior$W_prior
         # # rejection prior
-        if (W_prior$rjct_pr) {
-          if (W_prior$SYMMETRIC) {
-            W_reject1 <- rowSums(w1[c(ii, jj), ] > 0) > W_prior$max_k
+        if (W_prior$use_reject_prior) {
+          if (W_prior$symmetric_prior) {
+            W_reject1 <- rowSums(w1[c(ii, jj), ] > 0) > W_prior$max_neighbors
           } else {
-            W_reject1 <- sum(W1[ii, ]) > W_prior$max_k
+            W_reject1 <- sum(W1[ii, ]) > W_prior$max_neighbors
           }
           if (sum(W_reject1) > 0) {
             curr.W_prior[ii, jj] <- 0
           }
-          if (W_prior$SYMMETRIC) {
-            W_reject0 <- rowSums(w0[c(ii, jj), ] > 0) < W_prior$min_k
+          if (W_prior$symmetric_prior) {
+            W_reject0 <- rowSums(w0[c(ii, jj), ] > 0) < W_prior$min_neighbors
           } else {
-            W_reject0 <- sum(W0[ii, ]) < W_prior$min_k
+            W_reject0 <- sum(W0[ii, ]) < W_prior$min_neighbors
           }
           if (sum(W_reject0) > 0) {
             curr.W_prior[ii, jj] <- 1
           }
         }
-        if (W_prior$bb_pr) {
-          if (W_prior$SYMMETRIC) {
+        if (W_prior$use_bbinom_prior) {
+          if (W_prior$symmetric_prior) {
             neighb0 <- sum((W0 + t(W0))[ii, ])
           } else {
             neighb0 <- sum(W0[ii, ])
           }
-          # bbprior0 = bbinompdf(neighb0,n-1,bbinom_a,bbinom_b) * (1 - curr.W_prior[ii,jj])
-          bbprior0 <- bbinompdf(neighb0, n - 1,W_prior$bbinom_a, W_prior$bbinom_b, W_prior$min_k, W_prior$max_k) *
+          # bbprior0 = bbinompdf(neighb0,n-1,bbinom_a_prior,bbinom_b_prior) * (1 - curr.W_prior[ii,jj])
+          bbprior0 <- bbinompdf(neighb0, n - 1,W_prior$bbinom_a_prior, W_prior$bbinom_b_prior, W_prior$min_neighbors, W_prior$max_neighbors) *
             (1 - curr.W_prior[ii, jj])
           # if (neighb0 == 0) {bbprior0 = 0}
-          if (W_prior$SYMMETRIC) {
+          if (W_prior$symmetric_prior) {
             neighb1 <- sum((W1 + t(W1))[ii, ])
           } else {
             neighb1 <- sum(W1[ii, ])
           }
-          # bbprior1 = bbinompdf(neighb1,n-1,bbinom_a,bbinom_b) * curr.W_prior[ii,jj]
-          bbprior1 <- bbinompdf(neighb1, n - 1, W_prior$bbinom_a, W_prior$bbinom_b, W_prior$min_k, W_prior$max_k) *
+          # bbprior1 = bbinompdf(neighb1,n-1,bbinom_a_prior,bbinom_b_prior) * curr.W_prior[ii,jj]
+          bbprior1 <- bbinompdf(neighb1, n - 1, W_prior$bbinom_a_prior, W_prior$bbinom_b_prior, W_prior$min_neighbors, W_prior$max_neighbors) *
             curr.W_prior[ii, jj]
           bbprior_ <- bbprior1 / (bbprior1 + bbprior0)
         } else {
@@ -254,8 +254,8 @@ sample_W = function(tY,curr.txb,curr.sigma,W_prior,wdraws,curr.rho = NULL) {
       }
     }
   }
-  if (W_prior$ROW_STANDARDIZED) {
-    if (W_prior$SYMMETRIC) {
+  if (W_prior$row_standardized_prior) {
+    if (W_prior$symmetric_prior) {
       curr.w <- (curr.W + t(curr.W)) / rowSums(curr.W + t(curr.W))
     } else {
       curr.w <- curr.W / rowSums(curr.W)
@@ -264,7 +264,7 @@ sample_W = function(tY,curr.txb,curr.sigma,W_prior,wdraws,curr.rho = NULL) {
       curr.w[is.na(curr.w)] <- 0
     }
   } else {
-    if (W_prior$SYMMETRIC) {
+    if (W_prior$symmetric_prior) {
       curr.w <- curr.W + t(curr.W)
     } else {
       curr.w <- curr.W

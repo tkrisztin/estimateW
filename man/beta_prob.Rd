@@ -4,12 +4,18 @@
 \alias{beta_prob}
 \title{Return the density of the four-paramater Beta distribution for a given rho value}
 \usage{
-beta_prob(rho, a)
+beta_prob(rho, a = 1, b = 1, rmin = 0, rmax = 1)
 }
 \arguments{
 \item{rho}{The scalar value for \eqn{\rho}}
 
-\item{a}{The distribution parameter; see LeSage and Pace (2019)}
+\item{a}{The first shape parameter of the Beta distribution}
+
+\item{b}{The second shape parameter of the Beta distribution}
+
+\item{rmin}{Minimum value of \eqn{\rho}}
+
+\item{rmax}{Maximum value of \eqn{\rho}}
 }
 \value{
 Returns the beta probability.

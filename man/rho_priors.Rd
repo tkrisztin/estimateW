@@ -5,27 +5,31 @@
 \title{Specify Prior Distributions for the spatial autoregressive coefficient}
 \usage{
 rho_priors(
-  rho_pr = 1.1,
-  griddy_n = 105,
-  rmin = 0,
-  rmax = 1,
+  rho_a_prior = 1.1,
+  rho_b_prior = 1.1,
+  rho_min = 0,
+  rho_max = 1,
   init_rho_scale = 1,
-  GRIDDY_GIBBS = TRUE
+  griddy_n = 105,
+  use_griddy_gibbs = TRUE
 )
 }
 \arguments{
-\item{rho_pr}{Prior for the four-part beta ditribution}
+\item{rho_a_prior}{Prior for the four-part beta ditribution}
 
-\item{griddy_n}{Number of griddy gibbs steps}
+\item{rho_b_prior}{Prior for the four-part beta ditribution}
 
-\item{rmin}{Minimum range of \eqn{\rho} (default: 1)}
+\item{rho_min}{Minimum range of \eqn{\rho} (default: 0)}
 
-\item{rmax}{Maximum range of \eqn{\rho} (default: -1)}
+\item{rho_max}{Maximum range of \eqn{\rho} (default: 1)}
 
 \item{init_rho_scale}{For Metropolis-Hastings step the initial candidate variance (default: 1)}
 
-\item{GRIDDY_GIBBS}{Should griddy-Gibbs be used for \eqn{\rho} estimation?
-Does not work if \code{ROW_STANDARDIZED = FALSE} is specified in the \eqn{W} prior specification. Main advantage is that less draws are required for \eqn{\rho}
+\item{griddy_n}{Number of griddy gibbs steps}
+
+\item{use_griddy_gibbs}{Should griddy-Gibbs be used for \eqn{\rho} estimation?
+
+Does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification. Main advantage is that less draws are required for \eqn{\rho}
 
 This function gives access to a larger set of prior distributions for \eqn{\rho} in case the default choice is unsatisfactory.}
 }

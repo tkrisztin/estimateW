@@ -6,16 +6,16 @@
 \usage{
 beta_priors(
   k,
-  beta_prior_mean = matrix(0, k, 1),
-  beta_prior_var = diag(k) * 10
+  beta_mean_prior = matrix(0, k, 1),
+  beta_var_prior = diag(k) * 10
 )
 }
 \arguments{
 \item{k}{The total number of coefficients in the model.}
 
-\item{beta_prior_mean}{A \eqn{k x 1} matrix of \eqn{\beta} prior means (default: vector of zeros)}
+\item{beta_mean_prior}{A \eqn{k x 1} matrix of \eqn{\beta} prior means (default: vector of zeros)}
 
-\item{beta_prior_var}{A \eqn{k x k} matrix of \eqn{\beta} prior variances (default: \eqn{10})
+\item{beta_var_prior}{A \eqn{k x k} matrix of \eqn{\beta} prior variances (default: \eqn{10})
 
 This function allows the user to specify priors for the slope coefficients.}
 }

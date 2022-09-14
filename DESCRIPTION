@@ -16,5 +16,6 @@ Imports:
     FNN,
     Matrix,
     matrixcalc,
-    plot.matrix
+    plot.matrix,
+    stats
 RoxygenNote: 7.2.0

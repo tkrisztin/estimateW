@@ -1,4 +1,4 @@
-#' A sampler for estimating the W matrix in a SAR type model
+#' A sampler for estimating the W matrix in a SDM type model
 #'
 #' The model takes the form \eqn{Y = \rho f(\Omega)Y + X \beta_1 + f(\Omega)X \beta_2 + Z \beta_3 +  \epsilon}, with \eqn{\epsilon \sim N(0,\sigma^2)}
 #'
@@ -39,7 +39,7 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
   if (smallk>0) {varnames = c(colnames(X), paste0("W_",colnames(X)))} else {varnames = c()}
   if (k_dum > 0) varnames = c(varnames,colnames(Z))
 
-  if (!W_prior$ROW_STANDARDIZED && rho_prior$GRIDDY_GIBBS) {
+  if (!W_prior$row_standardized_prior && rho_prior$use_griddy_gibbs) {
     stop("No support for rho prior Griddy Gibbs without row-standardization prior for W!")
   }
 
@@ -75,7 +75,7 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
   rownames(post.direct) <- rownames(post.indirect) <- rownames(post.total) <- varnames[ind_baseX]
 
   # initilize wdraws
-  curr.rho <- 0
+  curr.rho <- rho_prior$init.rho
   curr.wdraws = init_sampler_W(W_prior,rho = curr.rho)
 
   curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),curr.wdraws$curr.w) %*% X)
@@ -103,8 +103,8 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
 
     # draw beta
     # e1 = try({
-    V <- solve(beta_prior$beta_prior_var_inv + 1 / curr.sigma * crossprod(tX))
-    b <- V %*% (beta_prior$beta_prior_var_inv %*% beta_prior$beta_prior_mean + 1 / curr.sigma * crossprod(tX, Ay))
+    V <- solve(beta_prior$beta_var_prior_inv + 1 / curr.sigma * crossprod(tX))
+    b <- V %*% (beta_prior$beta_var_prior_inv %*% beta_prior$beta_mean_prior + 1 / curr.sigma * crossprod(tX, Ay))
     # curr.beta = mvrnorm(1,b,V)
     curr.beta <- b + t(chol(V)) %*% stats::rnorm(k)
     curr.xb <- tX %*% curr.beta
@@ -112,16 +112,16 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
 
     # draw sigma
     curr.ESS <- crossprod(Ay - curr.xb)
-    curr.sigma <- 1 / stats::rgamma(1, sigma_prior$sigma_a + (tt * n) / 2, sigma_prior$sigma_b + as.double(curr.ESS) / 2)
+    curr.sigma <- 1 / stats::rgamma(1, sigma_prior$sigma_rate_prior + (tt * n) / 2, sigma_prior$sigma_shape_prior + as.double(curr.ESS) / 2)
 
     ## Griddy-Gibbs step for rho
-    if (rho_prior$GRIDDY_GIBBS) {
+    if (rho_prior$use_griddy_gibbs) {
       logdets <- lndetPaceBarry(curr.wdraws$curr.w, length.out = rho_prior$griddy_n,
-                                rmin = rho_prior$rmin, rmax = rho_prior$rmax)[-rho_prior$griddy_n, ]
+                                rmin = rho_prior$rho_min, rmax = rho_prior$rho_max)[-rho_prior$griddy_n, ]
       wY <- curr.wdraws$curr.w %*% tY
       # ess.grid1 = sapply(logdets[,2], function(x) sum(dnorm(as.matrix(tY - x*wY),curr.txb,sqrt(curr.sigma),log = tt))  )
       ess.grid <- sapply(logdets[, 2], function(x) -sum(((tY - x * wY) - curr.txb)^2) / (2 * curr.sigma))
-      den <- tt * logdets[, 1] + ess.grid + log(beta_prob(logdets[, 2], rho_prior$rho_pr))
+      den <- tt * logdets[, 1] + ess.grid + log(beta_prob(logdets[, 2], rho_prior$rho_a_prior, rho_prior$rho_b_prior, rho_prior$rho_min, rho_prior$rho_max))
       log_cond_post_rho <- den
       log_cond_post_rho <- log_cond_post_rho - max(log_cond_post_rho)
       cond_post_rho <- exp(log_cond_post_rho)
@@ -139,7 +139,7 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
       accept <- 0
       while (accept != 1) {
         prop.rho <- stats::rnorm(1, curr.rho, rho_scale)
-        if (prop.rho < rho_prior$rmax && prop.rho > rho_prior$rmin) {
+        if (prop.rho < rho_prior$rho_max && prop.rho > rho_prior$rho_max) {
           accept <- 1
         }
       }
@@ -148,10 +148,10 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
 
       post_curr <- tt * curr.wdraws$curr.logdet +
         sum(stats::dnorm(as.matrix(curr.wdraws$curr.A %*% tY), curr.txb, sqrt(curr.sigma), log = T)) +
-        log(beta_prob(curr.rho, rho_prior$rho_pr))
+        log(beta_prob(curr.rho, rho_prior$rho_a_prior, rho_prior$rho_b_prior, rho_prior$rho_min, rho_prior$rho_max))
       post_prop <- tt * prop.logdet +
         sum(stats::dnorm(as.matrix(prop.A %*% tY), curr.txb, sqrt(curr.sigma), log = T)) +
-        log(beta_prob(prop.rho, rho_prior$rho_pr))
+        log(beta_prob(prop.rho, rho_prior$rho_a_prior, rho_prior$rho_b_prior, rho_prior$rho_min, rho_prior$rho_max))
 
       acc_prob <- post_prop - post_curr
       if (is.nan(acc_prob) == FALSE) {
@@ -207,7 +207,7 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(0,nrow(Y),0), niter =
     postb = postb, posts = posts, postr = postr, postw = postw,
     post.direct = post.direct, post.indirect = post.indirect, post.total = post.total,
     W_prior = W_prior,rho_prior = rho_prior,
-    beta_prior = beta_prior,sigma_prior,
+    beta_prior = beta_prior,sigma_prior = sigma_prior,
     param = list(niter = niter, nretain = nretain,
                  VERBOSE = VERBOSE)
   )

@@ -4,12 +4,12 @@
 \alias{sigma_priors}
 \title{Specify Prior Distributions for the error variance}
 \usage{
-sigma_priors(sigma_a = 0.1, sigma_b = 0.1)
+sigma_priors(sigma_rate_prior = 0.1, sigma_shape_prior = 0.1)
 }
 \arguments{
-\item{sigma_a}{Sigma rate prior parameter (scalar), default: \eqn{.1}}
+\item{sigma_rate_prior}{Sigma rate prior parameter (scalar), default: \eqn{.1}}
 
-\item{sigma_b}{Sigma shape prior parameter (scalar), default: \eqn{.1}
+\item{sigma_shape_prior}{Sigma shape prior parameter (scalar), default: \eqn{.1}
 
 This function allows the user to specify priors for the error variance \eqn{\sigma^2}.}
 }

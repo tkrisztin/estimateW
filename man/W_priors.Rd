@@ -7,14 +7,13 @@
 W_priors(
   n,
   W_prior = matrix(0.5, n, n),
-  SYMMETRIC = TRUE,
-  ROW_STANDARDIZED = TRUE,
-  bbinom_a = 1,
-  bbinom_b = 1,
-  bb_pr = TRUE,
-  min_k = 1,
-  max_k = min(10, floor(n/2)),
-  rjct_pr = FALSE
+  symmetric_prior = TRUE,
+  row_standardized_prior = TRUE,
+  bbinom_a_prior = 1,
+  bbinom_b_prior = 1,
+  use_bbinom_prior = TRUE,
+  min_neighbors = 0,
+  max_neighbors = n - 1
 )
 }
 \arguments{
@@ -22,21 +21,19 @@ W_priors(
 
 \item{W_prior}{An \eqn{n x n} matrix of priors for \eqn{W}}
 
-\item{SYMMETRIC}{Should the estimated \eqn{W} matrix be symmetric (default: TRUE)}
+\item{symmetric_prior}{Should the estimated \eqn{W} matrix be symmetric (default: TRUE)}
 
-\item{ROW_STANDARDIZED}{Should the estimated \eqn{W} matrix be row-standardized (default: TRUE)}
+\item{row_standardized_prior}{Should the estimated \eqn{W} matrix be row-standardized (default: TRUE)}
 
-\item{bbinom_a}{Parameter a of sparsity prior}
+\item{bbinom_a_prior}{Parameter a of sparsity prior}
 
-\item{bbinom_b}{Parameter a of sparsity prior}
+\item{bbinom_b_prior}{Parameter a of sparsity prior}
 
-\item{bb_pr}{Should sparsity priors be used? (default: TRUE)}
+\item{use_bbinom_prior}{Should sparsity priors be used? (default: TRUE)}
 
-\item{min_k}{Minimum number of a priori neighbours}
+\item{min_neighbors}{Minimum number of a priori neighbours (default: 0)}
 
-\item{max_k}{Maximum number of a priori neighbours}
-
-\item{rjct_pr}{Should rejection priors be used? (default: TRUE)
+\item{max_neighbors}{Maximum number of a priori neighbours (default: n-1)
 
 This function gives access to a larger set of prior distributions in case the default choice is unsatisfactory.}
 }

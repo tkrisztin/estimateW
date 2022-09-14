@@ -4,75 +4,82 @@
 #'
 #' @param n The number of observations
 #' @param W_prior An \eqn{n x n} matrix of priors for \eqn{W}
-#' @param SYMMETRIC Should the estimated \eqn{W} matrix be symmetric (default: TRUE)
-#' @param ROW_STANDARDIZED Should the estimated \eqn{W} matrix be row-standardized (default: TRUE)
-#' @param bbinom_a Parameter a of sparsity prior
-#' @param bbinom_b Parameter a of sparsity prior
-#' @param bb_pr Should sparsity priors be used? (default: TRUE)
-#' @param min_k Minimum number of a priori neighbours
-#' @param max_k Maximum number of a priori neighbours
-#' @param rjct_pr Should rejection priors be used? (default: TRUE)
+#' @param symmetric_prior Should the estimated \eqn{W} matrix be symmetric (default: TRUE)
+#' @param row_standardized_prior Should the estimated \eqn{W} matrix be row-standardized (default: TRUE)
+#' @param bbinom_a_prior Parameter a of sparsity prior
+#' @param bbinom_b_prior Parameter a of sparsity prior
+#' @param use_bbinom_prior Should sparsity priors be used? (default: TRUE)
+#' @param min_neighbors Minimum number of a priori neighbours (default: 0)
+#' @param max_neighbors Maximum number of a priori neighbours (default: n-1)
 #'
 #' This function gives access to a larger set of prior distributions in case the default choice is unsatisfactory.
 #'
 #' @export
 W_priors = function(n,
                        W_prior = matrix(.5,n,n),
-                       SYMMETRIC = TRUE,ROW_STANDARDIZED = TRUE,
-                       bbinom_a = 1, bbinom_b = 1, bb_pr = TRUE,
-                       min_k = 1, max_k = min(10, floor(n / 2)), rjct_pr = FALSE) {
+                       symmetric_prior = TRUE,row_standardized_prior = TRUE,
+                       bbinom_a_prior = 1, bbinom_b_prior = 1, use_bbinom_prior = TRUE,
+                       min_neighbors = 0, max_neighbors = n-1) {
   # Ensure diagonal of W_prior is zero
   diag(W_prior) <- 0
-  return(list(W_prior = W_prior,SYMMETRIC = SYMMETRIC,ROW_STANDARDIZED = ROW_STANDARDIZED,
-              bbinom_a = bbinom_a, bbinom_b = bbinom_b, bb_pr = bb_pr,
-              min_k = min_k, max_k = max_k, rjct_pr = rjct_pr))
+  if (min_neighbors != 0 || max_neighbors != n-1) {use_reject_prior = TRUE} else {use_reject_prior = FALSE}
+  return(list(W_prior = W_prior,symmetric_prior = symmetric_prior,row_standardized_prior = row_standardized_prior,
+              bbinom_a_prior = bbinom_a_prior, bbinom_b_prior = bbinom_b_prior,
+              use_bbinom_prior = use_bbinom_prior,
+              min_neighbors = min_neighbors, max_neighbors = max_neighbors,
+              use_reject_prior = use_reject_prior))
 }
 
 #' Specify Prior Distributions for the spatial autoregressive coefficient
 #'
-#' @param rho_pr Prior for the four-part beta ditribution
-#' @param griddy_n Number of griddy gibbs steps
-#' @param rmin Minimum range of \eqn{\rho} (default: 1)
-#' @param rmax Maximum range of \eqn{\rho} (default: -1)
+#' @param rho_a_prior Prior for the four-part beta ditribution
+#' @param rho_b_prior Prior for the four-part beta ditribution
+#' @param rho_min Minimum range of \eqn{\rho} (default: 0)
+#' @param rho_max Maximum range of \eqn{\rho} (default: 1)
 #' @param init_rho_scale For Metropolis-Hastings step the initial candidate variance (default: 1)
-#' @param GRIDDY_GIBBS Should griddy-Gibbs be used for \eqn{\rho} estimation?
-#' Does not work if \code{ROW_STANDARDIZED = FALSE} is specified in the \eqn{W} prior specification. Main advantage is that less draws are required for \eqn{\rho}
+#' @param griddy_n Number of griddy gibbs steps
+#' @param use_griddy_gibbs Should griddy-Gibbs be used for \eqn{\rho} estimation?
+#'
+#' Does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification. Main advantage is that less draws are required for \eqn{\rho}
 #'
 #' This function gives access to a larger set of prior distributions for \eqn{\rho} in case the default choice is unsatisfactory.
 #'
 #' @export
-rho_priors = function(rho_pr = 1.1, griddy_n = 105, rmin = 0, rmax = 1, init_rho_scale = 1,
-                      GRIDDY_GIBBS = TRUE) {
-  return(list(rho_pr = rho_pr, griddy_n = griddy_n, rmin = rmin, rmax = rmax, init_rho_scale,
-              GRIDDY_GIBBS = GRIDDY_GIBBS))
+rho_priors = function(rho_a_prior = 1.1, rho_b_prior = 1.1,
+                      rho_min = 0, rho_max = 1, init_rho_scale = 1,
+                      griddy_n = 105, use_griddy_gibbs = TRUE) {
+  init.rho = stats::runif(1,rho_min,rho_max)
+  return(list(rho_a_prior = rho_a_prior, rho_b_prior = rho_b_prior,
+              griddy_n = griddy_n, rho_min = rho_min, rho_max = rho_max, init_rho_scale,
+              use_griddy_gibbs = use_griddy_gibbs,init.rho=init.rho))
 }
 
 #' Specify Prior Distributions for the slope parameters
 #'
 #' @param k The total number of coefficients in the model.
-#' @param beta_prior_mean A \eqn{k x 1} matrix of \eqn{\beta} prior means (default: vector of zeros)
-#' @param beta_prior_var A \eqn{k x k} matrix of \eqn{\beta} prior variances (default: \eqn{10})
+#' @param beta_mean_prior A \eqn{k x 1} matrix of \eqn{\beta} prior means (default: vector of zeros)
+#' @param beta_var_prior A \eqn{k x k} matrix of \eqn{\beta} prior variances (default: \eqn{10})
 #'
 #' This function allows the user to specify priors for the slope coefficients.
 #'
 #' @export
 beta_priors = function(k,
-                        beta_prior_mean = matrix(0,k , 1),
-                        beta_prior_var = diag(k) * 10) {
-  beta_prior_var_inv <- solve(beta_prior_var)
-  return(list(beta_prior_mean = beta_prior_mean,
-              beta_prior_var = beta_prior_var,
-              beta_prior_var_inv = beta_prior_var_inv))
+                        beta_mean_prior = matrix(0,k , 1),
+                        beta_var_prior = diag(k) * 10) {
+  beta_var_prior_inv <- solve(beta_var_prior)
+  return(list(beta_mean_prior = beta_mean_prior,
+              beta_var_prior = beta_var_prior,
+              beta_var_prior_inv = beta_var_prior_inv))
 }
 
 #' Specify Prior Distributions for the error variance
 #'
-#' @param sigma_a Sigma rate prior parameter (scalar), default: \eqn{.1}
-#' @param sigma_b Sigma shape prior parameter (scalar), default: \eqn{.1}
+#' @param sigma_rate_prior Sigma rate prior parameter (scalar), default: \eqn{.1}
+#' @param sigma_shape_prior Sigma shape prior parameter (scalar), default: \eqn{.1}
 #'
 #' This function allows the user to specify priors for the error variance \eqn{\sigma^2}.
 #'
 #' @export
-sigma_priors = function(sigma_a = .1, sigma_b = .1) {
-  return(list(sigma_a = sigma_a, sigma_b = sigma_b))
+sigma_priors = function(sigma_rate_prior = .1, sigma_shape_prior = .1) {
+  return(list(sigma_rate_prior = sigma_rate_prior, sigma_shape_prior = sigma_shape_prior))
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/sdmw.R
 \name{sdmw}
 \alias{sdmw}
-\title{A sampler for estimating the W matrix in a SAR type model}
+\title{A sampler for estimating the W matrix in a SDM type model}
 \usage{
 sdmw(
   Y,
