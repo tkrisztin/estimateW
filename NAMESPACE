@@ -2,6 +2,10 @@
 
 S3method(plot,estimateW)
 S3method(plot,sim_sdmw)
+S3method(print,estimateW)
+S3method(print,sim_sdmw)
+S3method(summary,estimateW)
+S3method(summary,sim_sdmw)
 export(W_priors)
 export(bbinompdf)
 export(beta_priors)
