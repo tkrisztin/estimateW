@@ -17,8 +17,8 @@
 #'
 #' @examples
 #' n = 20; tt = 10
-#' dgp_dat = sim_sarw(n =n, tt = tt, rho = .5, beta1 = c(.5,1), sigma2 = .5)
-#' res = sarw(Y = dgp_dat$Y,tt = tt,X = dgp_dat$X,niter = 20,nretain = 10)
+#' dgp_dat = sim_dgp(n =n, tt = tt, rho = .5, beta3 = c(.5,1), sigma2 = .5)
+#' res = sarw(Y = dgp_dat$Y,tt = tt,X = dgp_dat$Z,niter = 20,nretain = 10)
 sarw <- function(Y, tt, X, niter = 1000, nretain = 250,
                  W_prior = W_priors(n = nrow(Y)/tt),rho_prior = rho_priors(),
                  beta_prior = beta_priors(k = ncol(X)),sigma_prior = sigma_priors()) {
@@ -51,7 +51,7 @@ sarw <- function(Y, tt, X, niter = 1000, nretain = 250,
 #'
 #' @examples
 #' n = 20; tt = 10
-#' dgp_dat = sim_sdmw(n =n, tt = tt, rho = .5, beta1 = c(.5,1),beta2 = c(-1,.5),
+#' dgp_dat = sim_dgp(n =n, tt = tt, rho = .5, beta1 = c(.5,1),beta2 = c(-1,.5),
 #'             beta3 = c(1.5), sigma2 = .5)
 #' res = sdmw(Y = dgp_dat$Y,tt = tt,X = dgp_dat$X,Z = dgp_dat$Z,niter = 20,nretain = 10)
 sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter = 1000, nretain = 250,
@@ -152,7 +152,7 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter =
       wY <- curr.wdraws$curr.w %*% tY
       # ess.grid1 = sapply(logdets[,2], function(x) sum(dnorm(as.matrix(tY - x*wY),curr.txb,sqrt(curr.sigma),log = tt))  )
       ess.grid <- sapply(logdets[, 2], function(x) -sum(((tY - x * wY) - curr.txb)^2) / (2 * curr.sigma))
-      den <- tt * logdets[, 1] + ess.grid + log(beta_prob(logdets[, 2], rho_prior$rho_a_prior, rho_prior$rho_b_prior, rho_prior$rho_min, rho_prior$rho_max))
+      den <- tt * logdets[, 1] + ess.grid + log(betapdf(logdets[, 2], rho_prior$rho_a_prior, rho_prior$rho_b_prior, rho_prior$rho_min, rho_prior$rho_max))
       log_cond_post_rho <- den
       log_cond_post_rho <- log_cond_post_rho - max(log_cond_post_rho)
       cond_post_rho <- exp(log_cond_post_rho)
@@ -179,10 +179,10 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter =
 
       post_curr <- tt * curr.wdraws$curr.logdet +
         sum(stats::dnorm(as.matrix(curr.wdraws$curr.A %*% tY), curr.txb, sqrt(curr.sigma), log = T)) +
-        log(beta_prob(curr.rho, rho_prior$rho_a_prior, rho_prior$rho_b_prior, rho_prior$rho_min, rho_prior$rho_max))
+        log(betapdf(curr.rho, rho_prior$rho_a_prior, rho_prior$rho_b_prior, rho_prior$rho_min, rho_prior$rho_max))
       post_prop <- tt * prop.logdet +
         sum(stats::dnorm(as.matrix(prop.A %*% tY), curr.txb, sqrt(curr.sigma), log = T)) +
-        log(beta_prob(prop.rho, rho_prior$rho_a_prior, rho_prior$rho_b_prior, rho_prior$rho_min, rho_prior$rho_max))
+        log(betapdf(prop.rho, rho_prior$rho_a_prior, rho_prior$rho_b_prior, rho_prior$rho_min, rho_prior$rho_max))
 
       acc_prob <- post_prop - post_curr
       if (is.nan(acc_prob) == FALSE) {

@@ -3,7 +3,7 @@
 \docType{data}
 \name{covid}
 \alias{covid}
-\title{Covid incidences}
+\title{Covid incidences data}
 \format{
 A \code{data.frame} object.
 }
@@ -11,177 +11,47 @@ A \code{data.frame} object.
 covid
 }
 \description{
-Covid incidences
+COVID-19 data set provided by Johns Hopkins University (Dong et al., 2020). The
+database contains information on (official) daily infections for a large panel of
+countries around the globe in the very beginning of the outbreak
+from 17 February to 20 April 2020.
+}
+\details{
+Data is provided for countries: Australia (AUS), Bahrain (BHR), Belgium (BEL),
+Canada (CAN), China (CHN), Finland (FIN), France (FRA), Germany (DEU), Iran (IRN), Iraq (IRQ),
+Israel (ISR), Italy (ITA), Japan (JPN), Kuwait (KWT), Lebanon (LBN), Malaysia (MYS), Oman (OMN),
+Republic of Korea (KOR), Russian Federation (RUS), Singapore (SGP), Spain (ESP), Sweden (SWE),
+Thailand (THA), United Arab Emirates (ARE), United Kingdom (GBR), United States of America (USA),
+and Viet Nam (VNM).
+
+The dataset includes daily data on the country specific maximum measured temperature (Temperature) and
+precipitation levels (Precipitation) as additional covariates (source: Dark Sky API).
+The stringency index (Stringency) put forward by Hale et al. (2020), which summarizes country-specific
+governmental policy measures to contain the spread of the virus. We use the biweekly average of the
+reported stringency index.
 }
 \references{
 Dong, E., Du, H., and Gardner, L. (2020). An interactive web-based dashboard to track
   COVID-19 in real time. \emph{The Lancet Infectious Diseases}, \bold{20(5)}, 533–534.
-  \doi{https://doi.org/10.1016/S1473-3099(20)30120-1}.
+  \doi{10.1016/S1473-3099(20)30120-1}.
+
   Hale, T., Petherick, A., Phillips, T., and Webster, S. (2020). Variation in government
   responses to COVID-19. Blavatnik School of Government Working Paper, 31, 2020–2011.
-  \doi{https://doi.org/10.1038/s41562-021-01079-8}.
+  \doi{10.1038/s41562-021-01079-8}.
+
   Krisztin, T., and Piribauer, P. (2022). A Bayesian approach for the estimation
   of weight matrices in spatial autoregressive models, \emph{Spatial Economic Analysis},
   1-20. \doi{10.1080/17421772.2022.2095426}.
+
   Krisztin, T., Piribauer, P., and Wögerer, M. (2020). The spatial econometrics of the
   coronavirus pandemic. \emph{Letters in Spatial and Resource Sciences}, \bold{13 (3)}, 209-218.
   \doi{10.1007/s12076-020-00254-1}.
+
   Dong, E., Du, H., and Gardner, L. (2020). An interactive web-based dashboard to track
   COVID-19 in real time. \emph{The Lancet Infectious Diseases}, \bold{20(5)}, 533–534.
-  \doi{https://doi.org/10.1016/S1473-3099(20)30120-1}.
+  \doi{10.1016/S1473-3099(20)30120-1}.
 }
-\keyword{(2020),}
-\keyword{(ARE),}
-\keyword{(AUS),}
-\keyword{(BEL),}
-\keyword{(BHR),}
-\keyword{(CAN),}
-\keyword{(CHN),}
-\keyword{(DEU),}
-\keyword{(Dong}
-\keyword{(ESP),}
-\keyword{(FIN),}
-\keyword{(FRA),}
-\keyword{(GBR),}
-\keyword{(IRN),}
-\keyword{(IRQ),}
-\keyword{(ISR),}
-\keyword{(ITA),}
-\keyword{(JPN),}
-\keyword{(KOR),}
-\keyword{(KWT),}
-\keyword{(LBN),}
-\keyword{(MYS),}
-\keyword{(OMN),}
-\keyword{(Precipitation)}
-\keyword{(RUS),}
-\keyword{(SGP),}
-\keyword{(SWE),}
-\keyword{(Stringency)}
-\keyword{(THA),}
-\keyword{(Temperature)}
-\keyword{(USA),}
-\keyword{(VNM).}
-\keyword{(official)}
-\keyword{(source:}
-\keyword{17}
-\keyword{20}
-\keyword{2020).}
-\keyword{2020.}
-\keyword{API).}
-\keyword{America}
-\keyword{April}
-\keyword{Arab}
-\keyword{Australia}
-\keyword{Bahrain}
-\keyword{Belgium}
-\keyword{COVID-19}
-\keyword{Canada}
-\keyword{China}
-\keyword{Dark}
-\keyword{Data}
-\keyword{Emirates}
-\keyword{February}
-\keyword{Federation}
-\keyword{Finland}
-\keyword{For}
-\keyword{France}
-\keyword{Germany}
-\keyword{Hale}
-\keyword{Hopkins}
-\keyword{Iran}
-\keyword{Iraq}
-\keyword{Israel}
-\keyword{Italy}
-\keyword{Japan}
-\keyword{Johns}
-\keyword{Kingdom}
-\keyword{Korea}
-\keyword{Kuwait}
-\keyword{Lebanon}
-\keyword{Malaysia}
-\keyword{Nam}
-\keyword{Oman}
-\keyword{Republic}
-\keyword{Russian}
-\keyword{Singapore}
-\keyword{Sky}
-\keyword{Spain}
-\keyword{States}
-\keyword{Sweden}
-\keyword{Thailand}
-\keyword{The}
-\keyword{United}
-\keyword{University}
-\keyword{Viet}
-\keyword{We}
-\keyword{a}
-\keyword{additional}
-\keyword{al.}
-\keyword{al.,}
-\keyword{and}
-\keyword{around}
-\keyword{as}
-\keyword{average}
-\keyword{beginning}
-\keyword{biweekly}
-\keyword{by}
-\keyword{contain}
-\keyword{contains}
-\keyword{countries}
-\keyword{countries:}
-\keyword{country}
-\keyword{country-specific}
-\keyword{covariates}
 \keyword{covid}
 \keyword{covid,}
-\keyword{daily}
-\keyword{data}
-\keyword{database}
-\keyword{dataset}
 \keyword{drivers}
-\keyword{empirical}
-\keyword{et}
-\keyword{focus}
-\keyword{following}
-\keyword{for}
-\keyword{forward}
-\keyword{from}
-\keyword{globe.}
-\keyword{governmental}
-\keyword{illustration,}
-\keyword{includes}
-\keyword{index}
-\keyword{index.}
-\keyword{infections}
 \keyword{infections,}
-\keyword{information}
-\keyword{is}
-\keyword{large}
-\keyword{levels}
-\keyword{maximum}
-\keyword{measured}
-\keyword{measures}
-\keyword{of}
-\keyword{on}
-\keyword{outbreak}
-\keyword{panel}
-\keyword{policy}
-\keyword{precipitation}
-\keyword{provided}
-\keyword{put}
-\keyword{reported}
-\keyword{set}
-\keyword{specific}
-\keyword{spread}
-\keyword{stringency}
-\keyword{summarizes}
-\keyword{temperature}
-\keyword{the}
-\keyword{to}
-\keyword{use}
-\keyword{using}
-\keyword{very}
-\keyword{virus.}
-\keyword{we}
-\keyword{which}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/util.R
 \name{beta_priors}
 \alias{beta_priors}
-\title{Specify Prior Distributions for the slope parameters}
+\title{Prior Distributions for the slope parameters}
 \usage{
 beta_priors(
   k,
@@ -13,12 +13,22 @@ beta_priors(
 \arguments{
 \item{k}{The total number of coefficients in the model.}
 
-\item{beta_mean_prior}{A \eqn{k x 1} matrix of \eqn{\beta} prior means (default: vector of zeros)}
+\item{beta_mean_prior}{A vector of prior means \eqn{\underline{\mu}_\beta}.}
 
-\item{beta_var_prior}{A \eqn{k x k} matrix of \eqn{\beta} prior variances (default: \eqn{10})
-
-This function allows the user to specify priors for the slope coefficients.}
+\item{beta_var_prior}{A \eqn{k} by \eqn{k} matrix of prior variances \eqn{\underline{V}_\beta}.}
+}
+\value{
+A list with the prior mean vector (\code{beta_mean_prior}), the prior variance matrix
+(\code{beta_var_prior}) and the inverse of the prior variance matrix (\code{beta_var_prior_inv}).
 }
 \description{
-Specify Prior Distributions for the slope parameters
+This function allows the user to specify custom values for Gaussian priors on the slope coefficients.
+}
+\details{
+For the slope parameters \eqn{\beta = [\beta_1, \beta_2, \beta_3]} the package uses the common Normal
+prior specification. Specifically,  \eqn{p(\beta)\sim\mathcal{N}(\underline{\mu}_\beta,\underline{V}_\beta)}.
+
+This function allows the user to specify custom values for the prior hyperparameters \eqn{\underline{\mu}_\beta}
+and \eqn{\underline{V}_\beta}. The default values correspond to weakly informative Gaussian priors with mean
+zero and a diagonal prior variance-covariance matrix with \eqn{10} on the main diagonal.
 }

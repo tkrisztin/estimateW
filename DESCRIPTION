@@ -1,6 +1,6 @@
 Package: estimateW
 Type: Package
-Title: Estimation of W matrices
+Title: Estimation of spatial weight matrices
 Version: 0.1.0
 Authors@R: c(
     person("Krisztin", "Tamás",email = "krisztin@iiasa.ac.at",role =  c("aut", "cre"),comment = c(ORCID = "0000-0002-9241-8628")),
@@ -8,13 +8,12 @@ Authors@R: c(
     person("Ringwald", "Leopold",email = "ringwald@iiasa.ac.at", role =  "aut")
     )
 Maintainer: Tamás Krisztin <krisztin@iiasa.ac.at>
-Description: Bayesian estimation of W matrices.
+Description: Bayesian estimation of spatial weight matrices in SLX, SAR, and SDM type models.
 License: GPL (>= 3)
 Depends: R (>= 3.5.0)
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    FNN,
     Matrix,
     matrixcalc,
     plot.matrix,

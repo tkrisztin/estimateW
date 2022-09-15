@@ -26,12 +26,12 @@ plot.estimateW = function(x,
 
 #' Graphical summary of a generated spatial weight matrix
 #'
-#' @param x \code{sim_sdmw} object
+#' @param x \code{sim_dgp} object
 #' @param \dots further arguments are passed on to the invoked
 #'
 #' @import plot.matrix
 #' @export
-plot.sim_sdmw = function(x, ...) {
+plot.sim_dgp = function(x, ...) {
   graphics::par(mar=c(3.0, 3.0, 3.0, 3.0))
   W = as.matrix(x$W); W[W>0] = 1;
   plot(W,

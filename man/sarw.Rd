@@ -43,6 +43,6 @@ The model takes the form \eqn{Y = \rho f(\Omega)Y + X \beta_1 +  \epsilon}, with
 }
 \examples{
 n = 20; tt = 10
-dgp_dat = sim_sarw(n =n, tt = tt, rho = .5, beta1 = c(.5,1), sigma2 = .5)
-res = sarw(Y = dgp_dat$Y,tt = tt,X = dgp_dat$X,niter = 20,nretain = 10)
+dgp_dat = sim_dgp(n =n, tt = tt, rho = .5, beta3 = c(.5,1), sigma2 = .5)
+res = sarw(Y = dgp_dat$Y,tt = tt,X = dgp_dat$Z,niter = 20,nretain = 10)
 }

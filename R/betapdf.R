@@ -1,0 +1,30 @@
+#' The four-parameter Beta distribution probability density function
+#'
+#' The Beta prior distribution for \eqn{\rho} introduced by LeSage and Parent
+#' (2007) is the default prior for the spatial autoregressive parameter.
+#'
+#' The prior is specificed as:
+#'
+#' \deqn{ p(\rho) \sim \frac{1}{Beta(a,b)} \frac{(\rho - \underline{\rho}_{min})^{(a-1)} (\underline{\rho}_{max} - \rho)^{(b-1)} }{2^{a + b - 1}} }
+#'
+#' where \eqn{Beta(a, b)} (\eqn{a,b > 0}) represents the Beta function,
+#' \eqn{Beta(a, b)= \int_{0}^{1} t^{a-1} (1-t)^{d-1} dt}. This prior
+#' distribution takes the form of a relatively uniform distribution centered on
+#' a mean value of zero for the parameter \eqn{\rho}.
+#'
+#' @param rho The scalar value for \eqn{\rho}
+#' @param a The first shape parameter of the Beta distribution
+#' @param b The second shape parameter of the Beta distribution
+#' @param rmin Scalar \eqn{\rho_{min}}: the minimum allowed value of \eqn{\rho}
+#' @param rmax Scalar \eqn{\rho_{max}}: the maximum allowed value of \eqn{\rho}
+#'
+#' @return Density of the beta binomial distribution evaluated at \code{rho}.
+#'
+#' @export
+#'
+#' @references
+#'  LeSage, J. P., and Olivier, P. (2007) Bayesian model averaging for spatial econometric models.
+#'  \emph{Geographical Analysis}, \bold{39(3)}, 241-267.
+betapdf <- function(rho, a = 1, b = 1, rmin = 0, rmax = 1) {
+  return(1 / beta(a, b) * ((rho - rmin)^(a - 1) * (rmax - rho)^(b - 1)) / ((rmax-rmin)^(a + b - 1)))
+}

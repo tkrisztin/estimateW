@@ -37,19 +37,19 @@ summary.estimateW <- function(object, ...) {
 }
 
 #' @export
-summary.sim_sdmw <- function(object, ...) {
+summary.sim_dgp <- function(object, ...) {
   dat1 = data.frame(Y = object$Y,object$X)
   if (!is.null(object[["Z"]])) dat1 = cbind(dat1,Z = object$Z)
   summary( dat1 )
 }
 
-#' @param x \code{estimateW} object
+#' @param x \code{sim_dgp} object
 #'
 #' @param probs Quantile for coefficient output
 #' @param ... further arguments are passed on to be invoked
 #'
 #' @export
-print.sim_sdmw <- function(x, probs = c(.05,.5,.95),...) {
+print.sim_dgp <- function(x, probs = c(.05,.5,.95),...) {
   coefs = x$para$posts
   if (!is.null(x$para[["beta1"]])) coefs = c(coefs,x$para$beta1)
   if (!is.null(x$para[["beta2"]])) coefs = c(coefs,x$para$beta2)

@@ -54,13 +54,23 @@ rho_priors = function(rho_a_prior = 1.1, rho_b_prior = 1.1,
               use_griddy_gibbs = use_griddy_gibbs,init.rho=init.rho))
 }
 
-#' Specify Prior Distributions for the slope parameters
+#' Prior Distributions for the slope parameters
+#'
+#' This function allows the user to specify custom values for Gaussian priors on the slope coefficients.
+#'
+#' For the slope parameters \eqn{\beta = [\beta_1, \beta_2, \beta_3]} the package uses the common Normal
+#' prior specification. Specifically,  \eqn{p(\beta)\sim\mathcal{N}(\underline{\mu}_\beta,\underline{V}_\beta)}.
+#'
+#' This function allows the user to specify custom values for the prior hyperparameters \eqn{\underline{\mu}_\beta}
+#' and \eqn{\underline{V}_\beta}. The default values correspond to weakly informative Gaussian priors with mean
+#' zero and a diagonal prior variance-covariance matrix with \eqn{10} on the main diagonal.
 #'
 #' @param k The total number of coefficients in the model.
-#' @param beta_mean_prior A \eqn{k x 1} matrix of \eqn{\beta} prior means (default: vector of zeros)
-#' @param beta_var_prior A \eqn{k x k} matrix of \eqn{\beta} prior variances (default: \eqn{10})
+#' @param beta_mean_prior A vector of prior means \eqn{\underline{\mu}_\beta}.
+#' @param beta_var_prior A \eqn{k} by \eqn{k} matrix of prior variances \eqn{\underline{V}_\beta}.
 #'
-#' This function allows the user to specify priors for the slope coefficients.
+#' @return A list with the prior mean vector (\code{beta_mean_prior}), the prior variance matrix
+#' (\code{beta_var_prior}) and the inverse of the prior variance matrix (\code{beta_var_prior_inv}).
 #'
 #' @export
 beta_priors = function(k,
@@ -72,7 +82,7 @@ beta_priors = function(k,
               beta_var_prior_inv = beta_var_prior_inv))
 }
 
-#' Specify Prior Distributions for the error variance
+#' Prior Distributions for the error variance
 #'
 #' @param sigma_rate_prior Sigma rate prior parameter (scalar), default: \eqn{.1}
 #' @param sigma_shape_prior Sigma shape prior parameter (scalar), default: \eqn{.1}
