@@ -21,7 +21,7 @@
 
 \item{main}{Legend title}
 
-\item{\dots}{further arguments are passed on to the invoked}
+\item{\dots}{further arguments are passed on to be invoked}
 }
 \description{
 Graphical Summary of the estimated W matrix

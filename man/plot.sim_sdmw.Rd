@@ -4,22 +4,10 @@
 \alias{plot.sim_sdmw}
 \title{Graphical summary of a generated spatial weight matrix}
 \usage{
-\method{plot}{sim_sdmw}(
-  x,
-  cols = c("white", "lightgrey", "black"),
-  breaks = c(0, 0.5, 0.75, 1),
-  main = "Spatial weight matrix",
-  ...
-)
+\method{plot}{sim_sdmw}(x, ...)
 }
 \arguments{
 \item{x}{\code{sim_sdmw} object}
-
-\item{cols}{Main colors to use for the plot}
-
-\item{breaks}{Breaks for the colours}
-
-\item{main}{Legend title}
 
 \item{\dots}{further arguments are passed on to the invoked}
 }

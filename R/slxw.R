@@ -55,7 +55,7 @@ slxw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter =
   # save the posterior draws here
   postb <- matrix(0, k, nretain)
   rownames(postb) <- varnames
-  posts <- matrix(0, 1, nretain)
+  posts <- matrix(0, 1, nretain); rownames(posts) = "sigma"
   postw <- array(0, c(n, n, nretain))
   postwprob <- array(0, c(n, n, nretain))
 
@@ -113,7 +113,7 @@ slxw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter =
   }
   close(pb)
 
-  ret = list(Y = Y, X = X,Z = Z,
+  ret = list( Y = Y, X = X,Z = Z,
              postb = postb, posts = posts, postw = postw,
              W_prior = W_prior,
              beta_prior = beta_prior,sigma_prior = sigma_prior,

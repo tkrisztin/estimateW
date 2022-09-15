@@ -26,6 +26,7 @@ sarw <- function(Y, tt, X, niter = 1000, nretain = 250,
              W_prior = W_prior,rho_prior = rho_prior,
              beta_prior = beta_prior,sigma_prior = sigma_prior)
   ret$X = ret$Z; ret[["Z"]] = NULL
+  ret$model_type = "sar"
   return(ret)
 }
 
@@ -95,8 +96,8 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter =
   # save the posterior draws here
   postb <- matrix(0, k, nretain)
   rownames(postb) <- varnames
-  posts <- matrix(0, 1, nretain)
-  postr <- matrix(0, 1, nretain)
+  posts <- matrix(0, 1, nretain); rownames(posts) = "sigma"
+  postr <- matrix(0, 1, nretain); rownames(postr) = "rho"
   postw <- array(0, c(n, n, nretain))
   postwprob <- array(0, c(n, n, nretain))
 
