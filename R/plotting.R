@@ -7,7 +7,7 @@
 #' @param cols Main colors to use for the plot
 #' @param breaks Breaks for the colours
 #' @param main Legend title
-#' @param \dots further arguments are passed on to the invoked
+#' @param \dots further arguments are passed on to be invoked
 #'
 #' @import plot.matrix
 #' @export
@@ -27,21 +27,16 @@ plot.estimateW = function(x,
 #' Graphical summary of a generated spatial weight matrix
 #'
 #' @param x \code{sim_sdmw} object
-#' @param cols Main colors to use for the plot
-#' @param breaks Breaks for the colours
-#' @param main Legend title
 #' @param \dots further arguments are passed on to the invoked
 #'
 #' @import plot.matrix
 #' @export
-plot.sim_sdmw = function(x,
-                          cols = c("white","lightgrey","black"),
-                          breaks=c(0,0.5,0.75,1),
-                          main="Spatial weight matrix",
-                          ...) {
+plot.sim_sdmw = function(x, ...) {
   graphics::par(mar=c(3.0, 3.0, 3.0, 3.0))
-  plot(x$W,
-       col=cols,main = main,
-       breaks=breaks,border = NA,...)
-  graphics::abline(nrow(x$W)+1,-1)
+  W = as.matrix(x$W); W[W>0] = 1;
+  plot(W,
+       col=c("white","black"),main = "Spatial weight matrix",
+       breaks=c(0,0.5,1),
+       border = NA,...)
+  graphics::abline(nrow(W)+1,-1)
 }
