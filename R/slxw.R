@@ -18,7 +18,8 @@
 #'
 #' @examples
 #' n = 20; tt = 10
-#' dgp_dat = sim_dgp(n =20, tt = 10, rho = 0,beta1 = c(1,-1), beta2 = c(0,.5), beta3 = c(.2), sigma2 = .5)
+#' dgp_dat = sim_dgp(n =20, tt = 10, rho = 0,beta1 = c(1,-1),
+#'                   beta2 = c(0,.5), beta3 = c(.2), sigma2 = .5)
 #' res = slxw(Y = dgp_dat$Y,tt = tt,X = dgp_dat$X,Z = dgp_dat$Z,niter = 20,nretain = 10)
 slxw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter = 1000, nretain = 250,
                  W_prior = W_priors(n = nrow(Y)/tt),
@@ -60,25 +61,24 @@ slxw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter =
   postwprob <- array(0, c(n, n, nretain))
 
   # initilize wdraws
-  curr.wdraws = init_sampler_W(W_prior,rho = NULL)
+  curr.wdraws = init_sample_W(W_prior,rho = NULL)
 
   curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),curr.wdraws$curr.w) %*% X)
   tX = cbind(X,curr.WX,Z)
   tY <- matrix(Y, n, tt)
   curr.txb1 = curr.txb2 = matrix(0,n,tt)
-  curr.beta <- solve(crossprod(tX)) %*% crossprod(tX, Y)
-  curr.sigma <- as.double(crossprod(Y - tX %*% curr.beta)) / (tt * n - k)
+
+  sampler_beta = beta_sampler$new(beta_prior)
+  curr.beta = sampler_beta$curr_beta
+  sampler_sigma = sigma_sampler$new(sigma_prior)
+  curr.sigma = sampler_sigma$curr_sigma
 
   ### Gibbs sampling
   pb <- utils::txtProgressBar(min = 0, max = niter, style = 3)
   for (iter in 1:niter) {
 
     # draw beta
-    # e1 = try({
-    V <- solve(beta_prior$beta_var_prior_inv + 1 / curr.sigma * crossprod(tX))
-    b <- V %*% (beta_prior$beta_var_prior_inv %*% beta_prior$beta_mean_prior + 1 / curr.sigma * crossprod(tX, Y))
-    # curr.beta = mvrnorm(1,b,V)
-    curr.beta <- b + t(chol(V)) %*% stats::rnorm(k)
+    curr.beta = sampler_beta$sample(Y,tX,curr.sigma)$curr_beta
     curr.xb <- tX %*% curr.beta
     curr.txb <- matrix(curr.xb, n, tt)
     if (smallk > 0) {
@@ -89,8 +89,9 @@ slxw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter =
     }
 
     # draw sigma
-    curr.ESS <- crossprod(Y - curr.xb)
-    curr.sigma <- 1 / stats::rgamma(1, sigma_prior$sigma_rate_prior + (tt * n) / 2, sigma_prior$sigma_shape_prior + as.double(curr.ESS) / 2)
+    #curr.ESS <- crossprod(Y - curr.xb)
+    curr.sigma = sampler_sigma$sample(Y,curr.xb)$curr_sigma
+    #curr.sigma <- 1 / stats::rgamma(1, sigma_prior$sigma_rate_prior + (tt * n) / 2, sigma_prior$sigma_shape_prior + as.double(curr.ESS) / 2)
 
     # Gibbs step for W - element-wise
     # curr.txb = matrix(curr.xb,n,tt)

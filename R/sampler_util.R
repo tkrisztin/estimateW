@@ -6,7 +6,7 @@
 #'
 #' @return An object of class \code{wdraws}
 #' @export
-init_sampler_W = function(W_prior,
+init_sample_W = function(W_prior,
                           rho = NULL) {
   n = nrow(W_prior$W_prior)
   curr.W <- matrix(0, n, n) # not standardized W

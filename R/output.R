@@ -1,9 +1,4 @@
-#' @param x \code{estimateW} object
-#'
-#' @param probs Quantile for coefficient output
-#' @param ... further arguments are passed on to be invoked
-#'
-#' @export
+#' @exportS3Method
 print.estimateW <- function(x, probs = c(.05,.5,.95),...) {
   if (is.null(x[["postr"]])) {
     model_type = "SLX"} else if (is.null(x[["Z"]])) {
@@ -29,26 +24,22 @@ print.estimateW <- function(x, probs = c(.05,.5,.95),...) {
 }
 
 
-#' @export
+#' @exportS3Method
 summary.estimateW <- function(object, ...) {
   coefs = rbind(object$postb,object$posts)
   if (!is.null(object[["postr"]])) {coefs = rbind(coefs,object$postr)}
   summary( t(coefs) )
 }
 
-#' @export
+#' @exportS3Method
 summary.sim_dgp <- function(object, ...) {
   dat1 = data.frame(Y = object$Y,object$X)
   if (!is.null(object[["Z"]])) dat1 = cbind(dat1,Z = object$Z)
   summary( dat1 )
 }
 
-#' @param x \code{sim_dgp} object
-#'
-#' @param probs Quantile for coefficient output
-#' @param ... further arguments are passed on to be invoked
-#'
-#' @export
+
+#' @exportS3Method
 print.sim_dgp <- function(x, probs = c(.05,.5,.95),...) {
   coefs = x$para$posts
   if (!is.null(x$para[["beta1"]])) coefs = c(coefs,x$para$beta1)

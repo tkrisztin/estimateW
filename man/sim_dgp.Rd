@@ -43,5 +43,6 @@ The model takes the form \eqn{Y = \rho W Y + X \beta_1 + W X \beta_2 + Z \beta_3
 }
 \examples{
 # SDM data generating process
-dgp_dat = sim_dgp(n =20, tt = 10, rho = .5, beta1 = c(1,-1), beta2 = c(0,.5),beta3 = c(.2),sigma2 = .5)
+dgp_dat = sim_dgp(n =20, tt = 10, rho = .5, beta1 = c(1,-1),
+                  beta2 = c(0,.5),beta3 = c(.2),sigma2 = .5)
 }

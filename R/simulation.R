@@ -17,7 +17,8 @@
 #'
 #' @examples
 #' # SDM data generating process
-#' dgp_dat = sim_dgp(n =20, tt = 10, rho = .5, beta1 = c(1,-1), beta2 = c(0,.5),beta3 = c(.2),sigma2 = .5)
+#' dgp_dat = sim_dgp(n =20, tt = 10, rho = .5, beta1 = c(1,-1),
+#'                   beta2 = c(0,.5),beta3 = c(.2),sigma2 = .5)
 sim_dgp= function(n, tt, rho, beta1 = c(), beta2 = c(), beta3 = c(),
                     sigma2 = .5, n_neighbor = 7, do_symmetric = FALSE) {
   smallk = length(beta1)
@@ -32,12 +33,11 @@ sim_dgp= function(n, tt, rho, beta1 = c(), beta2 = c(), beta3 = c(),
   diag(dist) = Inf
   dist = 1/dist
   W = t(apply(dist,c(1),function(x) {x[x<sort(x,decreasing = TRUE)[n_neighbor]] = 0; x[x>0] = 1; return(x)} ))
-
   if (do_symmetric) {
     W = t(W) + W
-    W = as.matrix(W/rowSums(W))
     W[W>0] = 1
   }
+  W = as.matrix(W/rowSums(W))
   diag(W) = 0
 
   A <- as.matrix(diag(n) - rho*W)

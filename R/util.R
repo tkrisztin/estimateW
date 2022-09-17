@@ -39,6 +39,9 @@ W_priors = function(n,
 #' @param init_rho_scale For Metropolis-Hastings step the initial candidate variance (default: 1)
 #' @param griddy_n Number of griddy gibbs steps
 #' @param use_griddy_gibbs Should griddy-Gibbs be used for \eqn{\rho} estimation?
+#' @param mh_tune_low Lower bound for Metropolis-Hastings tuning
+#' @param mh_tune_high Upper bound for Metropolis-Hastings tuning
+#' @param mh_tune_scale Scaling factor for Metropolis-Hastings tuning
 #'
 #' Does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification. Main advantage is that less draws are required for \eqn{\rho}
 #'
@@ -47,11 +50,14 @@ W_priors = function(n,
 #' @export
 rho_priors = function(rho_a_prior = 1.1, rho_b_prior = 1.1,
                       rho_min = 0, rho_max = 1, init_rho_scale = 1,
-                      griddy_n = 105, use_griddy_gibbs = TRUE) {
-  init.rho = stats::runif(1,rho_min,rho_max)
+                      griddy_n = 60, use_griddy_gibbs = TRUE,
+                      mh_tune_low = .4,mh_tune_high = .6, mh_tune_scale = .1) {
   return(list(rho_a_prior = rho_a_prior, rho_b_prior = rho_b_prior,
-              griddy_n = griddy_n, rho_min = rho_min, rho_max = rho_max, init_rho_scale,
-              use_griddy_gibbs = use_griddy_gibbs,init.rho=init.rho))
+              griddy_n = griddy_n, rho_min = rho_min, rho_max = rho_max,
+              init_rho_scale = init_rho_scale,
+              use_griddy_gibbs = use_griddy_gibbs,
+              mh_tune_low = mh_tune_low,mh_tune_high = mh_tune_high,
+              mh_tune_scale = mh_tune_scale))
 }
 
 #' Prior Distributions for the slope parameters

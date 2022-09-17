@@ -17,5 +17,6 @@ Imports:
     Matrix,
     matrixcalc,
     plot.matrix,
-    stats
-RoxygenNote: 7.2.0
+    stats,
+    R6
+RoxygenNote: 7.2.1

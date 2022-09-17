@@ -43,6 +43,7 @@ The model takes the form \eqn{Y = X \beta_1 + f(\Omega)X \beta_2 + Z \beta_3 +  
 }
 \examples{
 n = 20; tt = 10
-dgp_dat = sim_dgp(n =20, tt = 10, rho = 0,beta1 = c(1,-1), beta2 = c(0,.5), beta3 = c(.2), sigma2 = .5)
+dgp_dat = sim_dgp(n =20, tt = 10, rho = 0,beta1 = c(1,-1),
+                  beta2 = c(0,.5), beta3 = c(.2), sigma2 = .5)
 res = slxw(Y = dgp_dat$Y,tt = tt,X = dgp_dat$X,Z = dgp_dat$Z,niter = 20,nretain = 10)
 }

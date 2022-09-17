@@ -8,7 +8,6 @@
   x,
   cols = c("white", "lightgrey", "black"),
   breaks = c(0, 0.5, 0.75, 1),
-  main = "Posterior incl. prob. of W",
   ...
 )
 }
@@ -18,8 +17,6 @@
 \item{cols}{Main colors to use for the plot}
 
 \item{breaks}{Breaks for the colours}
-
-\item{main}{Legend title}
 
 \item{\dots}{further arguments are passed on to be invoked}
 }

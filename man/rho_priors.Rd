@@ -10,8 +10,11 @@ rho_priors(
   rho_min = 0,
   rho_max = 1,
   init_rho_scale = 1,
-  griddy_n = 105,
-  use_griddy_gibbs = TRUE
+  griddy_n = 60,
+  use_griddy_gibbs = TRUE,
+  mh_tune_low = 0.4,
+  mh_tune_high = 0.6,
+  mh_tune_scale = 0.1
 )
 }
 \arguments{
@@ -27,7 +30,13 @@ rho_priors(
 
 \item{griddy_n}{Number of griddy gibbs steps}
 
-\item{use_griddy_gibbs}{Should griddy-Gibbs be used for \eqn{\rho} estimation?
+\item{use_griddy_gibbs}{Should griddy-Gibbs be used for \eqn{\rho} estimation?}
+
+\item{mh_tune_low}{Lower bound for Metropolis-Hastings tuning}
+
+\item{mh_tune_high}{Upper bound for Metropolis-Hastings tuning}
+
+\item{mh_tune_scale}{Scaling factor for Metropolis-Hastings tuning
 
 Does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification. Main advantage is that less draws are required for \eqn{\rho}
 
