@@ -449,7 +449,7 @@ W_sampler = R6::R6Class("W_sampler", public = list(
               A0 <- diag(n) - self$curr_rho * w0
               A1 <- self$curr_A
               diff0 <- A0[ch_elmnt, , drop = F] - self$curr_A[ch_elmnt, , drop = F]
-              res0 <- update_ldetAI(ch_elmnt, diff0, self$curr_AI, self$curr_logdet)
+              res0 <- logdetAinvUpdate(ch_elmnt, diff0, self$curr_AI, self$curr_logdet)
               logdet0 <- res0$logdet
               logdet1 <- self$curr_logdet
             }
@@ -472,7 +472,7 @@ W_sampler = R6::R6Class("W_sampler", public = list(
               A0 <- self$curr_A
               diff1 <- A1[ch_elmnt, , drop = F] - self$curr_A[ch_elmnt, , drop = F]
               logdet0 <- self$curr_logdet
-              res1 <- update_ldetAI(ch_elmnt, diff1, self$curr_AI, self$curr_logdet)
+              res1 <- logdetAinvUpdate(ch_elmnt, diff1, self$curr_AI, self$curr_logdet)
               logdet1 <- res1$logdet
             }
           }
