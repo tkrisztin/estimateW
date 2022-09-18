@@ -155,7 +155,7 @@ rho_sampler = R6::R6Class("rho_sampler", list(
       self$curr_logdet <- log(Matrix::det(self$curr_A))
     } else {self$curr_logdet = newLogdet}
     if (self$rho_prior$use_griddy_gibbs) {
-      self$curr_logdets <- lndetPaceBarry(self$curr_W, length.out = self$rho_prior$griddy_n,
+      self$curr_logdets <- logdetPaceBarry(self$curr_W, length.out = self$rho_prior$griddy_n,
                                         rmin = self$rho_prior$rho_min,
                                         rmax = self$rho_prior$rho_max)[-self$rho_prior$griddy_n, ]
     }
