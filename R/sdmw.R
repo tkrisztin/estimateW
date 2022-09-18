@@ -95,9 +95,6 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter =
   }
   if (k_dum > 0) {ind_baseX = c(ind_baseX,(2*smallk + 1):k)}
 
-  rho_scale <- rho_prior$init_rho_scale
-  rho_accept <- 0
-
   # save the posterior draws here
   postb <- matrix(0, k, nretain)
   rownames(postb) <- varnames
@@ -117,149 +114,75 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter =
   } else {
     sampler_rho = rho_samplerMH$new(rho_prior)
   }
-  curr.rho = sampler_rho$curr_rho
-  curr.wdraws = init_sample_W(W_prior,rho = curr.rho)
+  sampler_W = W_sampler$new(W_prior,sampler_rho$curr_rho)
+  sampler_beta = beta_sampler$new(beta_prior)
+  sampler_sigma = sigma_sampler$new(sigma_prior)
 
-  curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),curr.wdraws$curr.w) %*% X)
+  curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),sampler_W$curr_w) %*% X)
   tX = cbind(X,curr.WX,Z)
   tY <- matrix(Y, n, tt)
-  curr.txb1 = curr.txb2 = matrix(0,n,tt)
-  tAy <- matrix(0, n, tt)
-
-  sampler_beta = beta_sampler$new(beta_prior)
-  curr.beta = sampler_beta$curr_beta
-  sampler_sigma = sigma_sampler$new(sigma_prior)
-  curr.sigma = sampler_sigma$curr_sigma
-
-  curr.AI <- curr.wdraws$curr.AI
-  curr.A <- curr.wdraws$curr.A
-  curr.logdet <- curr.wdraws$curr.logdets
+  curr_mu = curr_mu_lag = matrix(0,n,tt)
 
   ### Gibbs sampling
   pb <- utils::txtProgressBar(min = 0, max = niter, style = 3)
   for (iter in 1:niter) {
-    Ay <- matrix(curr.wdraws$curr.A %*% tY, n * tt, 1)
+    Ay <- matrix(sampler_W$curr_A %*% tY, n * tt, 1)
 
     # draw beta
-    # # e1 = try({
-    # V <- solve(beta_prior$beta_var_prior_inv + 1 / curr.sigma * crossprod(tX))
-    # b <- V %*% (beta_prior$beta_var_prior_inv %*% beta_prior$beta_mean_prior + 1 / curr.sigma * crossprod(tX, Ay))
-    # # curr.beta = mvrnorm(1,b,V)
-    # curr.beta <- b + t(chol(V)) %*% stats::rnorm(k)
-    curr.beta = sampler_beta$sample(Ay,tX,curr.sigma)$curr_beta
-    curr.xb <- tX %*% curr.beta
+    sampler_beta$sample(Ay,tX,sampler_sigma$curr_sigma)
+    curr.xb <- tX %*% sampler_beta$curr_beta
     curr.txb <- matrix(curr.xb, n, tt)
     if (smallk > 0) {
-      curr.txb1 = matrix(tX[,-ind_WX] %*% curr.beta[-ind_WX],n,tt)
-      curr.txb2 = matrix(X %*% curr.beta[ind_WX],n,tt)
+      curr_mu = matrix(tX[,-ind_WX] %*% sampler_beta$curr_beta[-ind_WX],n,tt)
+      curr_mu_lag = matrix(X %*% sampler_beta$curr_beta[ind_WX],n,tt)
     } else {
-      curr.txb1 = matrix(curr.xb,n,tt)
+      curr_mu = matrix(curr.xb,n,tt)
     }
 
     # draw sigma
-    #curr.ESS <- crossprod(Ay - curr.xb)
-    #curr.sigma <- 1 / stats::rgamma(1, sigma_prior$sigma_rate_prior + (tt * n) / 2, sigma_prior$sigma_shape_prior + as.double(curr.ESS) / 2)
-    curr.sigma = sampler_sigma$sample(Ay,curr.xb)$curr_sigma
+    sampler_sigma$sample(Ay,curr.xb)
 
     ## Griddy-Gibbs step for rho
     if (rho_prior$use_griddy_gibbs) {
-      sampler_rho$setW(curr.wdraws$curr.w)
-      curr.rho = sampler_rho$sample(tY,curr.txb,curr.sigma)$curr_rho
-      curr.wdraws$curr.A <- sampler_rho$curr_A
-      curr.wdraws$curr.AI <- sampler_rho$curr_AI
-      curr.wdraws$curr.logdet <- sampler_rho$curr_logdet
-      # logdets <- lndetPaceBarry(curr.wdraws$curr.w, length.out = rho_prior$griddy_n,
-      #                           rmin = rho_prior$rho_min, rmax = rho_prior$rho_max)[-rho_prior$griddy_n, ]
-      # wY <- curr.wdraws$curr.w %*% tY
-      # # ess.grid1 = sapply(logdets[,2], function(x) sum(dnorm(as.matrix(tY - x*wY),curr.txb,sqrt(curr.sigma),log = tt))  )
-      # ess.grid <- sapply(logdets[, 2], function(x) -sum(((tY - x * wY) - curr.txb)^2) / (2 * curr.sigma))
-      # den <- tt * logdets[, 1] + ess.grid + log(betapdf(logdets[, 2], rho_prior$rho_a_prior, rho_prior$rho_b_prior, rho_prior$rho_min, rho_prior$rho_max))
-      # log_cond_post_rho <- den
-      # log_cond_post_rho <- log_cond_post_rho - max(log_cond_post_rho)
-      # cond_post_rho <- exp(log_cond_post_rho)
-      # z <- cumsum(cond_post_rho) / sum(cond_post_rho)
-      # rnd <- stats::runif(1) #* sum(z)
-      # ind <- min(which(rnd <= z))
-      # if (is.integer(ind) && ind <= length(logdets[, 2])) {
-      #   curr.rho <- logdets[ind, 2]
-      #   curr.wdraws$curr.A <- Matrix::.sparseDiagonal(n) - curr.rho * curr.wdraws$curr.w
-      #   curr.wdraws$curr.AI <- as.matrix(solve(curr.wdraws$curr.A))
-      #   curr.wdraws$curr.logdet <- log(Matrix::det(curr.wdraws$curr.A))
-      # }
+      sampler_rho$setW(newW = sampler_W$curr_w,
+                       newLogdet = sampler_W$curr_logdet,
+                       newA = sampler_W$curr_A, newAI = sampler_W$curr_AI)
+      sampler_rho$sample(tY,curr.txb,sampler_sigma$curr_sigma)
     } else {
-      sampler_rho$setW(curr.wdraws$curr.w)
-      curr.rho = sampler_rho$sample(tY,curr.txb,curr.sigma)$curr_rho
-      curr.wdraws$curr.A <- sampler_rho$curr_A
-      curr.wdraws$curr.AI <- sampler_rho$curr_AI
-      curr.wdraws$curr.logdet <- sampler_rho$curr_logdet
+      sampler_rho$setW(newW = sampler_W$curr_w,
+                       newLogdet = sampler_W$curr_logdet,
+                       newA = sampler_W$curr_A, newAI = sampler_W$curr_AI)
+      sampler_rho$sample(tY,curr.txb,sampler_sigma$curr_sigma)
       if (iter > (ndiscard / 2)) {
         sampler_rho$stopMHtune()
       }
-      # # draw p(rho | .) using MH-step
-      # accept <- 0
-      # while (accept != 1) {
-      #   prop.rho <- stats::rnorm(1, curr.rho, rho_scale)
-      #   if (prop.rho < rho_prior$rho_max && prop.rho > rho_prior$rho_max) {
-      #     accept <- 1
-      #   }
-      # }
-      # prop.A <- Matrix::.sparseDiagonal(n) - prop.rho * curr.wdraws$curr.w
-      # prop.logdet <- suppressWarnings(log(det(prop.A)))
-      #
-      # post_curr <- tt * curr.wdraws$curr.logdet +
-      #   sum(stats::dnorm(as.matrix(curr.wdraws$curr.A %*% tY), curr.txb, sqrt(curr.sigma), log = T)) +
-      #   log(betapdf(curr.rho, rho_prior$rho_a_prior, rho_prior$rho_b_prior, rho_prior$rho_min, rho_prior$rho_max))
-      # post_prop <- tt * prop.logdet +
-      #   sum(stats::dnorm(as.matrix(prop.A %*% tY), curr.txb, sqrt(curr.sigma), log = T)) +
-      #   log(betapdf(prop.rho, rho_prior$rho_a_prior, rho_prior$rho_b_prior, rho_prior$rho_min, rho_prior$rho_max))
-      #
-      # acc_prob <- post_prop - post_curr
-      # if (is.nan(acc_prob) == FALSE) {
-      #   if ((acc_prob) > log(stats::runif(1, 0, 1))) {
-      #     curr.rho <- prop.rho
-      #     curr.wdraws$curr.A <- prop.A
-      #     curr.wdraws$curr.AI <- as.matrix(solve(prop.A))
-      #     curr.wdraws$curr.logdet <- prop.logdet
-      #     rho_accept <- rho_accept + 1
-      #   }
-      # }
-      # if (iter < (ndiscard / 2)) {
-      #   # rho tuning
-      #   if ((rho_accept / iter) > 0.3) {
-      #     rho_scale <- 1.1 * rho_scale
-      #   }
-      #   if ((rho_accept / iter) < 0.1) {
-      #     rho_scale <- 0.9 * rho_scale
-      #   }
-      # }
     }
 
     # Gibbs step for W - element-wise
-    # curr.txb = matrix(curr.xb,n,tt)
-    curr.wdraws = sample_W(tY = tY,curr.txb1 = curr.txb1,
-                           curr.txb2 = curr.txb2,
-                           curr.sigma = curr.sigma,
-                           W_prior = W_prior,wdraws = curr.wdraws,curr.rho = curr.rho)
-
-    curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),curr.wdraws$curr.w) %*% X)
+    sampler_W$set_rho(new_rho = sampler_rho$curr_rho,
+                      newLogdet = sampler_rho$curr_logdet,
+                      newA = sampler_rho$curr_A, newAI = sampler_rho$curr_AI)
+    sampler_W$sample(Y = tY,curr_sigma = sampler_sigma$curr_sigma,
+                     mu = curr_mu,lag_mu = curr_mu_lag)
+    curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),sampler_W$curr_w) %*% X)
     tX = cbind(X,curr.WX,Z)
 
     # we are past the burn-in, save the draws
     if (iter > ndiscard) {
       s <- iter - ndiscard
-      postb[, s] <- as.matrix(curr.beta)
-      posts[s] <- curr.sigma
-      postr[s] <- curr.rho
-      postw[, , s] <- curr.wdraws$curr.w
+      postb[, s] <- sampler_beta$curr_beta
+      posts[s] <- sampler_sigma$curr_sigma
+      postr[s] <- sampler_rho$curr_rho
+      postw[, , s] <- sampler_W$curr_w
 
-      post.direct[, s] <- sum(diag(curr.wdraws$curr.AI)) / n * curr.beta[ind_baseX]
-      post.total[, s] <- sum(curr.wdraws$curr.AI) / n * curr.beta[ind_baseX]
+      post.direct[, s] <- sum(diag(sampler_W$curr_AI)) / n * sampler_beta$curr_beta[ind_baseX]
+      post.total[, s] <- sum(sampler_W$curr_AI) / n * sampler_beta$curr_beta[ind_baseX]
       # if we have WX
       if (smallk > 0) {
         post.direct[ind_lagFX,s] = post.direct[ind_lagFX,s] +
-          sum(diag(curr.wdraws$curr.AI))/n * curr.beta[ind_WX]
+          sum(diag(sampler_W$curr_AI))/n * sampler_beta$curr_beta[ind_WX]
         post.total[ind_lagFX,s] = post.total[ind_lagFX,s] +
-          sum(curr.wdraws$curr.AI)/n * curr.beta[ind_WX]
+          sum(sampler_W$curr_AI)/n * sampler_beta$curr_beta[ind_WX]
       }
       post.indirect[, s] <- post.total[, s] - post.direct[, s]
     }

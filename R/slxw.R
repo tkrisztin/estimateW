@@ -60,55 +60,45 @@ slxw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter =
   postw <- array(0, c(n, n, nretain))
   postwprob <- array(0, c(n, n, nretain))
 
-  # initilize wdraws
-  curr.wdraws = init_sample_W(W_prior,rho = NULL)
-
-  curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),curr.wdraws$curr.w) %*% X)
-  tX = cbind(X,curr.WX,Z)
-  tY <- matrix(Y, n, tt)
-  curr.txb1 = curr.txb2 = matrix(0,n,tt)
-
+  sampler_W = W_sampler$new(W_prior)
   sampler_beta = beta_sampler$new(beta_prior)
-  curr.beta = sampler_beta$curr_beta
   sampler_sigma = sigma_sampler$new(sigma_prior)
-  curr.sigma = sampler_sigma$curr_sigma
+
+  curr_WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),sampler_W$curr_w) %*% X)
+  tX = cbind(X,curr_WX,Z)
+  tY <- matrix(Y, n, tt)
+  curr_mu = curr_mu_lag = matrix(0,n,tt)
 
   ### Gibbs sampling
   pb <- utils::txtProgressBar(min = 0, max = niter, style = 3)
   for (iter in 1:niter) {
 
     # draw beta
-    curr.beta = sampler_beta$sample(Y,tX,curr.sigma)$curr_beta
-    curr.xb <- tX %*% curr.beta
-    curr.txb <- matrix(curr.xb, n, tt)
+    sampler_beta$sample(Y,tX,sampler_sigma$curr_sigma)
+    curr_xb <- tX %*% sampler_beta$curr_beta
+    curr_txb <- matrix(curr_xb, n, tt)
     if (smallk > 0) {
-      curr.txb1 = matrix(tX[,-ind_WX] %*% curr.beta[-ind_WX],n,tt)
-      curr.txb2 = matrix(X %*% curr.beta[ind_WX],n,tt)
+      curr_mu = matrix(tX[,-ind_WX] %*% sampler_beta$curr_beta[-ind_WX],n,tt)
+      curr_mu_lag = matrix(X %*% sampler_beta$curr_beta[ind_WX],n,tt)
     } else {
-      curr.txb1 = matrix(curr.xb,n,tt)
+      curr_mu = matrix(curr_xb,n,tt)
     }
 
     # draw sigma
-    #curr.ESS <- crossprod(Y - curr.xb)
-    curr.sigma = sampler_sigma$sample(Y,curr.xb)$curr_sigma
-    #curr.sigma <- 1 / stats::rgamma(1, sigma_prior$sigma_rate_prior + (tt * n) / 2, sigma_prior$sigma_shape_prior + as.double(curr.ESS) / 2)
+    sampler_sigma$sample(Y,curr_xb)
 
     # Gibbs step for W - element-wise
-    # curr.txb = matrix(curr.xb,n,tt)
-    curr.wdraws = sample_W(tY = tY,curr.txb1 = curr.txb1,
-                           curr.txb2 = curr.txb2,
-                           curr.sigma = curr.sigma,
-                           W_prior = W_prior,wdraws = curr.wdraws,curr.rho = NULL)
-
-    curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),curr.wdraws$curr.w) %*% X)
-    tX = cbind(X,curr.WX,Z)
+    sampler_W$sample(Y = tY,curr_sigma = sampler_sigma$curr_sigma,
+                     mu = curr_mu,lag_mu = curr_mu_lag)
+    curr_WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),sampler_W$curr_w) %*% X)
+    tX = cbind(X,curr_WX,Z)
 
     # we are past the burn-in, save the draws
     if (iter > ndiscard) {
       s <- iter - ndiscard
-      postb[, s] <- as.matrix(curr.beta)
-      posts[s] <- curr.sigma
-      postw[, , s] <- curr.wdraws$curr.w
+      postb[, s] <- sampler_beta$curr_beta
+      posts[s] <- sampler_sigma$curr_sigma
+      postw[, , s] <- sampler_W$curr_w
     }
     utils::setTxtProgressBar(pb,iter)
   }

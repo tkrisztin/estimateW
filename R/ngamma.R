@@ -100,7 +100,8 @@ normalgamma <- function(Y, tt, X = matrix(1,nrow(Y),1), niter = 1000, nretain = 
 #' n = 20; tt = 10
 #' dgp_dat = sim_dgp(n =n, tt = tt, rho = .5, beta1 = c(.5,1),beta2 = c(-1,.5),
 #'                   beta3 = c(1.5), sigma2 = .5)
-#' res = sdm(Y = dgp_dat$Y,tt = tt, W = dgp_dat$W,X = dgp_dat$X,Z = dgp_dat$Z,niter = 200,nretain = 100)
+#' res = sdm(Y = dgp_dat$Y,tt = tt, W = dgp_dat$W,X = dgp_dat$X,
+#'           Z = dgp_dat$Z,niter = 200,nretain = 100)
 sdm <- function(Y, tt, W, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter = 1000, nretain = 250,
                 rho_prior = rho_priors(),beta_prior = beta_priors(k = ncol(X)*2 + ncol(Z)),
                 sigma_prior = sigma_priors()) {
@@ -187,12 +188,24 @@ sdm <- function(Y, tt, W, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter
       postb[, s] <- sampler_beta$curr_beta
       posts[s] <- sampler_sigma$curr_sigma
       postr[s] <- sampler_rho$curr_rho
+
+      post.direct[, s] <- sum(diag(sampler_rho$curr_AI)) / n * sampler_beta$curr_beta[ind_baseX]
+      post.total[, s] <- sum(sampler_rho$curr_AI) / n * sampler_beta$curr_beta[ind_baseX]
+      # if we have WX
+      if (smallk > 0) {
+        post.direct[ind_lagFX,s] = post.direct[ind_lagFX,s] +
+          sum(diag(sampler_rho$curr_AI))/n * sampler_beta$curr_beta[ind_WX]
+        post.total[ind_lagFX,s] = post.total[ind_lagFX,s] +
+          sum(sampler_rho$curr_AI)/n * sampler_beta$curr_beta[ind_WX]
+      }
+      post.indirect[, s] <- post.total[, s] - post.direct[, s]
     }
     utils::setTxtProgressBar(pb,iter)
   }
   close(pb)
 
   ret = list(Y = Y, X = X, Z = Z, W = W,
+             post.direct = post.direct, post.indirect = post.indirect, post.total = post.total,
              postb = postb, posts = posts,postr = postr,
              beta_prior = beta_prior,sigma_prior = sigma_prior,
              param = list(niter = niter, nretain = nretain)
