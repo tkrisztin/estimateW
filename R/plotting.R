@@ -38,3 +38,13 @@ plot.sim_dgp = function(x, ...) {
        border = NA,...)
   graphics::abline(nrow(W)+1,-1)
 }
+
+#' @exportS3Method
+plot.exoW <- function(x, ...) {
+  plot(c(x$postr),type="l", main = "Rho posterior draws")
+}
+
+#' @exportS3Method
+plot.normalgamma <- function(x, ...) {
+  plot(c(x$posts),type="l", main = "Sigma posterior draws")
+}

@@ -32,6 +32,26 @@ summary.estimateW <- function(object, ...) {
 }
 
 #' @exportS3Method
+summary.normalgamma = function(object, ...) {
+  summary.estimateW(object)
+}
+
+#' @exportS3Method
+print.normalgamma = function(x, ...) {
+  print.estimateW(x)
+}
+
+#' @exportS3Method
+print.exoW = function(x, ...) {
+  print.estimateW(x)
+}
+
+#' @exportS3Method
+summary.exoW = function(object, ...) {
+  summary.estimateW(object)
+}
+
+#' @exportS3Method
 summary.sim_dgp <- function(object, ...) {
   dat1 = data.frame(Y = object$Y,object$X)
   if (!is.null(object[["Z"]])) dat1 = cbind(dat1,Z = object$Z)
@@ -40,7 +60,7 @@ summary.sim_dgp <- function(object, ...) {
 
 
 #' @exportS3Method
-print.sim_dgp <- function(x, probs = c(.05,.5,.95),...) {
+print.sim_dgp <- function(x, ...) {
   coefs = x$para$posts
   if (!is.null(x$para[["beta1"]])) coefs = c(coefs,x$para$beta1)
   if (!is.null(x$para[["beta2"]])) coefs = c(coefs,x$para$beta2)

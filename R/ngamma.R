@@ -67,7 +67,7 @@ normalgamma <- function(Y, tt, X = matrix(1,nrow(Y),1), niter = 1000, nretain = 
              beta_prior = beta_prior,sigma_prior = sigma_prior,
              param = list(niter = niter, nretain = nretain)
   )
-  class(ret) = "estimateW"
+  class(ret) = "normalgamma"
   return(ret)
 }
 
@@ -197,8 +197,34 @@ sdm <- function(Y, tt, W, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter
              beta_prior = beta_prior,sigma_prior = sigma_prior,
              param = list(niter = niter, nretain = nretain)
   )
-  class(ret) = "estimateW"
+  class(ret) = "exoW"
   return(ret)
 }
 
+#' A sampler for the Spatial Autoregressive Model with exogeneous spatial weight matrix.
+#'
+#' The sampler uses independent an Normal-Gamma prior for the slope and variance parameters,
+#' as well as the four-parameter prior for the spatial autoregressive parameter. The function is
+#' meant intended as an illustration on using the \code{\link{beta_sampler}}, \code{\link{sigma_sampler}},
+#' and \code{\link{rho_sampler}} classes.
+#'
+#' This is a wrapper function calling \code{\link{sdm}} with no spatially lagged dependent variables.
+#'
+#' @inheritParams sdm
+#'
+#' @export
+#'
+#' @examples
+#' n = 20; tt = 10
+#' dgp_dat = sim_dgp(n =n, tt = tt, rho = .5, beta3 = c(1,.5), sigma2 = .5)
+#' res = sar(Y = dgp_dat$Y,tt = tt, W = dgp_dat$W,
+#'           Z = dgp_dat$Z,niter = 200,nretain = 100)
+sar <- function(Y, tt, W, Z = matrix(1,nrow(Y),1), niter = 1000, nretain = 250,
+                rho_prior = rho_priors(),beta_prior = beta_priors(k = ncol(Z)),
+                sigma_prior = sigma_priors()) {
+  ret = sdm(Y = Y, tt =tt,W = W, X = matrix(0,nrow(Y),0),Z = Z, niter = niter, nretain = nretain,
+             rho_prior = rho_prior,
+             beta_prior = beta_prior,sigma_prior = sigma_prior)
+  return(ret)
+}
 
