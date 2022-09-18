@@ -3,15 +3,20 @@
 \docType{class}
 \name{rho_sampler}
 \alias{rho_sampler}
-\title{An R6 class for sampling \eqn{\rho} using a Griddy-Gibbs step}
+\title{An R6 class for sampling the spatial autoregressive coefficient \eqn{\rho}}
 \format{
 An \code{\link{R6Class}} generator object
 }
 \description{
-This class samples the spatial autoregressive coefficient. Use the \link{rho_priors} class for setup.
+An R6 class for sampling the spatial autoregressive coefficient \eqn{\rho}
+
+An R6 class for sampling the spatial autoregressive coefficient \eqn{\rho}
 }
 \details{
-The sampling relies on the Griddy-Gibbs algorithm outlines in Ritter and Tanner (1992).
+This class samples the spatial autoregressive coefficient using either a Metropolis-Hastings
+or a griddy Gibbs step. Use the \code{\link{rho_priors}} class for setup.
+
+For the Griddy-Gibbs algorithm see Ritter and Tanner (1992).
 }
 \references{
 Ritter, C., and Tanner, M. A. (1992). Facilitating the Gibbs sampler: The Gibbs stopper
@@ -42,8 +47,11 @@ Ritter, C., and Tanner, M. A. (1992). Facilitating the Gibbs sampler: The Gibbs 
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-rho_sampler-new}{\code{rho_sampler$new()}}
+\item \href{#method-rho_sampler-stopMHtune}{\code{rho_sampler$stopMHtune()}}
 \item \href{#method-rho_sampler-setW}{\code{rho_sampler$setW()}}
 \item \href{#method-rho_sampler-sample}{\code{rho_sampler$sample()}}
+\item \href{#method-rho_sampler-sample_Griddy}{\code{rho_sampler$sample_Griddy()}}
+\item \href{#method-rho_sampler-sample_MH}{\code{rho_sampler$sample_MH()}}
 \item \href{#method-rho_sampler-clone}{\code{rho_sampler$clone()}}
 }
 }
@@ -64,6 +72,18 @@ Ritter, C., and Tanner, M. A. (1992). Facilitating the Gibbs sampler: The Gibbs 
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-rho_sampler-stopMHtune"></a>}}
+\if{latex}{\out{\hypertarget{method-rho_sampler-stopMHtune}{}}}
+\subsection{Method \code{stopMHtune()}}{
+Function to stop the tuning of the Metropolis-Hastings step. The tuning of the
+Metropolis-Hastings step is usually carried out until half of the burn-in phase.
+Call this function to turn it off.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rho_sampler$stopMHtune()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-rho_sampler-setW"></a>}}
@@ -93,6 +113,46 @@ Ritter, C., and Tanner, M. A. (1992). Facilitating the Gibbs sampler: The Gibbs 
 \subsection{Method \code{sample()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{rho_sampler$sample(Y, mu, sigma)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{Y}}{The \eqn{n} by \eqn{tt} vector of responses}
+
+\item{\code{mu}}{The \eqn{n} by \eqn{tt} vector of means (usually \eqn{X\beta})}
+
+\item{\code{sigma}}{The variance parameter \eqn{\sigma^2}}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-rho_sampler-sample_Griddy"></a>}}
+\if{latex}{\out{\hypertarget{method-rho_sampler-sample_Griddy}{}}}
+\subsection{Method \code{sample_Griddy()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rho_sampler$sample_Griddy(Y, mu, sigma)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{Y}}{The \eqn{n} by \eqn{tt} vector of responses}
+
+\item{\code{mu}}{The \eqn{n} by \eqn{tt} vector of means (usually \eqn{X\beta})}
+
+\item{\code{sigma}}{The variance parameter \eqn{\sigma^2}}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-rho_sampler-sample_MH"></a>}}
+\if{latex}{\out{\hypertarget{method-rho_sampler-sample_MH}{}}}
+\subsection{Method \code{sample_MH()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{rho_sampler$sample_MH(Y, mu, sigma)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

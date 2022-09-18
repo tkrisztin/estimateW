@@ -147,11 +147,8 @@ sdm <- function(Y, tt, W, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter
 
   sampler_beta = beta_sampler$new(beta_prior)
   sampler_sigma = sigma_sampler$new(sigma_prior)
-  if (rho_prior$use_griddy_gibbs) {
-    sampler_rho <- rho_sampler$new(rho_prior)
-  } else {
-    sampler_rho = rho_samplerMH$new(rho_prior)
-  }
+  sampler_rho <- rho_sampler$new(rho_prior)
+
   sampler_rho$setW(W)
 
   ### Gibbs sampling
@@ -167,13 +164,9 @@ sdm <- function(Y, tt, W, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter
     # draw sigma
     sampler_sigma$sample(Ay,curr.xb)
 
-    if (rho_prior$use_griddy_gibbs) {
-      sampler_rho$sample(tY,curr.txb,sampler_sigma$curr_sigma)
-    } else {
-      sampler_rho$sample(tY,curr.txb,sampler_sigma$curr_sigma)
-      if (iter > (ndiscard / 2)) {
-        sampler_rho$stopMHtune()
-      }
+    sampler_rho$sample(tY,curr.txb,sampler_sigma$curr_sigma)
+    if (iter > (ndiscard / 2)) {
+      sampler_rho$stopMHtune()
     }
 
     # we are past the burn-in, save the draws

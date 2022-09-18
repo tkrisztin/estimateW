@@ -73,11 +73,12 @@ sigma_sampler = R6::R6Class("sigma_sampler", list(
   }
 ))
 
-#' An R6 class for sampling \eqn{\rho} using a Griddy-Gibbs step
+#' An R6 class for sampling the spatial autoregressive coefficient \eqn{\rho}
 #'
-#' This class samples the spatial autoregressive coefficient. Use the \link{rho_priors} class for setup.
+#' This class samples the spatial autoregressive coefficient using either a Metropolis-Hastings
+#' or a griddy Gibbs step. Use the \code{\link{rho_priors}} class for setup.
 #'
-#' The sampling relies on the Griddy-Gibbs algorithm outlines in Ritter and Tanner (1992).
+#' For the Griddy-Gibbs algorithm see Ritter and Tanner (1992).
 #'
 #' @field rho_prior The current \code{\link{rho_priors}}
 #' @field curr_rho The current value of \eqn{\rho}
@@ -113,10 +114,27 @@ rho_sampler = R6::R6Class("rho_sampler", list(
     self$rho_prior = rho_prior
     self$curr_W = W
     self$curr_rho = stats::runif(1,self$rho_prior$rho_min,self$rho_prior$rho_max)
+    if (!self$rho_prior$use_griddy_gibbs) {
+      private$curr_rho_scale <- self$rho_prior$init_rho_scale
+      private$rho_accept = 0
+      private$curr_iter = 0
+      private$do_MHtune = TRUE
+    }
     if (!is.null(self$curr_W)) {
       self$setW(curr_W)
     }
     invisible(self)
+  },
+  #' @description
+  #' Function to stop the tuning of the Metropolis-Hastings step. The tuning of the
+  #' Metropolis-Hastings step is usually carried out until half of the burn-in phase.
+  #' Call this function to turn it off.
+  #'
+  #' @export
+  stopMHtune = function() {
+    if (!self$rho_prior$use_griddy_gibbs) {
+      private$do_MHtune = FALSE
+    }
   },
   #' @param newW The updated spatial weight matrix \eqn{W}
   #' @param newLogdet An optional value for the log determinant corresponding to \çode{newW} and \code{curr_rho}
@@ -133,12 +151,14 @@ rho_sampler = R6::R6Class("rho_sampler", list(
     if (is.null(newAI)) {
       self$curr_AI <- as.matrix(solve(self$curr_A))
     } else {self$curr_AI = newAI}
-      self$curr_logdets <- lndetPaceBarry(self$curr_W, length.out = self$rho_prior$griddy_n,
-                                     rmin = self$rho_prior$rho_min,
-                                     rmax = self$rho_prior$rho_max)[-self$rho_prior$griddy_n, ]
     if (is.null(newLogdet)) {
       self$curr_logdet <- log(Matrix::det(self$curr_A))
     } else {self$curr_logdet = newLogdet}
+    if (self$rho_prior$use_griddy_gibbs) {
+      self$curr_logdets <- lndetPaceBarry(self$curr_W, length.out = self$rho_prior$griddy_n,
+                                        rmin = self$rho_prior$rho_min,
+                                        rmax = self$rho_prior$rho_max)[-self$rho_prior$griddy_n, ]
+    }
     invisible(self)
   },
   #' @param Y The \eqn{n} by \eqn{tt} vector of responses
@@ -147,6 +167,19 @@ rho_sampler = R6::R6Class("rho_sampler", list(
   #'
   #' @export
   sample = function(Y,mu, sigma) {
+    if (self$rho_prior$use_griddy_gibbs) {
+      self$sample_Griddy(Y,mu,sigma)
+    } else {
+      self$sample_MH(Y,mu,sigma)
+    }
+    invisible(self)
+  },
+  #' @param Y The \eqn{n} by \eqn{tt} vector of responses
+  #' @param mu The \eqn{n} by \eqn{tt} vector of means (usually \eqn{X\beta})
+  #' @param sigma The variance parameter \eqn{\sigma^2}
+  #'
+  #' @export
+  sample_Griddy = function(Y,mu, sigma) {
     n = nrow(Y); tt = ncol(Y)
     wY <- self$curr_W %*% Y
     ess.grid <- sapply(self$curr_logdets[, 2],
@@ -168,94 +201,13 @@ rho_sampler = R6::R6Class("rho_sampler", list(
       self$curr_logdet <- log(Matrix::det(self$curr_A))
     }
     invisible(self)
-  }
-))
-
-
-#' An R6 class for sampling \eqn{\rho} using a Metropolis-Hastings step
-#'
-#' This class samples the spatial autoregressive coefficient. Use the \link{rho_priors} class for setup.
-#'
-#' The sampling relies on a Metropolis-Hastings step, as outlined in LeSage and Pace (2009).
-#'
-#' @field rho_prior The current \code{\link{rho_priors}}
-#' @field curr_rho The current value of \eqn{\rho}
-#' @field curr_W The current value of the spatial weight matrix \eqn{W}; an \eqn{n} by \eqn{n} matrix.
-#' @field curr_A The current spatial projection matrix \eqn{I - \rho W}.
-#' @field curr_AI The inverse of \code{curr_A}
-#' @field curr_logdet The current log-determinant of \code{curr_A}
-#'
-#' @docType class
-#' @importFrom R6 R6Class
-#' @export
-#' @format An \code{\link{R6Class}} generator object
-#'
-#' @references
-#'  LeSage, J. and Pace, R.K., (2009) Introduction to spatial econometrics. Chapman and Hall/CRC.
-rho_samplerMH = R6::R6Class("rho_samplerMH", public = list(
-  rho_prior = NULL,
-  curr_rho = NULL,
-  curr_W = NULL,
-  curr_A = NULL,
-  curr_AI = NULL,
-  curr_logdet = NULL,
-  #' @param rho_prior The list returned by \code{\link{rho_priors}}
-  #' @param W An optional starting value for the spatial weight matrix \eqn{W}
-  #'
-  #' @export
-  initialize = function(rho_prior,W = NULL) {
-    self$rho_prior = rho_prior
-    self$curr_W = W
-    self$curr_rho = stats::runif(1,self$rho_prior$rho_min,self$rho_prior$rho_max)
-    private$curr_rho_scale <- self$rho_prior$init_rho_scale
-    private$rho_accept = 0
-    private$curr_iter = 0
-    private$do_MHtune = TRUE
-    if (!is.null(self$curr_W)) {
-      self$setW(curr_W)
-    }
-    invisible(self)
-  },
-  #' @description
-  #' Function to stop the tuning of the Metropolis-Hastings step. The tuning of the
-  #' Metropolis-Hastings step is usually carried out until half of the burn-in phase.
-  #' Call this function to turn it off.
-  #'
-  #' @export
-  stopMHtune = function() {
-    private$do_MHtune = FALSE
-  },
-  #' @description
-  #' If the spatial weight matrix is updated during the sampling procedure the log determinant, the
-  #' spatial projection matrix \eqn{I - \rho W} and it's inverse must be updated. This function should be
-  #' used for a consistent update. At least the new spatial weight matrix \code{newW} should be supplied.
-  #'
-  #' @param newW The updated spatial weight matrix \eqn{W}
-  #' @param newLogdet An optional value for the log determinant corresponding to \çode{newW} and \code{curr_rho}
-  #' @param newA An optional value for the spatial projection matrix using \çode{newW} and \code{curr_rho}
-  #' @param newAI An optional value for the matrix inverse of \code{newA}
-  #'
-  #' @export
-  setW = function(newW, newLogdet = NULL, newA = NULL, newAI = NULL) {
-    self$curr_W = newW
-    n = nrow(self$curr_W)
-    if (is.null(newA)) {
-      self$curr_A <- Matrix::.sparseDiagonal(n) - self$curr_rho * self$curr_W
-    } else {self$curr_A = newA}
-    if (is.null(newAI)) {
-      self$curr_AI <- as.matrix(solve(self$curr_A))
-    } else {self$curr_AI = newAI}
-    if (is.null(newLogdet)) {
-      self$curr_logdet <- log(Matrix::det(self$curr_A))
-    } else {self$curr_logdet = newLogdet}
-    invisible(self)
   },
   #' @param Y The \eqn{n} by \eqn{tt} vector of responses
   #' @param mu The \eqn{n} by \eqn{tt} vector of means (usually \eqn{X\beta})
   #' @param sigma The variance parameter \eqn{\sigma^2}
   #'
   #' @export
-  sample = function(Y,mu, sigma) {
+  sample_MH = function(Y,mu, sigma) {
     n = nrow(Y); tt = ncol(Y)
     # Proposal for rho
     prop_rho <- stats::rnorm(1, self$curr_rho, private$curr_rho_scale)
@@ -302,7 +254,6 @@ rho_samplerMH = R6::R6Class("rho_samplerMH", public = list(
   curr_iter = NULL,
   do_MHtune = NULL
 ))
-
 
 #' An R6 class for sampling the elements of \eqn{W}
 #'

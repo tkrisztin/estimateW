@@ -89,11 +89,7 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter =
   rownames(post.direct) <- rownames(post.indirect) <- rownames(post.total) <- varnames[ind_baseX]
 
   # initilize wdraws
-  if (rho_prior$use_griddy_gibbs) {
-    sampler_rho <- rho_sampler$new(rho_prior)
-  } else {
-    sampler_rho = rho_samplerMH$new(rho_prior)
-  }
+  sampler_rho <- rho_sampler$new(rho_prior)
   sampler_W = W_sampler$new(W_prior,sampler_rho$curr_rho)
   sampler_beta = beta_sampler$new(beta_prior)
   sampler_sigma = sigma_sampler$new(sigma_prior)
@@ -123,20 +119,14 @@ sdmw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter =
     sampler_sigma$sample(Ay,curr.xb)
 
     ## Griddy-Gibbs step for rho
-    if (rho_prior$use_griddy_gibbs) {
-      sampler_rho$setW(newW = sampler_W$curr_w,
+    sampler_rho$setW(newW = sampler_W$curr_w,
                        newLogdet = sampler_W$curr_logdet,
                        newA = sampler_W$curr_A, newAI = sampler_W$curr_AI)
-      sampler_rho$sample(tY,curr.txb,sampler_sigma$curr_sigma)
-    } else {
-      sampler_rho$setW(newW = sampler_W$curr_w,
-                       newLogdet = sampler_W$curr_logdet,
-                       newA = sampler_W$curr_A, newAI = sampler_W$curr_AI)
-      sampler_rho$sample(tY,curr.txb,sampler_sigma$curr_sigma)
-      if (iter > (ndiscard / 2)) {
-        sampler_rho$stopMHtune()
-      }
+    sampler_rho$sample(tY,curr.txb,sampler_sigma$curr_sigma)
+    if (iter > (ndiscard / 2)) {
+      sampler_rho$stopMHtune()
     }
+
 
     # Gibbs step for W - element-wise
     sampler_W$set_rho(new_rho = sampler_rho$curr_rho,
