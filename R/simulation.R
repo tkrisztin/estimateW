@@ -1,15 +1,18 @@
 #' Simulating from an SDM data generating process
 #'
-#' The model takes the form \eqn{Y = \rho W Y + X \beta_1 + W X \beta_2 + Z \beta_3 +  \epsilon}, with \eqn{\epsilon \sim N(0,\sigma^2)}
+#' The model takes the form \eqn{Y = \rho W Y + X \beta_1 + W X \beta_2 + Z \beta_3 +  \epsilon}, with \eqn{\epsilon \sim N(0,I\sigma^2)}
 #'
 #' @param n Number of spatial observations
 #' @param tt Number of time observations
 #' @param rho The true rho parameter
-#' @param beta1 The \eqn{k_1 x 1} vector of true \eqn{\beta_1}
-#' @param beta2 The \eqn{k_1 x 1} vector of true \eqn{\beta_2} (with \eqn{k_1 = k_2})
-#' @param beta3 The \eqn{k_3 x 1} vector of true \eqn{\beta_3}
+#' @param beta1 Numeric vector of length \eqn{k_1} vector. Provides the values for \eqn{\beta_1} Defaults
+#' to \code{c()}.
+#' @param beta2 Numeric vector of length \eqn{k_1} vector. Provides the values for \eqn{\beta_2} Defaults
+#' to \code{c()}.
+#' @param beta3 Numeric vector of length \eqn{k_3} vector. Provides the values for \eqn{\beta_3} Defaults
+#' to \code{c()}.
 #' @param sigma2 The true \eqn{\sigma^2} parameter
-#' @param n_neighbor Number of neighbours for the \eqn{W} matrix
+#' @param n_neighbor Number of neighbors for the \eqn{W} matrix
 #' @param do_symmetric Should the generated \eqn{W} matrix be symmetric? (default: FALSE)
 #'
 #' @return A list with the generated \eqn{X}, \eqn{Y} and \eqn{W} and a list of parameters.

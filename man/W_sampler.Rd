@@ -15,8 +15,8 @@ An R6 class for sampling the elements of \eqn{W}
 \details{
 This class samples the spatial weight matrix. Use the function \link{W_priors} class for setup.
 
-The sampling procedure relied on binomial conditional posteriors and
-is outlined in Krisztin and Piribauer (2022).
+The sampling procedure relies on conditional Bernoulli posteriors outlined in
+Krisztin and Piribauer (2022).
 }
 \references{
 Krisztin, T., and Piribauer, P. (2022) A Bayesian approach for the estimation
@@ -90,9 +90,9 @@ used for a consistent update. At least the new scalar value for \eqn{\rho} must 
 \describe{
 \item{\code{new_rho}}{single, number; must be between -1 and 1.}
 
-\item{\code{newLogdet}}{An optional value for the log determinant corresponding to \çode{newW} and \code{curr_rho}}
+\item{\code{newLogdet}}{An optional value for the log determinant corresponding to \code{newW} and \code{curr_rho}}
 
-\item{\code{newA}}{An optional value for the spatial projection matrix using \çode{newW} and \code{curr_rho}}
+\item{\code{newA}}{An optional value for the spatial projection matrix using \code{newW} and \code{curr_rho}}
 
 \item{\code{newAI}}{An optional value for the matrix inverse of \code{newA}}
 }

@@ -1,17 +1,18 @@
 Package: estimateW
 Type: Package
 Title: Estimation of spatial weight matrices
-Version: 0.1.0
+Version: 0.0.1
 Authors@R: c(
-    person("Krisztin", "Tamás",email = "krisztin@iiasa.ac.at",role =  c("aut", "cre"),comment = c(ORCID = "0000-0002-9241-8628")),
+    person("Tamás", "Krisztin",email = "krisztin@iiasa.ac.at",role =  c("aut", "cre"),comment = c(ORCID = "0000-0002-9241-8628")),
     person("Philipp", "Piribauer",email = "philipp.piribauer@wifo.ac.at",role =   "aut"),
-    person("Ringwald", "Leopold",email = "ringwald@iiasa.ac.at", role =  "aut")
+    person("Leopold", "Ringwald",email = "ringwald@iiasa.ac.at", role =  "aut")
     )
 Maintainer: Tamás Krisztin <krisztin@iiasa.ac.at>
-Description: Bayesian estimation of spatial weight matrices in SLX, SAR, and SDM type models.
+Description: Bayesian estimation of spatial weight matrices in panel version of spatial econometric models.
 License: GPL (>= 3)
 Depends: R (>= 3.5.0)
 Encoding: UTF-8
+Language: EN-US
 LazyData: true
 Imports: 
     Matrix,

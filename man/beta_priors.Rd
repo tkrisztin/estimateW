@@ -2,20 +2,21 @@
 % Please edit documentation in R/priors.R
 \name{beta_priors}
 \alias{beta_priors}
-\title{Prior Distributions for the slope parameters}
+\title{Set prior specifications for the slope parameters}
 \usage{
 beta_priors(
   k,
   beta_mean_prior = matrix(0, k, 1),
-  beta_var_prior = diag(k) * 10
+  beta_var_prior = diag(k) * 100
 )
 }
 \arguments{
 \item{k}{The total number of coefficients in the model.}
 
-\item{beta_mean_prior}{A vector of prior means \eqn{\underline{\mu}_\beta}.}
+\item{beta_mean_prior}{numeric \eqn{k} by \eqn{1} matrix of prior means \eqn{\underline{\mu}_\beta}.}
 
-\item{beta_var_prior}{A \eqn{k} by \eqn{k} matrix of prior variances \eqn{\underline{V}_\beta}.}
+\item{beta_var_prior}{A \eqn{k} by \eqn{k} matrix of prior variances \eqn{\underline{V}_\beta}. Defaults to a
+diagonal matrix with \code{100} on the main diagonal.}
 }
 \value{
 A list with the prior mean vector (\code{beta_mean_prior}), the prior variance matrix
@@ -25,7 +26,7 @@ A list with the prior mean vector (\code{beta_mean_prior}), the prior variance m
 This function allows the user to specify custom values for Gaussian priors on the slope coefficients.
 }
 \details{
-For the slope parameters \eqn{\beta = [\beta_1, \beta_2, \beta_3]} the package uses the common Normal
+For the slope parameters \eqn{\beta} the package uses the common Normal
 prior specification. Specifically,  \eqn{p(\beta)\sim\mathcal{N}(\underline{\mu}_\beta,\underline{V}_\beta)}.
 
 This function allows the user to specify custom values for the prior hyperparameters \eqn{\underline{\mu}_\beta}

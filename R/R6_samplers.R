@@ -1,4 +1,4 @@
-#' An R6 class for sampling for sampling slope coefficients
+#' An R6 class for sampling slope parameters
 #'
 #' This class samples slope coefficients with a Gaussian prior. Use the \link{beta_priors} class for setup.
 #'
@@ -21,7 +21,7 @@ beta_sampler = R6::R6Class("beta_sampler", list(
     self$sample(matrix(0,2,1),matrix(0,2,k),1)
     invisible(self)
   },
-  #' @param Y The \eqn{n} by \eqn{1} vector of responses
+  #' @param Y The \eqn{n} by \eqn{1} matrix of responses
   #' @param X The \eqn{n} by \eqn{k} design matrix
   #' @param curr_sigma The variance parameter \eqn{\sigma^2}
   #'
@@ -39,7 +39,8 @@ beta_sampler = R6::R6Class("beta_sampler", list(
 
 #' An R6 class for sampling for sampling \eqn{\sigma^2}
 #'
-#' This class samples slope coefficients with an inverse Gamma. Use the \link{sigma_priors} class for setup.
+#' This class samples nuisance parameter from an inverse Gamma distribution. Use the
+#' \link{sigma_priors} class for setup.
 #'
 #' @field sigma_prior The current \code{\link{sigma_priors}}
 #' @field curr_sigma The current value of \eqn{\beta}
@@ -60,8 +61,8 @@ sigma_sampler = R6::R6Class("sigma_sampler", list(
                       self$sigma_prior$sigma_shape_prior  )
     invisible(self)
   },
-  #' @param Y The \eqn{n} by \eqn{1} vector of responses
-  #' @param mu The \eqn{n} by \eqn{1} vector of means (classicaly \eqn{X\beta})
+  #' @param Y The \eqn{n} by \eqn{1} matrix of responses
+  #' @param mu The \eqn{n} by \eqn{1} matrix of means
   #'
   #' @export
   sample = function(Y,mu) {
@@ -73,9 +74,9 @@ sigma_sampler = R6::R6Class("sigma_sampler", list(
   }
 ))
 
-#' An R6 class for sampling the spatial autoregressive coefficient \eqn{\rho}
+#' An R6 class for sampling the spatial autoregressive parameter \eqn{\rho}
 #'
-#' This class samples the spatial autoregressive coefficient using either a Metropolis-Hastings
+#' This class samples the spatial autoregressive parameter using either a Metropolis-Hastings
 #' or a griddy Gibbs step. Use the \code{\link{rho_priors}} class for setup.
 #'
 #' For the Griddy-Gibbs algorithm see Ritter and Tanner (1992).
@@ -137,8 +138,8 @@ rho_sampler = R6::R6Class("rho_sampler", list(
     }
   },
   #' @param newW The updated spatial weight matrix \eqn{W}
-  #' @param newLogdet An optional value for the log determinant corresponding to \çode{newW} and \code{curr_rho}
-  #' @param newA An optional value for the spatial projection matrix using \çode{newW} and \code{curr_rho}
+  #' @param newLogdet An optional value for the log determinant corresponding to \code{newW} and \code{curr_rho}
+  #' @param newA An optional value for the spatial projection matrix using \code{newW} and \code{curr_rho}
   #' @param newAI An optional value for the matrix inverse of \code{newA}
   #'
   #' @export
@@ -161,8 +162,8 @@ rho_sampler = R6::R6Class("rho_sampler", list(
     }
     invisible(self)
   },
-  #' @param Y The \eqn{n} by \eqn{tt} vector of responses
-  #' @param mu The \eqn{n} by \eqn{tt} vector of means (usually \eqn{X\beta})
+  #' @param Y The \eqn{n} by \eqn{tt} matrix of responses
+  #' @param mu The \eqn{n} by \eqn{tt} matrix of means
   #' @param sigma The variance parameter \eqn{\sigma^2}
   #'
   #' @export
@@ -174,8 +175,8 @@ rho_sampler = R6::R6Class("rho_sampler", list(
     }
     invisible(self)
   },
-  #' @param Y The \eqn{n} by \eqn{tt} vector of responses
-  #' @param mu The \eqn{n} by \eqn{tt} vector of means (usually \eqn{X\beta})
+  #' @param Y The \eqn{n} by \eqn{tt} matrix of responses
+  #' @param mu The \eqn{n} by \eqn{tt} matrix of means
   #' @param sigma The variance parameter \eqn{\sigma^2}
   #'
   #' @export
@@ -202,8 +203,8 @@ rho_sampler = R6::R6Class("rho_sampler", list(
     }
     invisible(self)
   },
-  #' @param Y The \eqn{n} by \eqn{tt} vector of responses
-  #' @param mu The \eqn{n} by \eqn{tt} vector of means (usually \eqn{X\beta})
+  #' @param Y The \eqn{n} by \eqn{tt} matrix of responses
+  #' @param mu The \eqn{n} by \eqn{tt} matrix of means
   #' @param sigma The variance parameter \eqn{\sigma^2}
   #'
   #' @export
@@ -259,8 +260,8 @@ rho_sampler = R6::R6Class("rho_sampler", list(
 #'
 #' This class samples the spatial weight matrix. Use the function \link{W_priors} class for setup.
 #'
-#' The sampling procedure relied on binomial conditional posteriors and
-#' is outlined in Krisztin and Piribauer (2022).
+#' The sampling procedure relies on conditional Bernoulli posteriors outlined in
+#' Krisztin and Piribauer (2022).
 #'
 #' @field W_prior The current \code{\link{W_priors}}
 #' @field curr_w numeric, non-negative \eqn{n} by \eqn{n} spatial weight matrix with zeros
@@ -376,8 +377,8 @@ W_sampler = R6::R6Class("W_sampler", public = list(
   #' used for a consistent update. At least the new scalar value for \eqn{\rho} must be supplied.
   #'
   #' @param new_rho single, number; must be between -1 and 1.
-  #' @param newLogdet An optional value for the log determinant corresponding to \çode{newW} and \code{curr_rho}
-  #' @param newA An optional value for the spatial projection matrix using \çode{newW} and \code{curr_rho}
+  #' @param newLogdet An optional value for the log determinant corresponding to \code{newW} and \code{curr_rho}
+  #' @param newA An optional value for the spatial projection matrix using \code{newW} and \code{curr_rho}
   #' @param newAI An optional value for the matrix inverse of \code{newA}
   #'
   #' @export

@@ -16,7 +16,7 @@
 
 \item{cols}{Main colors to use for the plot}
 
-\item{breaks}{Breaks for the colours}
+\item{breaks}{Breaks for the colors}
 
 \item{\dots}{further arguments are passed on to be invoked}
 }

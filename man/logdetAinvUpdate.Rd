@@ -24,8 +24,8 @@ updated log determinant of \eqn{A}
 }
 \description{
 While updating elements of the spatial weight matrix in SAR and SDM type spatial models in a
-Gibbs sampler the log-determinant has to be also updated to obtain the correct posterior
-likelihood. For an efficient update, the Matrix Determinant Lemma and the Sherman-Morrison formula
+MCMC sampler the log-determinant has to be also updated.
+For an efficient update, the Matrix Determinant Lemma and the Sherman-Morrison formula
 are used.
 }
 \details{
@@ -33,14 +33,14 @@ Let \eqn{A = I - \rho W} be an invertible \eqn{n} by \eqn{n} matrix. \eqn{v} is 
 column vector of real numbers and \eqn{u} is a binary vector containing a single one and zeros otherwise.
 Then the Matrix Determinant Lemma states that:
 
-\deqn{A + uv'} = (1 + v'A^{-1}u)det(A).
+\deqn{A + uv' = (1 + v'A^{-1}u)det(A)}.
 
-This provides an update to the determinant, but clearly the inverse of \eqn{A} has to be updated as well.
-The Sherman-Morrison formula proves here useful:
+This provides an update to the determinant, but the inverse of \eqn{A} has to be updated as well.
+The Sherman-Morrison formula proves useful:
 
 \deqn{(A + uv')^{-1} = A^{-1} \frac{A^{-1}uv'A^{-1}}{1 + v'A^{-1}u}}.
 
-Using these two formulas an efficient update of the spatial projection matrix determinant can be achieved.
+Using these two formulas, an efficient update of the spatial projection matrix determinant can be achieved.
 }
 \references{
 Sherman, J., and Morrison, W. J. (1950) Adjustment of an inverse matrix corresponding to a

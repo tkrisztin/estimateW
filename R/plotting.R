@@ -5,7 +5,7 @@
 #'
 #' @param x \code{estimateW} object.
 #' @param cols Main colors to use for the plot
-#' @param breaks Breaks for the colours
+#' @param breaks Breaks for the colors
 #' @param \dots further arguments are passed on to be invoked
 #'
 #' @import plot.matrix

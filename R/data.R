@@ -19,7 +19,7 @@
 #' reported stringency index.
 #'
 #' @name covid
-#' @keywords covid, infections, covid drivers
+#' @keywords covid infections stringency
 #'
 #' @docType data
 #'

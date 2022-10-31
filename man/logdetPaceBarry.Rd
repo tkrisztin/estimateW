@@ -11,7 +11,7 @@ logdetPaceBarry(W, length.out = 200, rmin = -1, rmax = 1)
 with zeros on the main diagonal.}
 
 \item{length.out}{single, integer number, has to be at least 51 (due to order
-of approximation). Sets how fine scale the grid approximation is. Default
+of approximation). Sets how fine the grid approximation is. Default
 value is 200.}
 
 \item{rmin}{single number between -1 and 1. Sets the minimum range of the
@@ -30,8 +30,8 @@ numeric \code{length.out} by  \code{2} matrix; the first column
 \description{
 Bayesian estimates of parameters of SAR and SDM type spatial models require the computation
 of the log-determinant of positive-definite spatial projection matrices of the form
-\eqn{I - \rho W}, where \eqn{W} is a spatial weight matrix. Direct  computation of
-the log-determinant require too much time and memory.
+\eqn{I - \rho W}, where \eqn{W} is a spatial weight matrix. However, direct computation
+of the log-determinant is computationally very expensive.
 }
 \details{
 This function wraps the log-determinant approximation by Barry and Pace (1999), which

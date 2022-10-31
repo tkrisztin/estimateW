@@ -2,7 +2,7 @@
 % Please edit documentation in R/priors.R
 \name{sigma_priors}
 \alias{sigma_priors}
-\title{Prior Distributions for the error variance}
+\title{Set prior specifications for the error variance}
 \usage{
 sigma_priors(sigma_rate_prior = 0.1, sigma_shape_prior = 0.1)
 }
@@ -14,5 +14,5 @@ sigma_priors(sigma_rate_prior = 0.1, sigma_shape_prior = 0.1)
 This function allows the user to specify priors for the error variance \eqn{\sigma^2}.}
 }
 \description{
-Prior Distributions for the error variance
+Set prior specifications for the error variance
 }

@@ -52,6 +52,5 @@ Dong, E., Du, H., and Gardner, L. (2020). An interactive web-based dashboard to 
   \doi{10.1016/S1473-3099(20)30120-1}.
 }
 \keyword{covid}
-\keyword{covid,}
-\keyword{drivers}
-\keyword{infections,}
+\keyword{infections}
+\keyword{stringency}

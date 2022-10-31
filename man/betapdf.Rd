@@ -21,20 +21,18 @@ betapdf(rho, a = 1, b = 1, rmin = 0, rmax = 1)
 Density of the beta binomial distribution evaluated at \code{rho}.
 }
 \description{
-The Beta prior distribution for \eqn{\rho} introduced by LeSage and Parent
+The Beta prior distribution for \eqn{\rho} proposed by LeSage and Parent
 (2007) is the default prior for the spatial autoregressive parameter.
 }
 \details{
-The prior is specificed as:
+The prior is specified as:
 
 \deqn{ p(\rho) \sim \frac{1}{Beta(a,b)} \frac{(\rho - \underline{\rho}_{min})^{(a-1)} (\underline{\rho}_{max} - \rho)^{(b-1)} }{2^{a + b - 1}} }
 
 where \eqn{Beta(a, b)} (\eqn{a,b > 0}) represents the Beta function,
-\eqn{Beta(a, b)= \int_{0}^{1} t^{a-1} (1-t)^{d-1} dt}. This prior
-distribution takes the form of a relatively uniform distribution centered on
-a mean value of zero for the parameter \eqn{\rho}.
+\eqn{Beta(a, b)= \int_{0}^{1} t^{a-1} (1-t)^{d-1} dt}.
 }
 \references{
-LeSage, J. P., and Olivier, P. (2007) Bayesian model averaging for spatial econometric models.
+LeSage, J. P., and Parent, O. (2007) Bayesian model averaging for spatial econometric models.
  \emph{Geographical Analysis}, \bold{39(3)}, 241-267.
 }

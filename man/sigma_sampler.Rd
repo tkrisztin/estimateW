@@ -8,7 +8,8 @@
 An \code{\link{R6Class}} generator object
 }
 \description{
-This class samples slope coefficients with an inverse Gamma. Use the \link{sigma_priors} class for setup.
+This class samples nuisance parameter from an inverse Gamma distribution. Use the
+\link{sigma_priors} class for setup.
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -54,9 +55,9 @@ This class samples slope coefficients with an inverse Gamma. Use the \link{sigma
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{Y}}{The \eqn{n} by \eqn{1} vector of responses}
+\item{\code{Y}}{The \eqn{n} by \eqn{1} matrix of responses}
 
-\item{\code{mu}}{The \eqn{n} by \eqn{1} vector of means (classicaly \eqn{X\beta})}
+\item{\code{mu}}{The \eqn{n} by \eqn{1} matrix of means}
 }
 \if{html}{\out{</div>}}
 }

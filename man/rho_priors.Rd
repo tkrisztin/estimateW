@@ -2,11 +2,11 @@
 % Please edit documentation in R/priors.R
 \name{rho_priors}
 \alias{rho_priors}
-\title{Specify Prior Distributions for the spatial autoregressive coefficient}
+\title{Set prior specifications for the spatial autoregressive parameter}
 \usage{
 rho_priors(
-  rho_a_prior = 1.1,
-  rho_b_prior = 1.1,
+  rho_a_prior = 1,
+  rho_b_prior = 1,
   rho_min = 0,
   rho_max = 1,
   init_rho_scale = 1,
@@ -18,9 +18,9 @@ rho_priors(
 )
 }
 \arguments{
-\item{rho_a_prior}{Prior for the four-part beta ditribution}
+\item{rho_a_prior}{Single number prior for the four-parameter beta distribution \code{\link{betapdf}}. Defaults to 1.}
 
-\item{rho_b_prior}{Prior for the four-part beta ditribution}
+\item{rho_b_prior}{Single number prior for the four-parameter beta distribution \code{\link{betapdf}}. Defaults to 1.}
 
 \item{rho_min}{Minimum range of \eqn{\rho} (default: 0)}
 
@@ -28,7 +28,8 @@ rho_priors(
 
 \item{init_rho_scale}{For Metropolis-Hastings step the initial candidate variance (default: 1)}
 
-\item{griddy_n}{Number of griddy gibbs steps}
+\item{griddy_n}{single, integer number, Sets how fine the grid approximation is. Default
+value is 60}
 
 \item{use_griddy_gibbs}{Should griddy-Gibbs be used for \eqn{\rho} estimation?}
 
@@ -43,5 +44,5 @@ Does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{
 This function gives access to a larger set of prior distributions for \eqn{\rho} in case the default choice is unsatisfactory.}
 }
 \description{
-Specify Prior Distributions for the spatial autoregressive coefficient
+Set prior specifications for the spatial autoregressive parameter
 }

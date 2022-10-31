@@ -3,17 +3,17 @@
 \docType{class}
 \name{rho_sampler}
 \alias{rho_sampler}
-\title{An R6 class for sampling the spatial autoregressive coefficient \eqn{\rho}}
+\title{An R6 class for sampling the spatial autoregressive parameter \eqn{\rho}}
 \format{
 An \code{\link{R6Class}} generator object
 }
 \description{
-An R6 class for sampling the spatial autoregressive coefficient \eqn{\rho}
+An R6 class for sampling the spatial autoregressive parameter \eqn{\rho}
 
-An R6 class for sampling the spatial autoregressive coefficient \eqn{\rho}
+An R6 class for sampling the spatial autoregressive parameter \eqn{\rho}
 }
 \details{
-This class samples the spatial autoregressive coefficient using either a Metropolis-Hastings
+This class samples the spatial autoregressive parameter using either a Metropolis-Hastings
 or a griddy Gibbs step. Use the \code{\link{rho_priors}} class for setup.
 
 For the Griddy-Gibbs algorithm see Ritter and Tanner (1992).
@@ -98,9 +98,9 @@ Call this function to turn it off.
 \describe{
 \item{\code{newW}}{The updated spatial weight matrix \eqn{W}}
 
-\item{\code{newLogdet}}{An optional value for the log determinant corresponding to \çode{newW} and \code{curr_rho}}
+\item{\code{newLogdet}}{An optional value for the log determinant corresponding to \code{newW} and \code{curr_rho}}
 
-\item{\code{newA}}{An optional value for the spatial projection matrix using \çode{newW} and \code{curr_rho}}
+\item{\code{newA}}{An optional value for the spatial projection matrix using \code{newW} and \code{curr_rho}}
 
 \item{\code{newAI}}{An optional value for the matrix inverse of \code{newA}}
 }
@@ -118,9 +118,9 @@ Call this function to turn it off.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{Y}}{The \eqn{n} by \eqn{tt} vector of responses}
+\item{\code{Y}}{The \eqn{n} by \eqn{tt} matrix of responses}
 
-\item{\code{mu}}{The \eqn{n} by \eqn{tt} vector of means (usually \eqn{X\beta})}
+\item{\code{mu}}{The \eqn{n} by \eqn{tt} matrix of means}
 
 \item{\code{sigma}}{The variance parameter \eqn{\sigma^2}}
 }
@@ -138,9 +138,9 @@ Call this function to turn it off.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{Y}}{The \eqn{n} by \eqn{tt} vector of responses}
+\item{\code{Y}}{The \eqn{n} by \eqn{tt} matrix of responses}
 
-\item{\code{mu}}{The \eqn{n} by \eqn{tt} vector of means (usually \eqn{X\beta})}
+\item{\code{mu}}{The \eqn{n} by \eqn{tt} matrix of means}
 
 \item{\code{sigma}}{The variance parameter \eqn{\sigma^2}}
 }
@@ -158,9 +158,9 @@ Call this function to turn it off.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{Y}}{The \eqn{n} by \eqn{tt} vector of responses}
+\item{\code{Y}}{The \eqn{n} by \eqn{tt} matrix of responses}
 
-\item{\code{mu}}{The \eqn{n} by \eqn{tt} vector of means (usually \eqn{X\beta})}
+\item{\code{mu}}{The \eqn{n} by \eqn{tt} matrix of means}
 
 \item{\code{sigma}}{The variance parameter \eqn{\sigma^2}}
 }

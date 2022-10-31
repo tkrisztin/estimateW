@@ -2,12 +2,12 @@
 % Please edit documentation in R/priors.R
 \name{W_priors}
 \alias{W_priors}
-\title{Specify Prior Distributions for the spatial weight matrix}
+\title{Set prior specifications for the spatial weight matrix}
 \usage{
 W_priors(
   n,
   W_prior = matrix(0.5, n, n),
-  symmetric_prior = TRUE,
+  symmetric_prior = FALSE,
   row_standardized_prior = TRUE,
   bbinom_a_prior = 1,
   bbinom_b_prior = 1,
@@ -19,9 +19,9 @@ W_priors(
 \arguments{
 \item{n}{The number of observations}
 
-\item{W_prior}{An \eqn{n x n} matrix of priors for \eqn{W}}
+\item{W_prior}{An \eqn{n} by \eqn{n} matrix of priors for \eqn{W}}
 
-\item{symmetric_prior}{Should the estimated \eqn{W} matrix be symmetric (default: TRUE)}
+\item{symmetric_prior}{Should the estimated \eqn{W} matrix be symmetric (default: FALSE)}
 
 \item{row_standardized_prior}{Should the estimated \eqn{W} matrix be row-standardized (default: TRUE)}
 
@@ -31,12 +31,13 @@ W_priors(
 
 \item{use_bbinom_prior}{Should sparsity priors be used? (default: TRUE)}
 
-\item{min_neighbors}{Minimum number of a priori neighbours (default: 0)}
+\item{min_neighbors}{Minimum number of a priori neighbors (default: 0)}
 
-\item{max_neighbors}{Maximum number of a priori neighbours (default: n-1)
+\item{max_neighbors}{Maximum number of a priori neighbors (default: n-1)
 
-This function gives access to a larger set of prior distributions in case the default choice is unsatisfactory.}
+This function gives access to a larger set of prior specification in case the default choice is
+unsatisfactory.}
 }
 \description{
-Specify Prior Distributions for the spatial weight matrix
+Set prior specifications for the spatial weight matrix
 }

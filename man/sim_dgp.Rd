@@ -23,15 +23,18 @@ sim_dgp(
 
 \item{rho}{The true rho parameter}
 
-\item{beta1}{The \eqn{k_1 x 1} vector of true \eqn{\beta_1}}
+\item{beta1}{Numeric vector of length \eqn{k_1} vector. Provides the values for \eqn{\beta_1} Defaults
+to \code{c()}.}
 
-\item{beta2}{The \eqn{k_1 x 1} vector of true \eqn{\beta_2} (with \eqn{k_1 = k_2})}
+\item{beta2}{Numeric vector of length \eqn{k_1} vector. Provides the values for \eqn{\beta_2} Defaults
+to \code{c()}.}
 
-\item{beta3}{The \eqn{k_3 x 1} vector of true \eqn{\beta_3}}
+\item{beta3}{Numeric vector of length \eqn{k_3} vector. Provides the values for \eqn{\beta_3} Defaults
+to \code{c()}.}
 
 \item{sigma2}{The true \eqn{\sigma^2} parameter}
 
-\item{n_neighbor}{Number of neighbours for the \eqn{W} matrix}
+\item{n_neighbor}{Number of neighbors for the \eqn{W} matrix}
 
 \item{do_symmetric}{Should the generated \eqn{W} matrix be symmetric? (default: FALSE)}
 }
@@ -39,7 +42,7 @@ sim_dgp(
 A list with the generated \eqn{X}, \eqn{Y} and \eqn{W} and a list of parameters.
 }
 \description{
-The model takes the form \eqn{Y = \rho W Y + X \beta_1 + W X \beta_2 + Z \beta_3 +  \epsilon}, with \eqn{\epsilon \sim N(0,\sigma^2)}
+The model takes the form \eqn{Y = \rho W Y + X \beta_1 + W X \beta_2 + Z \beta_3 +  \epsilon}, with \eqn{\epsilon \sim N(0,I\sigma^2)}
 }
 \examples{
 # SDM data generating process

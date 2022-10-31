@@ -3,7 +3,7 @@
 \docType{class}
 \name{beta_sampler}
 \alias{beta_sampler}
-\title{An R6 class for sampling for sampling slope coefficients}
+\title{An R6 class for sampling slope parameters}
 \format{
 An \code{\link{R6Class}} generator object
 }
@@ -54,7 +54,7 @@ This class samples slope coefficients with a Gaussian prior. Use the \link{beta_
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{Y}}{The \eqn{n} by \eqn{1} vector of responses}
+\item{\code{Y}}{The \eqn{n} by \eqn{1} matrix of responses}
 
 \item{\code{X}}{The \eqn{n} by \eqn{k} design matrix}
 

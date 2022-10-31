@@ -1,18 +1,20 @@
 
-#' A sampler for estimating the W matrix in a SDM type model
+#' A sampler for estimating the W matrix in an SLX type model
 #'
-#' The model takes the form \eqn{Y = X \beta_1 + f(\Omega)X \beta_2 + Z \beta_3 +  \epsilon}, with \eqn{\epsilon \sim N(0,\sigma^2)}
+#' The model takes the form \eqn{Y = X \beta_1 + f(\Omega)X \beta_2 + Z \beta_3 +  \epsilon}, with \eqn{\epsilon \sim N(0,I\sigma^2)}
 #'
 #' @inheritParams sdmw
 #'
-#' @return List with posterior samples for \eqn{\beta}, \eqn{\sigma^2}, \eqn{w}.
+#' @return List with posterior samples for \eqn{\beta_1}, \eqn{\beta_2}, \eqn{\beta_3}, and \eqn{\sigma^2}.
 #' @export slxw
 #'
 #' @examples
+#' set.seed(123)
 #' n = 20; tt = 10
-#' dgp_dat = sim_dgp(n =20, tt = 10, rho = 0,beta1 = c(1,-1),
+#' dgp_dat = sim_dgp(n = 20, tt = 10, rho = 0, beta1 = c(1,-1),
 #'                   beta2 = c(0,.5), beta3 = c(.2), sigma2 = .5)
-#' res = slxw(Y = dgp_dat$Y,tt = tt,X = dgp_dat$X,Z = dgp_dat$Z,niter = 20,nretain = 10)
+#' res = slxw(Y = dgp_dat$Y, tt = tt, X = dgp_dat$X, Z = dgp_dat$Z,
+#'                   niter = 20, nretain = 10)
 slxw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter = 1000, nretain = 250,
                  W_prior = W_priors(n = nrow(Y)/tt),
                  beta_prior = beta_priors(k = ncol(X)*2 + ncol(Z)),sigma_prior = sigma_priors()) {
