@@ -51,7 +51,6 @@ or using the function \code{set_rho}.}
 \item \href{#method-W_sampler-new}{\code{W_sampler$new()}}
 \item \href{#method-W_sampler-set_rho}{\code{W_sampler$set_rho()}}
 \item \href{#method-W_sampler-sample}{\code{W_sampler$sample()}}
-\item \href{#method-W_sampler-clone}{\code{W_sampler$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -118,23 +117,6 @@ used for a consistent update. At least the new scalar value for \eqn{\rho} must 
 
 \item{\code{lag_mu}}{\eqn{n} by \eqn{tt} matrix of means that will be spatially lagged with
 the estimated \eqn{W}. Defaults to a matrix with zero elements.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-W_sampler-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-W_sampler-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{W_sampler$clone(deep = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
 }
 \if{html}{\out{</div>}}
 }

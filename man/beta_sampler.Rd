@@ -24,7 +24,6 @@ This class samples slope coefficients with a Gaussian prior. Use the \link{beta_
 \itemize{
 \item \href{#method-beta_sampler-new}{\code{beta_sampler$new()}}
 \item \href{#method-beta_sampler-sample}{\code{beta_sampler$sample()}}
-\item \href{#method-beta_sampler-clone}{\code{beta_sampler$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -59,23 +58,6 @@ This class samples slope coefficients with a Gaussian prior. Use the \link{beta_
 \item{\code{X}}{The \eqn{n} by \eqn{k} design matrix}
 
 \item{\code{curr_sigma}}{The variance parameter \eqn{\sigma^2}}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-beta_sampler-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-beta_sampler-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{beta_sampler$clone(deep = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
 }
 \if{html}{\out{</div>}}
 }

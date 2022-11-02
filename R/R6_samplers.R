@@ -9,7 +9,7 @@
 #' @importFrom R6 R6Class
 #' @export
 #' @format An \code{\link{R6Class}} generator object
-beta_sampler = R6::R6Class("beta_sampler", list(
+beta_sampler = R6::R6Class("beta_sampler",cloneable = FALSE, public = list(
   beta_prior = NULL,
   curr_beta = NULL,
   #' @param beta_prior The list returned by \code{\link{beta_priors}}
@@ -49,7 +49,7 @@ beta_sampler = R6::R6Class("beta_sampler", list(
 #' @importFrom R6 R6Class
 #' @export
 #' @format An \code{\link{R6Class}} generator object
-sigma_sampler = R6::R6Class("sigma_sampler", list(
+sigma_sampler = R6::R6Class("sigma_sampler", cloneable = FALSE, public = list(
   sigma_prior = NULL,
   curr_sigma = NULL,
   #' @param sigma_prior The list returned by \code{\link{sigma_priors}}
@@ -99,7 +99,7 @@ sigma_sampler = R6::R6Class("sigma_sampler", list(
 #'  Ritter, C., and Tanner, M. A. (1992). Facilitating the Gibbs sampler: The Gibbs stopper
 #'  and the griddy-Gibbs sampler. \emph{Journal of the American Statistical Association},
 #'  \bold{87(419)}, 861-868.
-rho_sampler = R6::R6Class("rho_sampler", list(
+rho_sampler = R6::R6Class("rho_sampler", cloneable = FALSE, public = list(
   rho_prior = NULL,
   curr_rho = NULL,
   curr_W = NULL,
@@ -283,7 +283,7 @@ rho_sampler = R6::R6Class("rho_sampler", list(
 #' @references
 #'  Krisztin, T., and Piribauer, P. (2022) A Bayesian approach for the estimation
 #'  of weight matrices in spatial autoregressive models. \emph{Spatial Economic Analysis}, 1-20.
-W_sampler = R6::R6Class("W_sampler", public = list(
+W_sampler = R6::R6Class("W_sampler", cloneable = FALSE, public =list(
   W_prior = NULL,
   curr_w = NULL,
   curr_W = NULL,

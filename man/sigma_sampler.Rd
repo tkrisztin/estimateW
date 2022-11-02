@@ -25,7 +25,6 @@ This class samples nuisance parameter from an inverse Gamma distribution. Use th
 \itemize{
 \item \href{#method-sigma_sampler-new}{\code{sigma_sampler$new()}}
 \item \href{#method-sigma_sampler-sample}{\code{sigma_sampler$sample()}}
-\item \href{#method-sigma_sampler-clone}{\code{sigma_sampler$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -58,23 +57,6 @@ This class samples nuisance parameter from an inverse Gamma distribution. Use th
 \item{\code{Y}}{The \eqn{n} by \eqn{1} matrix of responses}
 
 \item{\code{mu}}{The \eqn{n} by \eqn{1} matrix of means}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-sigma_sampler-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-sigma_sampler-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{sigma_sampler$clone(deep = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
 }
 \if{html}{\out{</div>}}
 }

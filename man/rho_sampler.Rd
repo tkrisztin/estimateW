@@ -52,7 +52,6 @@ Ritter, C., and Tanner, M. A. (1992). Facilitating the Gibbs sampler: The Gibbs 
 \item \href{#method-rho_sampler-sample}{\code{rho_sampler$sample()}}
 \item \href{#method-rho_sampler-sample_Griddy}{\code{rho_sampler$sample_Griddy()}}
 \item \href{#method-rho_sampler-sample_MH}{\code{rho_sampler$sample_MH()}}
-\item \href{#method-rho_sampler-clone}{\code{rho_sampler$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
@@ -163,23 +162,6 @@ Call this function to turn it off.
 \item{\code{mu}}{The \eqn{n} by \eqn{tt} matrix of means}
 
 \item{\code{sigma}}{The variance parameter \eqn{\sigma^2}}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rho_sampler-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-rho_sampler-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{rho_sampler$clone(deep = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
 }
 \if{html}{\out{</div>}}
 }
