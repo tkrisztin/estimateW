@@ -33,6 +33,8 @@ W_priors = function(n,
 
 #' Set prior specifications for the spatial autoregressive parameter
 #'
+#' This function gives access to a larger set of prior distributions for \eqn{\rho} in case the default choice is unsatisfactory.
+#'
 #' @param rho_a_prior Single number prior for the four-parameter beta distribution \code{\link{betapdf}}. Defaults to 1.
 #' @param rho_b_prior Single number prior for the four-parameter beta distribution \code{\link{betapdf}}. Defaults to 1.
 #' @param rho_min Minimum range of \eqn{\rho} (default: 0)
@@ -41,13 +43,12 @@ W_priors = function(n,
 #' @param griddy_n single, integer number, Sets how fine the grid approximation is. Default
 #'   value is 60
 #' @param use_griddy_gibbs Should griddy-Gibbs be used for \eqn{\rho} estimation?
+#' Does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification.
+#' Main advantage is that less draws are required for \eqn{\rho}
+#'
 #' @param mh_tune_low Lower bound for Metropolis-Hastings tuning
 #' @param mh_tune_high Upper bound for Metropolis-Hastings tuning
 #' @param mh_tune_scale Scaling factor for Metropolis-Hastings tuning
-#'
-#' Does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification. Main advantage is that less draws are required for \eqn{\rho}
-#'
-#' This function gives access to a larger set of prior distributions for \eqn{\rho} in case the default choice is unsatisfactory.
 #'
 #' @export
 rho_priors = function(rho_a_prior = 1, rho_b_prior = 1,
