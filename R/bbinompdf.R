@@ -36,7 +36,7 @@
 #'
 #' @export bbinompdf
 #'
-#' @return Resulting prior density of evaluated at \code{x}.
+#' @return Resulting prior density evaluated at \code{x}.
 #'
 #' @references
 #'   Ley, E., & Steel, M. F. (2009). On the effect of prior assumptions in Bayesian

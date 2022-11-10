@@ -21,7 +21,7 @@ betapdf(rho, a = 1, b = 1, rmin = 0, rmax = 1)
 Density of the beta binomial distribution evaluated at \code{rho}.
 }
 \description{
-The Beta prior distribution for \eqn{\rho} proposed by LeSage and Parent
+The four-parameter Beta prior distribution for \eqn{\rho} proposed by LeSage and Parent
 (2007) is the default prior for the spatial autoregressive parameter.
 }
 \details{
