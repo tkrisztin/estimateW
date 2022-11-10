@@ -1,6 +1,6 @@
 #' The four-parameter Beta distribution probability density function
 #'
-#' The Beta prior distribution for \eqn{\rho} proposed by LeSage and Parent
+#' The four-parameter Beta prior distribution for \eqn{\rho} proposed by LeSage and Parent
 #' (2007) is the default prior for the spatial autoregressive parameter.
 #'
 #' The prior is specified as:
