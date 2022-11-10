@@ -31,18 +31,16 @@ rho_priors(
 \item{griddy_n}{single, integer number, Sets how fine the grid approximation is. Default
 value is 60}
 
-\item{use_griddy_gibbs}{Should griddy-Gibbs be used for \eqn{\rho} estimation?}
+\item{use_griddy_gibbs}{Should griddy-Gibbs be used for \eqn{\rho} estimation?
+Does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification.
+Main advantage is that less draws are required for \eqn{\rho}}
 
 \item{mh_tune_low}{Lower bound for Metropolis-Hastings tuning}
 
 \item{mh_tune_high}{Upper bound for Metropolis-Hastings tuning}
 
-\item{mh_tune_scale}{Scaling factor for Metropolis-Hastings tuning
-
-Does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification. Main advantage is that less draws are required for \eqn{\rho}
-
-This function gives access to a larger set of prior distributions for \eqn{\rho} in case the default choice is unsatisfactory.}
+\item{mh_tune_scale}{Scaling factor for Metropolis-Hastings tuning}
 }
 \description{
-Set prior specifications for the spatial autoregressive parameter
+This function gives access to a larger set of prior distributions for \eqn{\rho} in case the default choice is unsatisfactory.
 }

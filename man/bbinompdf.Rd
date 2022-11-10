@@ -20,20 +20,19 @@ bbinompdf(x, nsize, a, b, min_k = 0, max_k = nsize)
 \item{max_k}{Maximum prior number of neighbors (defaults to nsize)}
 }
 \value{
-Resulting prior density of evaluated at \code{x}.
+Prior density evaluated at \code{x}.
 }
 \description{
 A hierarchical prior setup can be used in \code{\link{W_priors}} to anchor the prior
 number of expected neighbors. Assuming a \emph{fixed} prior inclusion \eqn{\underline{p}=1/2}
-for the off-diagonal entries in the binary adjacency matrix \eqn{\Omega} implies that the number
-of neighbors (i.e. the row sum of \eqn{\Omega}) follows a Binomial distribution with a prior
-expected number of neighbors of \eqn{(N-1)\underline{p}}. However, such a prior structure has the
-potential undesirable effect of promoting a relatively large number of neighbours. To put
-more prior weight on parsimonious neighborhood structures and promote sparsity in \eqn{\Omega},
+for the off-diagonal entries in the binary \eqn{N} by \eqn{N} adjacency matrix \eqn{\Omega} implies
+that the number of neighbors (i.e. the row sum of \eqn{\Omega}) follows a Binomial distribution
+with a prior expected number of neighbors of \eqn{(N-1)\underline{p}}. However, such a prior
+structure has the potential undesirable effect of promoting a relatively large number of neighbours.
+To put more prior weight on parsimonious neighborhood structures and promote sparsity in \eqn{\Omega},
 the beta binomial prior accounts for the number of neighbors in each row of \eqn{\Omega}.
 }
 \details{
-### TODO: REWRITE
 The beta-binomial distribution is the result of treating the prior inclusion probability \eqn{\underline{p}}
 as random (rather than being fixed) by placing a hierarchical beta prior on it.
 The resulting prior on \eqn{\omega_{ij}} can be written as:
