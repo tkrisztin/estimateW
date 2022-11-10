@@ -1,7 +1,7 @@
 #' A sampler for estimating the W matrix in a SAR type model
 #'
 #' ### TODO
-#' The model takes the form \eqn{Y = \rho f(\Omega)Y + Z \beta +  \epsilon}, with \eqn{\epsilon \sim N(0,I \sigma^2)}
+#' The model takes the form \eqn{Y = \rho f(\Omega)Y + Z \beta_3 +  \epsilon}, with \eqn{\epsilon \sim N(0,I \sigma^2)}
 #'
 #' This is a wrapper function calling \code{\link{sdmw}} with no spatially lagged dependent variables.
 #'

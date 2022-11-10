@@ -48,7 +48,7 @@ List with posterior samples for \eqn{\rho}, \eqn{\beta}, \eqn{\sigma^2}, \eqn{w}
 }
 \description{
 ### TODO
-The model takes the form \eqn{Y = \rho f(\Omega)Y + Z \beta +  \epsilon}, with \eqn{\epsilon \sim N(0,I \sigma^2)}
+The model takes the form \eqn{Y = \rho f(\Omega)Y + Z \beta_3 +  \epsilon}, with \eqn{\epsilon \sim N(0,I \sigma^2)}
 }
 \details{
 This is a wrapper function calling \code{\link{sdmw}} with no spatially lagged dependent variables.
