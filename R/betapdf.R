@@ -13,8 +13,8 @@
 #' @param rho The scalar value for \eqn{\rho}
 #' @param a The first shape parameter of the Beta distribution
 #' @param b The second shape parameter of the Beta distribution
-#' @param rmin Scalar \eqn{\rho_{min}}: the minimum allowed value of \eqn{\rho}
-#' @param rmax Scalar \eqn{\rho_{max}}: the maximum allowed value of \eqn{\rho}
+#' @param rmin Scalar \eqn{\rho_{min}}: the minimum value of \eqn{\rho}
+#' @param rmax Scalar \eqn{\rho_{max}}: the maximum value of \eqn{\rho}
 #'
 #' @return Density of the beta binomial distribution evaluated at \code{rho}.
 #'

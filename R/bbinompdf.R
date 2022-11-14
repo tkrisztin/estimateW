@@ -11,7 +11,8 @@
 #'
 #' The beta-binomial distribution is the result of treating the prior inclusion probability \eqn{\underline{p}}
 #' as random (rather than being fixed) by placing a hierarchical beta prior on it.
-#' The resulting prior on the elements of \eqn{\Omega}, \eqn{\omega_{ij}}, can be written as:
+#' For the number of neighbors \code{x}, the resulting prior on the elements of \eqn{\Omega}, \eqn{\omega_{ij}},
+#' can be written as:
 #'
 #'  \deqn{
 #'  p(\omega_{ij} = 1 | x)\propto \Gamma\left(a+ x \right)\Gamma\left(b+(n-1)-x\right),

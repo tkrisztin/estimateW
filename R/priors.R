@@ -1,16 +1,18 @@
 
 
-#' Set prior specifications for the spatial weight matrix
+#' Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},
+#' where \eqn{Omega} is an \eqn{n} by \eqn{n} unknown binary adjacency matrix (with zeros on the
+#' main diagonal), and \eqn{f()} denotes the (optional) row-standardization function
 #'
-#' @param n The number of observations
+#' @param n The number of spatial observations
 #' @param W_prior An \eqn{n} by \eqn{n} matrix of priors for \eqn{W}
-#' @param symmetric_prior Should the estimated \eqn{W} matrix be symmetric (default: FALSE)
+#' @param symmetric_prior Should the estimated adjacency matrix \eqn{\Omega} be symmetric (default: FALSE)
 #' @param row_standardized_prior Should the estimated \eqn{W} matrix be row-standardized (default: TRUE)
-#' @param bbinom_a_prior Parameter a of sparsity prior
-#' @param bbinom_b_prior Parameter a of sparsity prior
-#' @param use_bbinom_prior Should sparsity priors be used? (default: TRUE)
-#' @param min_neighbors Minimum number of a priori neighbors (default: 0)
-#' @param max_neighbors Maximum number of a priori neighbors (default: n-1)
+#' @param bbinom_a_prior Parameter a of sparsity prior (used if \code{use_bbinom_prior==TRUE})
+#' @param bbinom_b_prior Parameter a of sparsity prior (used if \code{use_bbinom_prior==TRUE})
+#' @param use_bbinom_prior Should hierarchical sparsity prior specifications be used? (default: TRUE)
+#' @param min_neighbors Minimum number of neighbors (default: 0)
+#' @param max_neighbors Maximum number of neighbors (default: n-1)
 #'
 #' This function gives access to a larger set of prior specification in case the default choice is
 #' unsatisfactory.
@@ -31,9 +33,9 @@ W_priors = function(n,
               use_reject_prior = use_reject_prior))
 }
 
-#' Set prior specifications for the spatial autoregressive parameter
+#' Specify prior for the spatial autoregressive parameter and sampling settings
 #'
-#' This function gives access to a larger set of prior distributions for \eqn{\rho} in case the default choice is unsatisfactory.
+#' Specify prior for the spatial autoregressive parameter and sampling settings
 #'
 #' @param rho_a_prior Single number prior for the four-parameter beta distribution \code{\link{betapdf}}. Defaults to 1.
 #' @param rho_b_prior Single number prior for the four-parameter beta distribution \code{\link{betapdf}}. Defaults to 1.
@@ -46,9 +48,12 @@ W_priors = function(n,
 #' Does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification.
 #' Main advantage is that less draws are required for \eqn{\rho}
 #'
-#' @param mh_tune_low Lower bound for Metropolis-Hastings tuning
-#' @param mh_tune_high Upper bound for Metropolis-Hastings tuning
+#' @param mh_tune_low Lower bound of acceptance rate for Metropolis-Hastings tuning
+#' (used if \code{use_griddy_gibbs==FALSE})
+#' @param mh_tune_high Upper bound of acceptance rate for Metropolis-Hastings tuning
+#' (used if \code{use_griddy_gibbs==FALSE})
 #' @param mh_tune_scale Scaling factor for Metropolis-Hastings tuning
+#' (used if \code{use_griddy_gibbs==FALSE})
 #'
 #' @export
 rho_priors = function(rho_a_prior = 1, rho_b_prior = 1,
@@ -65,16 +70,16 @@ rho_priors = function(rho_a_prior = 1, rho_b_prior = 1,
 
 #' Set prior specifications for the slope parameters
 #'
-#' This function allows the user to specify custom values for Gaussian priors on the slope coefficients.
+#' This function allows the user to specify custom values for Gaussian priors on the slope parameters.
 #'
-#' For the slope parameters \eqn{\beta} the package uses the common Normal
-#' prior specification. Specifically,  \eqn{p(\beta)\sim\mathcal{N}(\underline{\mu}_\beta,\underline{V}_\beta)}.
+#' For the slope parameters \eqn{\beta} the package uses common Normal
+#' prior specifications. Specifically,  \eqn{p(\beta)\sim\mathcal{N}(\underline{\mu}_\beta,\underline{V}_\beta)}.
 #'
 #' This function allows the user to specify custom values for the prior hyperparameters \eqn{\underline{\mu}_\beta}
 #' and \eqn{\underline{V}_\beta}. The default values correspond to weakly informative Gaussian priors with mean
-#' zero and a diagonal prior variance-covariance matrix with \eqn{10} on the main diagonal.
+#' zero and a diagonal prior variance-covariance matrix with \eqn{100} on the main diagonal.
 #'
-#' @param k The total number of coefficients in the model.
+#' @param k The total number of slope parameters in the model.
 #' @param beta_mean_prior numeric \eqn{k} by \eqn{1} matrix of prior means \eqn{\underline{\mu}_\beta}.
 #' @param beta_var_prior A \eqn{k} by \eqn{k} matrix of prior variances \eqn{\underline{V}_\beta}. Defaults to a
 #' diagonal matrix with \code{100} on the main diagonal.
@@ -92,7 +97,7 @@ beta_priors = function(k,
               beta_var_prior_inv = beta_var_prior_inv))
 }
 
-#' Set prior specifications for the error variance
+#' Set prior specification for the error variance using a inverse Gamma distribution
 #'
 #' @param sigma_rate_prior Sigma rate prior parameter (scalar), default: \eqn{.1}
 #' @param sigma_shape_prior Sigma shape prior parameter (scalar), default: \eqn{.1}
