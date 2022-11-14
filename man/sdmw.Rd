@@ -2,7 +2,7 @@
 % Please edit documentation in R/sdmw.R
 \name{sdmw}
 \alias{sdmw}
-\title{A Markov Chain Monte Carlo (MCMC) sampler for estimating the W matrix in a SDM type model}
+\title{A Markov Chain Monte Carlo (MCMC) sampler for estimating the W matrix in a panel spatial Durbin (SDM) model}
 \usage{
 sdmw(
   Y,

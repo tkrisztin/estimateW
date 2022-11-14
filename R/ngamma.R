@@ -273,11 +273,11 @@ sdm <- function(Y, tt, W, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter
 #' matrix \eqn{W} is non-negative and has zeros on the main diagonal.
 #'
 #' \eqn{Y_t} (\eqn{n \times 1}) collects the \eqn{n} cross-sectional (spatial) observations for time
-#' \eqn{t=1,...,T}. \eqn{Z_t} (\eqn{n \times k}) is a matrix of explanatory variables.
+#' \eqn{t=1,...,T}. \eqn{Z_t} (\eqn{n \times k_3}) is a matrix of explanatory variables.
 #' \eqn{\beta} (\eqn{k \times 1}) is an unknown slope parameter matrix.
 #'
 #' After vertically staking the \eqn{T} cross-sections  \eqn{Y=[Y_1',...,Y_T']'} (\eqn{N \times 1}),
-#' \eqn{X=[Z_1',...,Z_T']'} (\eqn{N \times k_1}), with \eqn{N=nT}, the final model can be expressed as:
+#' \eqn{Z=[Z_1',...,Z_T']'} (\eqn{N \times k_3}), with \eqn{N=nT}, the final model can be expressed as:
 #'
 #' \deqn{
 #'  Y = \rho \tilde{W}Y + X \beta + \varepsilon,
