@@ -3,35 +3,32 @@
 
 
 
-#' A Markov Chain Monte Carlo (MCMC) sampler for a linear panel model with independent Normal-Gamma priors
+#' A Markov Chain Monte Carlo (MCMC) sampler for a linear panel model
 #'
-#' The sampler uses independent Normal-Gamma priors to estimate a linear panel data model. The function is
-#' used for an illustration on using the \code{\link{beta_sampler}} and \code{\link{sigma_sampler}}
-#' classes.
+#' The sampler uses independent Normal-inverse-Gamma priors to estimate a linear panel data model. The function is
+#' used for an illustration on using the \code{\link{beta_sampler}} and \code{\link{sigma_sampler}} classes.
 #'
-#' #' The considered model takes the form:
+#' The considered model takes the form:
 #'
 #' \deqn{
-#'  Y_t = X_t \beta_1 + Z \beta_2 + \varepsilon_t,
+#'  Y_t = X_t \beta \varepsilon_t,
 #'  }
 #'
 #' with \eqn{\varepsilon_t \sim N(0,I_n \sigma^2)}.
 #'
 #' \eqn{Y_t} (\eqn{n \times 1}) collects the \eqn{n} cross-sectional observations for time
-#' \eqn{t=1,...,T}. \eqn{X_t} (\eqn{n \times k_1}) and \eqn{Z_t} (\eqn{n \times k_2}) are
-#' matrices of explanatory variables. \eqn{\beta_1} (\eqn{k_1 \times 1}) and \eqn{\beta_2} (\eqn{k_1 \times 1})
-#' are unknown slope parameter vectors.
+#' \eqn{t=1,...,T}. \eqn{X_t} (\eqn{n \times k}) is a matrix of explanatory variables.
+#' \eqn{\beta_1} (\eqn{k \times 1}) is an unknown slope parameter matrix.
 #'
 #' After vertically staking the \eqn{T} cross-sections  \eqn{Y=[Y_1',...,Y_T']'} (\eqn{N \times 1}),
-#' \eqn{X=[X_1',...,X_T']'} (\eqn{N \times k_1}) and \eqn{Z=[Z_1', ..., Z_T']'} (\eqn{N \times k_2}),
-#' with \eqn{N=nT}. The final model can be expressed as:
+#' \eqn{X=[X_1',...,X_T']'} (\eqn{N \times k}), with \eqn{N=nT}, the final model can be expressed as:
 #'
 #' \deqn{
-#'  Y = X \beta_1 + Z \beta_2 + \varepsilon,
+#'  Y = X \beta + \varepsilon,
 #' }
 #'
 #' where \eqn{\varepsilon \sim N(0,I_N \sigma^2)}. Note that the input
-#' data matrices have to be ordered first by the cross-sectional units and then stacked by time.
+#' data matrices have to be ordered first by the cross-sectional (spatial) units and then stacked by time.
 #'
 #' @param Y numeric \eqn{N \times 1} matrix containing the dependent variables, where \eqn{N} is the number of
 #' spatial (\eqn{n}) times time observations (\eqn{tt=T}). Note that the observations have to be ordered first by
@@ -97,12 +94,38 @@ normalgamma <- function(Y, tt, X = matrix(1,nrow(Y),1), niter = 1000, nretain = 
   return(ret)
 }
 
-#' A Markov Chain Monte Carlo (MCMC) sampler for the panel Spatial Durbin Model (SDM) with exogenous spatial weight matrix.
+#' A Markov Chain Monte Carlo (MCMC) sampler for the panel spatial Durbin model (SDM) with exogenous spatial weight matrix.
 #'
-#' The sampler uses independent an Normal-Gamma prior for the slope and variance parameters,
-#' as well as the four-parameter prior for the spatial autoregressive parameter. The function is
+#' The sampler uses independent an Normal-inverse-Gamma priors for the slope and variance parameters,
+#' as well as the four-parameter prior for the spatial autoregressive parameter \eqn{\rho}. The function is
 #' used as an illustration on using the \code{\link{beta_sampler}}, \code{\link{sigma_sampler}},
 #' and \code{\link{rho_sampler}} classes.
+#'
+#' The considered panel spatial Durbin model (SDM) takes the form:
+#'
+#' \deqn{
+#'  Y_t = \rho W Y_t + X_t \beta_1 + W X_t \beta_2 + Z \beta_3 + \varepsilon_t,
+#'  }
+#'
+#' with \eqn{\varepsilon_t \sim N(0,I_n \sigma^2)}. The row-stochastic \eqn{n} by \eqn{n} spatial weight
+#' matrix \eqn{W} is non-negative and has zeros on the main diagonal.
+#'
+#' \eqn{Y_t} (\eqn{n \times 1}) collects the \eqn{n} cross-sectional (spatial) observations for time
+#' \eqn{t=1,...,T}. \eqn{X_t} (\eqn{n \times k_1}) and \eqn{Z_t} (\eqn{n \times k_2}) are
+#' matrices of explanatory variables, where the former will also be spatially lagged. \eqn{\beta_1}
+#' (\eqn{k_1 \times 1}), \eqn{\beta_2} (\eqn{k_1 \times 1}) and \eqn{\beta_3} (\eqn{k_2 \times 1})
+#' are unknown slope parameter vectors.
+#'
+#' After vertically staking the \eqn{T} cross-sections  \eqn{Y=[Y_1',...,Y_T']'} (\eqn{N \times 1}),
+#' \eqn{X=[X_1',...,X_T']'} (\eqn{N \times k_1}) and \eqn{Z=[Z_1', ..., Z_T']'} (\eqn{N \times k_2}),
+#' with \eqn{N=nT}, the final model can be expressed as:
+#'
+#' \deqn{
+#'  Y = \rho \tilde{W}Y + X \beta_1 + \tilde{W} X \beta_2 + Z \beta_3 + \varepsilon,
+#' }
+#'
+#' where \eqn{\tilde{W}=I_T \otimes W} and \eqn{\varepsilon \sim N(0,I_N \sigma^2)}. Note that the input
+#' data matrices have to be ordered first by the cross-sectional spatial units and then stacked by time.
 #'
 #' @inheritParams normalgamma
 #' @param W numeric, non-negative \eqn{n} by \eqn{n} exogenous spatial weight matrix. Must have
@@ -233,13 +256,35 @@ sdm <- function(Y, tt, W, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter
   return(ret)
 }
 
-#' A Markov Chain Monte Carlo (MCMC) sampler for the panel Spatial Autoregressive Model (SAR) with exogenous spatial weight matrix.
+#' A Markov Chain Monte Carlo (MCMC) sampler for the panel spatial autoregressive model (SAR) with exogenous spatial weight matrix.
 #'
-#' The sampler uses independent an Normal-Gamma prior for the slope and variance parameters,
-#' as well as the four-parameter beta prior for the spatial autoregressive parameter. The function is
+#' The sampler uses independent an Normal-inverse-Gamma priors for the slope and variance parameters,
+#' as well as the four-parameter beta prior for the spatial autoregressive parameter \eqn{\rho}. The function is
 #' used as an illustration on using the \code{\link{beta_sampler}}, \code{\link{sigma_sampler}},
 #' and \code{\link{rho_sampler}} classes.
 #'
+#' The considered panel spatial autoregressive model (SAR) takes the form:
+#'
+#' \deqn{
+#'  Y_t = \rho W Y_t + Z_t \beta + \varepsilon_t,
+#'  }
+#'
+#' with \eqn{\varepsilon_t \sim N(0,I_n \sigma^2)}. The row-stochastic \eqn{n} by \eqn{n} spatial weight
+#' matrix \eqn{W} is non-negative and has zeros on the main diagonal.
+#'
+#' \eqn{Y_t} (\eqn{n \times 1}) collects the \eqn{n} cross-sectional (spatial) observations for time
+#' \eqn{t=1,...,T}. \eqn{Z_t} (\eqn{n \times k}) is a matrix of explanatory variables.
+#' \eqn{\beta} (\eqn{k \times 1}) is an unknown slope parameter matrix.
+#'
+#' After vertically staking the \eqn{T} cross-sections  \eqn{Y=[Y_1',...,Y_T']'} (\eqn{N \times 1}),
+#' \eqn{X=[Z_1',...,Z_T']'} (\eqn{N \times k_1}), with \eqn{N=nT}, the final model can be expressed as:
+#'
+#' \deqn{
+#'  Y = \rho \tilde{W}Y + X \beta + \varepsilon,
+#' }
+#'
+#' where \eqn{\tilde{W}=I_T \otimes W} and \eqn{\varepsilon \sim N(0,I_N \sigma^2)}. Note that the input
+#' data matrices have to be ordered first by the cross-sectional spatial units and then stacked by time.
 #' This is a wrapper function calling \code{\link{sdm}} with no spatially lagged dependent variables.
 #'
 #' @inheritParams sdm

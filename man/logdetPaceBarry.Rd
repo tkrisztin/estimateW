@@ -30,8 +30,8 @@ numeric \code{length.out} by  \code{2} matrix; the first column
 \description{
 Bayesian estimates of parameters of SAR and SDM type spatial models require the computation
 of the log-determinant of positive-definite spatial projection matrices of the form
-\eqn{I - \rho W}, where \eqn{W} is a spatial weight matrix. However, direct computation
-of the log-determinant is computationally very expensive.
+\eqn{(I_n - \rho W)}, where \eqn{W} is a \eqn{n} by \eqn{n} spatial weight matrix. However, direct computation
+of the log-determinant is computationally expensive.
 }
 \details{
 This function wraps the log-determinant approximation by Barry and Pace (1999), which

@@ -28,7 +28,7 @@ sarw <- function(Y, tt, Z, niter = 1000, nretain = 250,
 }
 
 
-#' A Markov Chain Monte Carlo (MCMC) sampler for estimating the W matrix in a SDM type model
+#' A Markov Chain Monte Carlo (MCMC) sampler for estimating the W matrix in a panel spatial Durbin (SDM) model
 #'
 #' \code{sdmw} is used to fit spatial Durbin models (SDM) with an unknown spatial weight matrix.
 #' It is a wrapper around \code{\link{W_sampler}}.
