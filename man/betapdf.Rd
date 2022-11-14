@@ -13,9 +13,9 @@ betapdf(rho, a = 1, b = 1, rmin = 0, rmax = 1)
 
 \item{b}{The second shape parameter of the Beta distribution}
 
-\item{rmin}{Scalar \eqn{\rho_{min}}: the minimum allowed value of \eqn{\rho}}
+\item{rmin}{Scalar \eqn{\rho_{min}}: the minimum value of \eqn{\rho}}
 
-\item{rmax}{Scalar \eqn{\rho_{max}}: the maximum allowed value of \eqn{\rho}}
+\item{rmax}{Scalar \eqn{\rho_{max}}: the maximum value of \eqn{\rho}}
 }
 \value{
 Density of the beta binomial distribution evaluated at \code{rho}.

@@ -2,7 +2,9 @@
 % Please edit documentation in R/priors.R
 \name{W_priors}
 \alias{W_priors}
-\title{Set prior specifications for the spatial weight matrix}
+\title{Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},
+where \eqn{Omega} is an \eqn{n} by \eqn{n} unknown binary adjacency matrix (with zeros on the
+main diagonal), and \eqn{f()} denotes the (optional) row-standardization function}
 \usage{
 W_priors(
   n,
@@ -17,27 +19,29 @@ W_priors(
 )
 }
 \arguments{
-\item{n}{The number of observations}
+\item{n}{The number of spatial observations}
 
 \item{W_prior}{An \eqn{n} by \eqn{n} matrix of priors for \eqn{W}}
 
-\item{symmetric_prior}{Should the estimated \eqn{W} matrix be symmetric (default: FALSE)}
+\item{symmetric_prior}{Should the estimated adjacency matrix \eqn{\Omega} be symmetric (default: FALSE)}
 
 \item{row_standardized_prior}{Should the estimated \eqn{W} matrix be row-standardized (default: TRUE)}
 
-\item{bbinom_a_prior}{Parameter a of sparsity prior}
+\item{bbinom_a_prior}{Parameter a of sparsity prior (used if \code{use_bbinom_prior==TRUE})}
 
-\item{bbinom_b_prior}{Parameter a of sparsity prior}
+\item{bbinom_b_prior}{Parameter a of sparsity prior (used if \code{use_bbinom_prior==TRUE})}
 
-\item{use_bbinom_prior}{Should sparsity priors be used? (default: TRUE)}
+\item{use_bbinom_prior}{Should hierarchical sparsity prior specifications be used? (default: TRUE)}
 
-\item{min_neighbors}{Minimum number of a priori neighbors (default: 0)}
+\item{min_neighbors}{Minimum number of neighbors (default: 0)}
 
-\item{max_neighbors}{Maximum number of a priori neighbors (default: n-1)
+\item{max_neighbors}{Maximum number of neighbors (default: n-1)
 
 This function gives access to a larger set of prior specification in case the default choice is
 unsatisfactory.}
 }
 \description{
-Set prior specifications for the spatial weight matrix
+Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},
+where \eqn{Omega} is an \eqn{n} by \eqn{n} unknown binary adjacency matrix (with zeros on the
+main diagonal), and \eqn{f()} denotes the (optional) row-standardization function
 }

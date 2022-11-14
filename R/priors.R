@@ -1,8 +1,11 @@
 
 
-#' Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},
+#' Set prior specifications for the spatial weight matrix
+#'
+#'#' Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},
 #' where \eqn{Omega} is an \eqn{n} by \eqn{n} unknown binary adjacency matrix (with zeros on the
 #' main diagonal), and \eqn{f()} denotes the (optional) row-standardization function
+#'
 #'
 #' @param n The number of spatial observations
 #' @param W_prior An \eqn{n} by \eqn{n} matrix of priors for \eqn{W}
@@ -13,9 +16,6 @@
 #' @param use_bbinom_prior Should hierarchical sparsity prior specifications be used? (default: TRUE)
 #' @param min_neighbors Minimum number of neighbors (default: 0)
 #' @param max_neighbors Maximum number of neighbors (default: n-1)
-#'
-#' This function gives access to a larger set of prior specification in case the default choice is
-#' unsatisfactory.
 #'
 #' @export
 W_priors = function(n,
@@ -39,8 +39,8 @@ W_priors = function(n,
 #'
 #' @param rho_a_prior Single number prior for the four-parameter beta distribution \code{\link{betapdf}}. Defaults to 1.
 #' @param rho_b_prior Single number prior for the four-parameter beta distribution \code{\link{betapdf}}. Defaults to 1.
-#' @param rho_min Minimum range of \eqn{\rho} (default: 0)
-#' @param rho_max Maximum range of \eqn{\rho} (default: 1)
+#' @param rho_min Minimum value for \eqn{\rho} (default: 0)
+#' @param rho_max Maximum value for \eqn{\rho} (default: 1)
 #' @param init_rho_scale For Metropolis-Hastings step the initial candidate variance (default: 1)
 #' @param griddy_n single, integer number, Sets how fine the grid approximation is. Default
 #'   value is 60
@@ -97,7 +97,7 @@ beta_priors = function(k,
               beta_var_prior_inv = beta_var_prior_inv))
 }
 
-#' Set prior specification for the error variance using a inverse Gamma distribution
+#' Set prior specification for the error variance using an inverse Gamma distribution
 #'
 #' @param sigma_rate_prior Sigma rate prior parameter (scalar), default: \eqn{.1}
 #' @param sigma_shape_prior Sigma shape prior parameter (scalar), default: \eqn{.1}

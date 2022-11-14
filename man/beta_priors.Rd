@@ -11,7 +11,7 @@ beta_priors(
 )
 }
 \arguments{
-\item{k}{The total number of coefficients in the model.}
+\item{k}{The total number of slope parameters in the model.}
 
 \item{beta_mean_prior}{numeric \eqn{k} by \eqn{1} matrix of prior means \eqn{\underline{\mu}_\beta}.}
 
@@ -23,13 +23,13 @@ A list with the prior mean vector (\code{beta_mean_prior}), the prior variance m
 (\code{beta_var_prior}) and the inverse of the prior variance matrix (\code{beta_var_prior_inv}).
 }
 \description{
-This function allows the user to specify custom values for Gaussian priors on the slope coefficients.
+This function allows the user to specify custom values for Gaussian priors on the slope parameters.
 }
 \details{
-For the slope parameters \eqn{\beta} the package uses the common Normal
-prior specification. Specifically,  \eqn{p(\beta)\sim\mathcal{N}(\underline{\mu}_\beta,\underline{V}_\beta)}.
+For the slope parameters \eqn{\beta} the package uses common Normal
+prior specifications. Specifically,  \eqn{p(\beta)\sim\mathcal{N}(\underline{\mu}_\beta,\underline{V}_\beta)}.
 
 This function allows the user to specify custom values for the prior hyperparameters \eqn{\underline{\mu}_\beta}
 and \eqn{\underline{V}_\beta}. The default values correspond to weakly informative Gaussian priors with mean
-zero and a diagonal prior variance-covariance matrix with \eqn{10} on the main diagonal.
+zero and a diagonal prior variance-covariance matrix with \eqn{100} on the main diagonal.
 }

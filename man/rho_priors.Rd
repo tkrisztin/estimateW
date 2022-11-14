@@ -2,7 +2,7 @@
 % Please edit documentation in R/priors.R
 \name{rho_priors}
 \alias{rho_priors}
-\title{Set prior specifications for the spatial autoregressive parameter}
+\title{Specify prior for the spatial autoregressive parameter and sampling settings}
 \usage{
 rho_priors(
   rho_a_prior = 1,
@@ -35,12 +35,15 @@ value is 60}
 Does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification.
 Main advantage is that less draws are required for \eqn{\rho}}
 
-\item{mh_tune_low}{Lower bound for Metropolis-Hastings tuning}
+\item{mh_tune_low}{Lower bound of acceptance rate for Metropolis-Hastings tuning
+(used if \code{use_griddy_gibbs==FALSE})}
 
-\item{mh_tune_high}{Upper bound for Metropolis-Hastings tuning}
+\item{mh_tune_high}{Upper bound of acceptance rate for Metropolis-Hastings tuning
+(used if \code{use_griddy_gibbs==FALSE})}
 
-\item{mh_tune_scale}{Scaling factor for Metropolis-Hastings tuning}
+\item{mh_tune_scale}{Scaling factor for Metropolis-Hastings tuning
+(used if \code{use_griddy_gibbs==FALSE})}
 }
 \description{
-This function gives access to a larger set of prior distributions for \eqn{\rho} in case the default choice is unsatisfactory.
+Specify prior for the spatial autoregressive parameter and sampling settings
 }
