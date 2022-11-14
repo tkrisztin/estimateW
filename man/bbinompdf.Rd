@@ -9,7 +9,7 @@ bbinompdf(x, nsize, a, b, min_k = 0, max_k = nsize)
 \arguments{
 \item{x}{Number of neighbors (scalar)}
 
-\item{nsize}{Maximum number of potential neighbors \eqn{(N-1)}}
+\item{nsize}{Maximum number of potential neighbors \eqn{(n-1)}}
 
 \item{a}{Scalar prior parameter \eqn{a}}
 
@@ -25,27 +25,27 @@ Prior density evaluated at \code{x}.
 \description{
 A hierarchical prior setup can be used in \code{\link{W_priors}} to anchor the prior
 number of expected neighbors. Assuming a \emph{fixed} prior inclusion \eqn{\underline{p}=1/2}
-for the off-diagonal entries in the binary \eqn{N} by \eqn{N} adjacency matrix \eqn{\Omega} implies
-that the number of neighbors (i.e. the row sum of \eqn{\Omega}) follows a Binomial distribution
-with a prior expected number of neighbors of \eqn{(N-1)\underline{p}}. However, such a prior
-structure has the potential undesirable effect of promoting a relatively large number of neighbours.
-To put more prior weight on parsimonious neighborhood structures and promote sparsity in \eqn{\Omega},
-the beta binomial prior accounts for the number of neighbors in each row of \eqn{\Omega}.
+for the off-diagonal entries in the binary \eqn{n} by \eqn{n} adjacency matrix \eqn{\Omega} implies
+that the number of neighbors (i.e. the row sums of \eqn{\Omega}) follows a Binomial distribution
+with a prior expected number of neighbors for the \eqn{n} spatial observations of \eqn{(n-1)\underline{p}}.
+However, such a prior structure has the potential undesirable effect of promoting a relatively large
+number of neighbors. To put more prior weight on parsimonious neighborhood structures and promote sparsity
+in \eqn{\Omega}, the beta binomial prior accounts for the number of neighbors in each row of \eqn{\Omega}.
 }
 \details{
 The beta-binomial distribution is the result of treating the prior inclusion probability \eqn{\underline{p}}
 as random (rather than being fixed) by placing a hierarchical beta prior on it.
-The resulting prior on \eqn{\omega_{ij}} can be written as:
+The resulting prior on the elements of \eqn{\Omega}, \eqn{\omega_{ij}}, can be written as:
 
  \deqn{
- p(\omega_{ij} = 1 | x)\propto \Gamma\left(a+ x \right)\Gamma\left(b+(N-1)-x\right),
+ p(\omega_{ij} = 1 | x)\propto \Gamma\left(a+ x \right)\Gamma\left(b+(n-1)-x\right),
  }
 
  where \eqn{\Gamma(\cdot )} is the Gamma function, and \eqn{a} and
  \eqn{b} are hyperparameters from the beta prior. In the case of \eqn{a = b = 1}, the prior takes the
  form of a discrete uniform distribution over the number of neighbors. By fixing \eqn{a = 1}
  the prior can be anchored around the expected number of neighbors \eqn{m} through
- \eqn{b=[(N-1)-m]/m} (see Ley and Steel, 2009).
+ \eqn{b=[(n-1)-m]/m} (see Ley and Steel, 2009).
 
  The prior can be truncated by setting a minimum (\code{min_k}) and/or a maximum number of
  neighbors (\code{max_k}). Values outside this range have zero prior support.
