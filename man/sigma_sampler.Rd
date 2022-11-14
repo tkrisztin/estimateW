@@ -8,8 +8,8 @@
 An \code{\link{R6Class}} generator object
 }
 \description{
-This class samples nuisance parameter from an inverse Gamma distribution. Use the
-\link{sigma_priors} class for setup.
+This class samples nuisance parameter which an inverse Gamma prior from the conditional posterior.
+Use the \link{sigma_priors} class for setup.
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}

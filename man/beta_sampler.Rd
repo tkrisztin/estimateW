@@ -8,7 +8,8 @@
 An \code{\link{R6Class}} generator object
 }
 \description{
-This class samples slope coefficients with a Gaussian prior. Use the \link{beta_priors} class for setup.
+This class samples slope parameters with a Gaussian prior from the conditional posterior.
+Use the \link{beta_priors} class for setup.
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
