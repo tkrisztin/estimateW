@@ -2,9 +2,7 @@
 % Please edit documentation in R/priors.R
 \name{W_priors}
 \alias{W_priors}
-\title{Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},
-where \eqn{Omega} is an \eqn{n} by \eqn{n} unknown binary adjacency matrix (with zeros on the
-main diagonal), and \eqn{f()} denotes the (optional) row-standardization function}
+\title{Set prior specifications for the spatial weight matrix}
 \usage{
 W_priors(
   n,
@@ -35,13 +33,10 @@ W_priors(
 
 \item{min_neighbors}{Minimum number of neighbors (default: 0)}
 
-\item{max_neighbors}{Maximum number of neighbors (default: n-1)
-
-This function gives access to a larger set of prior specification in case the default choice is
-unsatisfactory.}
+\item{max_neighbors}{Maximum number of neighbors (default: n-1)}
 }
 \description{
-Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},
+#' Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},
 where \eqn{Omega} is an \eqn{n} by \eqn{n} unknown binary adjacency matrix (with zeros on the
 main diagonal), and \eqn{f()} denotes the (optional) row-standardization function
 }

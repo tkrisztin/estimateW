@@ -2,13 +2,13 @@
 
 #' Set prior specifications for the spatial weight matrix
 #'
-#'#' Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},
+#' Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},
 #' where \eqn{Omega} is an \eqn{n} by \eqn{n} unknown binary adjacency matrix (with zeros on the
 #' main diagonal), and \eqn{f()} denotes the (optional) row-standardization function
 #'
 #'
 #' @param n The number of spatial observations
-#' @param W_prior An \eqn{n} by \eqn{n} matrix of priors for \eqn{W}
+#' @param W_prior An \eqn{n} by \eqn{n} matrix of prior inclusion probabilities for \eqn{W}
 #' @param symmetric_prior Should the estimated adjacency matrix \eqn{\Omega} be symmetric (default: FALSE)
 #' @param row_standardized_prior Should the estimated \eqn{W} matrix be row-standardized (default: TRUE)
 #' @param bbinom_a_prior Parameter a of sparsity prior (used if \code{use_bbinom_prior==TRUE})

@@ -22,9 +22,9 @@ rho_priors(
 
 \item{rho_b_prior}{Single number prior for the four-parameter beta distribution \code{\link{betapdf}}. Defaults to 1.}
 
-\item{rho_min}{Minimum range of \eqn{\rho} (default: 0)}
+\item{rho_min}{Minimum value for \eqn{\rho} (default: 0)}
 
-\item{rho_max}{Maximum range of \eqn{\rho} (default: 1)}
+\item{rho_max}{Maximum value for \eqn{\rho} (default: 1)}
 
 \item{init_rho_scale}{For Metropolis-Hastings step the initial candidate variance (default: 1)}
 
