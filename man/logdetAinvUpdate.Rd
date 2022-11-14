@@ -23,10 +23,10 @@ A list containing the updated \eqn{n} by \eqn{n} matrix \eqn{A^{-1}}, as well as
 updated log determinant of \eqn{A}
 }
 \description{
-While updating elements of the spatial weight matrix in SAR and SDM type spatial models in a
-MCMC sampler the log-determinant has to be also updated.
-For an efficient update, the Matrix Determinant Lemma and the Sherman-Morrison formula
-are used.
+While updating the elements of the spatial weight matrix in SAR and SDM type spatial models in a
+MCMC sampler, the log-determinant term has to be regularily updated, too.
+When the binary elements of the adjacency matrix are treated unknown, the Matrix Determinant Lemma
+and the Sherman-Morrison formula are used for computationally efficient updates.
 }
 \details{
 Let \eqn{A = I - \rho W} be an invertible \eqn{n} by \eqn{n} matrix. \eqn{v} is an \eqn{n} by \eqn{1}

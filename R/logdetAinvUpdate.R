@@ -9,7 +9,7 @@
 #' and the Sherman-Morrison formula are used for computationally efficient updates.
 #'
 #'
-#' Let \eqn{A = I - \rho W} be an invertible \eqn{n} by \eqn{n} matrix. \eqn{v} is an \eqn{n} by \eqn{1}
+#' Let \eqn{A = (I_n - \rho W)} be an invertible \eqn{n} by \eqn{n} matrix. \eqn{v} is an \eqn{n} by \eqn{1}
 #' column vector of real numbers and \eqn{u} is a binary vector containing a single one and zeros otherwise.
 #' Then the Matrix Determinant Lemma states that:
 #'
@@ -25,7 +25,7 @@
 #' @param ch_ind vector of non-negative integers, between 1 and \eqn{n}. Denotes which rows of \eqn{A}
 #'  should be updated.
 #' @param diff a numeric \code{length(ch_ind)} by \code{n} matrix. This value will be added to the corresponding rows of \eqn{A}.
-#' @param AI numeric \eqn{n} by \eqn{n} matrix that is the inverse of \eqn{A = I - \rho W}. This inverse will
+#' @param AI numeric \eqn{n} by \eqn{n} matrix that is the inverse of \eqn{A = (I_n - \rho W)}. This inverse will
 #' be updated using the Sherman-Morrison formula.
 #' @param logdet single number that is the log-determinant of the matrix \eqn{A}. This log-determinant
 #' will be updated through the Matrix Determinant Lemma.
