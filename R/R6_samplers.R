@@ -1,6 +1,7 @@
 #' An R6 class for sampling slope parameters
 #'
-#' This class samples slope coefficients with a Gaussian prior. Use the \link{beta_priors} class for setup.
+#' This class samples slope parameters with a Gaussian prior from the conditional posterior.
+#' Use the \link{beta_priors} class for setup.
 #'
 #' @field beta_prior The current \code{\link{beta_priors}}
 #' @field curr_beta The current value of \eqn{\beta}
@@ -39,8 +40,8 @@ beta_sampler = R6::R6Class("beta_sampler",cloneable = FALSE, public = list(
 
 #' An R6 class for sampling for sampling \eqn{\sigma^2}
 #'
-#' This class samples nuisance parameter from an inverse Gamma distribution. Use the
-#' \link{sigma_priors} class for setup.
+#' This class samples nuisance parameter which an inverse Gamma prior from the conditional posterior.
+#' Use the \link{sigma_priors} class for setup.
 #'
 #' @field sigma_prior The current \code{\link{sigma_priors}}
 #' @field curr_sigma The current value of \eqn{\beta}
@@ -76,8 +77,8 @@ sigma_sampler = R6::R6Class("sigma_sampler", cloneable = FALSE, public = list(
 
 #' An R6 class for sampling the spatial autoregressive parameter \eqn{\rho}
 #'
-#' This class samples the spatial autoregressive parameter using either a Metropolis-Hastings
-#' or a griddy Gibbs step. Use the \code{\link{rho_priors}} class for setup.
+#' This class samples the spatial autoregressive parameter using either a tuned random-walk
+#' Metropolis-Hastings or a griddy Gibbs step. Use the \code{\link{rho_priors}} class for setup.
 #'
 #' For the Griddy-Gibbs algorithm see Ritter and Tanner (1992).
 #'

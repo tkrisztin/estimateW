@@ -19,7 +19,7 @@ W_priors(
 \arguments{
 \item{n}{The number of spatial observations}
 
-\item{W_prior}{An \eqn{n} by \eqn{n} matrix of priors for \eqn{W}}
+\item{W_prior}{An \eqn{n} by \eqn{n} matrix of prior inclusion probabilities for \eqn{W}}
 
 \item{symmetric_prior}{Should the estimated adjacency matrix \eqn{\Omega} be symmetric (default: FALSE)}
 
@@ -36,7 +36,7 @@ W_priors(
 \item{max_neighbors}{Maximum number of neighbors (default: n-1)}
 }
 \description{
-#' Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},
+Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},
 where \eqn{Omega} is an \eqn{n} by \eqn{n} unknown binary adjacency matrix (with zeros on the
 main diagonal), and \eqn{f()} denotes the (optional) row-standardization function
 }
