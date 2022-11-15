@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting.R
 \name{plot.estimateW}
 \alias{plot.estimateW}
-\title{Graphical Summary of the estimated W matrix}
+\title{Graphical summary of the estimated W matrix}
 \usage{
 \method{plot}{estimateW}(
   x,
@@ -21,5 +21,5 @@
 \item{\dots}{further arguments are passed on to be invoked}
 }
 \description{
-Graphical Summary of the estimated W matrix
+Graphical plot of the posterior probabilities of the estimated adjacency matrix \eqn{\Omega}
 }
