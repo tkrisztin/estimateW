@@ -1,22 +1,22 @@
-#' The four-parameter Beta distribution probability density function
+#' The four-parameter Beta probability density function
 #'
-#' The four-parameter Beta prior distribution for \eqn{\rho} proposed by LeSage and Parent
-#' (2007) is the default prior for the spatial autoregressive parameter.
+#' A four-parameter Beta specification as the prior for the spatial autoregressive parameter \eqn{\rho},
+#' as proposed by LeSage and Parent (2007) .
 #'
-#' The prior is specified as:
+#' The prior density is given by:
 #'
 #' \deqn{ p(\rho) \sim \frac{1}{Beta(a,b)} \frac{(\rho - \underline{\rho}_{min})^{(a-1)} (\underline{\rho}_{max} - \rho)^{(b-1)} }{2^{a + b - 1}} }
 #'
 #' where \eqn{Beta(a, b)} (\eqn{a,b > 0}) represents the Beta function,
-#' \eqn{Beta(a, b)= \int_{0}^{1} t^{a-1} (1-t)^{d-1} dt}.
+#' \eqn{Beta(a, b)= \int_{0}^{1} t^{a-1} (1-t)^{b-1} dt}.
 #'
 #' @param rho The scalar value for \eqn{\rho}
 #' @param a The first shape parameter of the Beta distribution
 #' @param b The second shape parameter of the Beta distribution
-#' @param rmin Scalar \eqn{\rho_{min}}: the minimum value of \eqn{\rho}
-#' @param rmax Scalar \eqn{\rho_{max}}: the maximum value of \eqn{\rho}
+#' @param rmin Scalar \eqn{\underline{\rho}_{min}}: the minimum value of \eqn{\rho}
+#' @param rmax Scalar \eqn{\underline{\rho}_{max}}: the maximum value of \eqn{\rho}
 #'
-#' @return Density of the beta binomial distribution evaluated at \code{rho}.
+#' @return Density value evaluated at \code{rho}.
 #'
 #' @export
 #'

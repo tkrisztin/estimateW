@@ -3,17 +3,23 @@
 #' Set prior specifications for the spatial weight matrix
 #'
 #' Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},
-#' where \eqn{Omega} is an \eqn{n} by \eqn{n} unknown binary adjacency matrix (with zeros on the
+#' where \eqn{\Omega} is an \eqn{n} by \eqn{n} unknown binary adjacency matrix (with zeros on the
 #' main diagonal), and \eqn{f()} denotes the (optional) row-standardization function
 #'
 #'
 #' @param n The number of spatial observations
 #' @param W_prior An \eqn{n} by \eqn{n} matrix of prior inclusion probabilities for \eqn{W}
-#' @param symmetric_prior Should the estimated adjacency matrix \eqn{\Omega} be symmetric (default: FALSE)
-#' @param row_standardized_prior Should the estimated \eqn{W} matrix be row-standardized (default: TRUE)
-#' @param bbinom_a_prior Parameter a of sparsity prior (used if \code{use_bbinom_prior==TRUE})
-#' @param bbinom_b_prior Parameter a of sparsity prior (used if \code{use_bbinom_prior==TRUE})
-#' @param use_bbinom_prior Should hierarchical sparsity prior specifications be used? (default: TRUE)
+#' @param symmetric_prior Binary value. Should the estimated adjacency matrix \eqn{\Omega} be symmetric (default: FALSE)?
+#' if TRUE: \eqn{\Omega} is forced symmetric; if FALSE: \eqn{\Omega} not necessarily symmetric.
+#' @param row_standardized_prior Binary value. Should the estimated \eqn{W} matrix be row-standardized (default: TRUE)?
+#' if TRUE: row-stochastic \eqn{W}; if FALSE: \eqn{W} not row-standardized.
+#' @param bbinom_a_prior Single value prior hyperparameter \eqn{a} of hierarchical beta binomial sparsity prior
+#' (used if \code{use_bbinom_prior==TRUE})
+#' @param bbinom_b_prior Single value prior hyperparameter \eqn{b} of hierarchical beta binomial sparsity prior
+#' (used if \code{use_bbinom_prior==TRUE})
+#' @param use_bbinom_prior Binary value. Should hierarchical sparsity prior specifications be used? (default: TRUE)
+#' if TRUE: a hierarchical beta binomial sparsity prior for \eqn{\Omega} is used;
+#' if FALSE: fixed Bernoulli priors in \code{W_prior} for the elements of \eqn{\Omega} are used.
 #' @param min_neighbors Minimum number of neighbors (default: 0)
 #' @param max_neighbors Maximum number of neighbors (default: n-1)
 #'
@@ -37,16 +43,18 @@ W_priors = function(n,
 #'
 #' Specify prior for the spatial autoregressive parameter and sampling settings
 #'
-#' @param rho_a_prior Single number prior for the four-parameter beta distribution \code{\link{betapdf}}. Defaults to 1.
-#' @param rho_b_prior Single number prior for the four-parameter beta distribution \code{\link{betapdf}}. Defaults to 1.
+#' @param rho_a_prior Single number. Prior hyperparameter for the four-parameter beta distribution \code{\link{betapdf}}.
+#' Defaults to 1.
+#' @param rho_b_prior Single number. Prior hyperparameter for the four-parameter beta distribution \code{\link{betapdf}}.
+#' Defaults to 1.
 #' @param rho_min Minimum value for \eqn{\rho} (default: 0)
 #' @param rho_max Maximum value for \eqn{\rho} (default: 1)
 #' @param init_rho_scale For Metropolis-Hastings step the initial candidate variance (default: 1)
-#' @param griddy_n single, integer number, Sets how fine the grid approximation is. Default
-#'   value is 60
-#' @param use_griddy_gibbs Should griddy-Gibbs be used for \eqn{\rho} estimation?
-#' Does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification.
-#' Main advantage is that less draws are required for \eqn{\rho}
+#' @param griddy_n single integer number. Sets how fine the grid approximation is. Default
+#'   value is 60.
+#' @param use_griddy_gibbs Binary value. Should griddy-Gibbs be used for \eqn{\rho} estimation?
+#' \code{use_griddy_gibbs=TRUE} does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification.
+#' if TRUE: griddy-Gibbs step for sampling \eqn(\rho); if FALSE: tuned random-walk Metropolis-Hastings step
 #'
 #' @param mh_tune_low Lower bound of acceptance rate for Metropolis-Hastings tuning
 #' (used if \code{use_griddy_gibbs==FALSE})

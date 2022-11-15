@@ -44,7 +44,7 @@ beta_sampler = R6::R6Class("beta_sampler",cloneable = FALSE, public = list(
 #' Use the \link{sigma_priors} class for setup.
 #'
 #' @field sigma_prior The current \code{\link{sigma_priors}}
-#' @field curr_sigma The current value of \eqn{\beta}
+#' @field curr_sigma The current value of \eqn{\sigma^2}
 #'
 #' @docType class
 #' @importFrom R6 R6Class
@@ -84,8 +84,8 @@ sigma_sampler = R6::R6Class("sigma_sampler", cloneable = FALSE, public = list(
 #'
 #' @field rho_prior The current \code{\link{rho_priors}}
 #' @field curr_rho The current value of \eqn{\rho}
-#' @field curr_W The current value of the spatial weight matrix \eqn{W}; an \eqn{n} by \eqn{n} matrix.
-#' @field curr_A The current spatial projection matrix \eqn{I - \rho W}.
+#' @field curr_W The current spatial weight matrix \eqn{W}; an \eqn{n} by \eqn{n} matrix.
+#' @field curr_A The current spatial filter matrix \eqn{I - \rho W}.
 #' @field curr_AI The inverse of \code{curr_A}
 #' @field curr_logdet The current log-determinant of \code{curr_A}
 #' @field curr_logdets A set of log-determinants for various values of \eqn{\rho}. See the

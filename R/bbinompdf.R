@@ -1,7 +1,7 @@
-#' Probability density for a hierarchical prior setup based on the beta binomial distribution
+#' Probability density for a hierarchical prior setup for the elements of the adjacency matrix based on the beta binomial distribution
 #'
 #' A hierarchical prior setup can be used in \code{\link{W_priors}} to anchor the prior
-#' number of expected neighbors. Assuming a \emph{fixed} prior inclusion \eqn{\underline{p}=1/2}
+#' number of expected neighbors. Assuming a \emph{fixed} prior inclusion probability \eqn{\underline{p}=1/2}
 #' for the off-diagonal entries in the binary \eqn{n} by \eqn{n} adjacency matrix \eqn{\Omega} implies
 #' that the number of neighbors (i.e. the row sums of \eqn{\Omega}) follows a Binomial distribution
 #' with a prior expected number of neighbors for the \eqn{n} spatial observations of \eqn{(n-1)\underline{p}}.
@@ -11,7 +11,7 @@
 #'
 #' The beta-binomial distribution is the result of treating the prior inclusion probability \eqn{\underline{p}}
 #' as random (rather than being fixed) by placing a hierarchical beta prior on it.
-#' For the number of neighbors \code{x}, the resulting prior on the elements of \eqn{\Omega}, \eqn{\omega_{ij}},
+#' For the number of neighbors \eqn{x}, the resulting prior on the elements of \eqn{\Omega}, \eqn{\omega_{ij}},
 #' can be written as:
 #'
 #'  \deqn{
@@ -28,11 +28,11 @@
 #'  neighbors (\code{max_k}). Values outside this range have zero prior support.
 #'
 #' @param x Number of neighbors (scalar)
-#' @param nsize Maximum number of potential neighbors \eqn{(n-1)}
+#' @param nsize Number of potential neighbors: \code{nsize}\eqn{=(n-1)}
 #' @param a Scalar prior parameter \eqn{a}
 #' @param b Scalar prior parameter \eqn{b}
 #' @param min_k Minimum prior number of neighbors (defaults to 0)
-#' @param max_k Maximum prior number of neighbors (defaults to nsize)
+#' @param max_k Maximum prior number of neighbors (defaults to \code{nsize})
 #'
 #'
 #' @export bbinompdf

@@ -39,7 +39,8 @@
 #'
 #' @inheritParams sdmw
 #'
-#' @return List with posterior samples for \eqn{\beta_1}, \eqn{\beta_2}, \eqn{\beta_3}, and \eqn{\sigma^2}.
+#' @return List with posterior samples for the slope parameters, \eqn{\sigma^2}, \eqn{W},
+#' and average direct, indirect, and total effects.
 #' @export slxw
 #'
 #' @examples

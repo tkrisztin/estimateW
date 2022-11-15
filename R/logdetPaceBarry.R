@@ -8,15 +8,15 @@
 #' This function wraps the log-determinant approximation by Barry and Pace (1999), which
 #' can be used to precompute the log-determinants over a grid of \eqn{\rho} values.
 #'
-#' @param W numeric \eqn{n} by \eqn{n} non, negative spatial weights matrix,
+#' @param W numeric \eqn{n} by \eqn{n} non-negative spatial weights matrix,
 #'   with zeros on the main diagonal.
 #' @param length.out single, integer number, has to be at least 51 (due to order
 #'   of approximation). Sets how fine the grid approximation is. Default
 #'   value is 200.
-#' @param rmin single number between -1 and 1. Sets the minimum range of the
+#' @param rmin single number between -1 and 1. Sets the minimum value of the
 #'   spatial autoregressive parameter \eqn{\rho}. Has to be lower than
 #'   \code{rmax}. Default value is -1.
-#' @param rmax single number between -1 and 1. Sets the maximum range of the
+#' @param rmax single number between -1 and 1. Sets the maximum value of the
 #'   spatial autoregressive parameter \eqn{\rho}. Has to be higher than
 #'   \code{rmin}. Default value is 1.
 #'
