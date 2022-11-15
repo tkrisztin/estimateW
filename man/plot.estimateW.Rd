@@ -21,5 +21,5 @@
 \item{\dots}{further arguments are passed on to be invoked}
 }
 \description{
-Graphical plot of the posterior probabilities of the estimated adjacency matrix \eqn{\Omega}
+Graphical plot of the posterior probabilities of the estimated adjacency matrix \eqn{\Omega}.
 }

@@ -1,7 +1,41 @@
 
-#' A sampler for estimating the W matrix in an SLX type model
+#' A Markov Chain Monte Carlo (MCMC) sampler for the panel spatial SLX model with unknown spatial weight matrix
 #'
-#' The model takes the form \eqn{Y = X \beta_1 + f(\Omega)X \beta_2 + Z \beta_3 +  \epsilon}, with \eqn{\epsilon \sim N(0,I\sigma^2)}
+#' The sampler uses independent an Normal-inverse-Gamma priors for the slope and variance parameters.
+#' It is a wrapper around \code{\link{W_sampler}}.
+#'
+#' The considered spatial panel SLX model with unknown (\eqn{n} by \eqn{n}) spatial weight
+#' matrix \eqn{W} takes the form:
+#'
+#' \deqn{
+#'  Y_t = X_t \beta_1 + W X_t \beta_2 + Z \beta_3 + \varepsilon_t,
+#'  }
+#'
+#' with \eqn{\varepsilon_t \sim N(0,I_n \sigma^2)} and \eqn{W = f(\Omega)}. The \eqn{n} by \eqn{n}
+#' matrix \eqn{\Omega} is an unknown binary adjacency matrix with zeros on the main diagonal and
+#' \eqn{f(\cdot)} is the (optional) row-standardization function.
+#'
+#' \eqn{Y_t} (\eqn{n \times 1}) collects the \eqn{n} cross-sectional (spatial) observations for time
+#' \eqn{t=1,...,T}. \eqn{X_t} (\eqn{n \times k_1}) and \eqn{Z_t} (\eqn{n \times k_2}) are
+#' matrices of explanatory variables, where the former will also be spatially lagged. \eqn{\beta_1}
+#' (\eqn{k_1 \times 1}), \eqn{\beta_2} (\eqn{k_1 \times 1}) and \eqn{\beta_3} (\eqn{k_2 \times 1})
+#' are unknown slope parameter vectors.
+#'
+#' After vertically staking the \eqn{T} cross-sections  \eqn{Y=[Y_1',...,Y_T']'} (\eqn{N \times 1}),
+#' \eqn{X=[X_1',...,X_T']'} (\eqn{N \times k_1}) and \eqn{Z=[Z_1', ..., Z_T']'} (\eqn{N \times k_2}),
+#' with \eqn{N=nT}. The final model can be expressed as:
+#'
+#' \deqn{
+#'  Y = X \beta_1 + \tilde{W} X \beta_2 + Z \beta_3 + \varepsilon,
+#' }
+#'
+#' where \eqn{\tilde{W}=I_T \otimes W} and \eqn{\varepsilon \sim N(0,I_N \sigma^2)}. Note that the input
+#' data matrices have to be ordered first by the cross-sectional spatial units and then stacked by time.
+#'
+#' Estimation usually even works well in cases of \eqn{n >> T}. However, note that for applications with \eqn{n > 200} the
+#' estimation process becomes computationally demanding and slow. Consider in this case reducing \code{niter} and
+#' \code{nretain} and carefully check whether the posterior chains have converged.
+#'
 #'
 #' @inheritParams sdmw
 #'
