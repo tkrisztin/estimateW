@@ -1,7 +1,7 @@
 
 #' A Markov Chain Monte Carlo (MCMC) sampler for the panel spatial SLX model with unknown spatial weight matrix
 #'
-#' The sampler uses independent an Normal-inverse-Gamma priors for the slope and variance parameters.
+#' The sampler uses independent Normal-inverse-Gamma priors for the slope and variance parameters.
 #' It is a wrapper around \code{\link{W_sampler}}.
 #'
 #' The considered spatial panel SLX model with unknown (\eqn{n} by \eqn{n}) spatial weight

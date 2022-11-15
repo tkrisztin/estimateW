@@ -2,7 +2,7 @@
 % Please edit documentation in R/sdmw.R
 \name{sdmw}
 \alias{sdmw}
-\title{A Markov Chain Monte Carlo (MCMC) sampler for estimating the W matrix in a panel spatial Durbin (SDM) model}
+\title{A Markov Chain Monte Carlo (MCMC) sampler for the panel spatial Durbin model (SDM) with unknown spatial weight matrix}
 \usage{
 sdmw(
   Y,
@@ -57,11 +57,11 @@ List with posterior samples for \eqn{\rho}, \eqn{\beta}, \eqn{\sigma^2}, \eqn{w}
 average direct, indirect, and total effects.
 }
 \description{
-\code{sdmw} is used to fit spatial Durbin models (SDM) with an unknown spatial weight matrix.
-It is a wrapper around \code{\link{W_sampler}}.
+The sampler uses independent an Normal-inverse-Gamma priors for the slope and variance parameters, as well as a the four-parameter
+beta prior for the spatial autoregressive parameter \eqn{\rho}. It is a wrapper around \code{\link{W_sampler}}.
 }
 \details{
-The considered spatial Durbin model (SDM) model with unknown (\eqn{n} by \eqn{n}) spatial weight
+The considered panel spatial Durbin model (SDM) with unknown (\eqn{n} by \eqn{n}) spatial weight
 matrix \eqn{W} takes the form:
 
 \deqn{
@@ -70,9 +70,9 @@ matrix \eqn{W} takes the form:
 
 with \eqn{\varepsilon_t \sim N(0,I_n \sigma^2)} and \eqn{W = f(\Omega)}. The \eqn{n} by \eqn{n}
 matrix \eqn{\Omega} is an unknown binary adjacency matrix with zeros on the main diagonal and
-\eqn{f(\cdot)} is the (optional) row-standardization function.
+\eqn{f(\cdot)} is the (optional) row-standardization function. \eqn{rho} is a scalar spatial autoregressive parameter.
 
-\eqn{Y_t} (\eqn{n \times 1}) collects the \eqn{n} cross-sectional observations for time
+\eqn{Y_t} (\eqn{n \times 1}) collects the \eqn{n} cross-sectional (spatial) observations for time
 \eqn{t=1,...,T}. \eqn{X_t} (\eqn{n \times k_1}) and \eqn{Z_t} (\eqn{n \times k_2}) are
 matrices of explanatory variables, where the former will also be spatially lagged. \eqn{\beta_1}
 (\eqn{k_1 \times 1}), \eqn{\beta_2} (\eqn{k_1 \times 1}) and \eqn{\beta_3} (\eqn{k_2 \times 1})
@@ -89,9 +89,9 @@ with \eqn{N=nT}. The final model can be expressed as:
 where \eqn{\tilde{W}=I_T \otimes W} and \eqn{\varepsilon \sim N(0,I_N \sigma^2)}. Note that the input
 data matrices have to be ordered first by the cross-sectional spatial units and then stacked by time.
 
-The estimation works when \eqn{n >> T}, however, note that for applications with \eqn{n > 200} the
-estimation becomes computationally demanding and slow. Consider in this case reducing \code{niter} and
-\code{nretain} and carefully checking whether the posterior chains has converged.
+Estimation usually even works well in cases of \eqn{n >> T}. However, note that for applications with \eqn{n > 200} the
+estimation process becomes computationally demanding and slow. Consider in this case reducing \code{niter} and
+\code{nretain} and carefully check whether the posterior chains have converged.
 }
 \examples{
 n = 20; tt = 10
