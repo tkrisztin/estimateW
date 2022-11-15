@@ -1,7 +1,9 @@
 
 
 
-#' Graphical Summary of the estimated W matrix
+#' Graphical summary of the estimated W matrix
+#'
+#' Graphical plot of the posterior probabilities of the estimated adjacency matrix \eqn{\Omega}
 #'
 #' @param x \code{estimateW} object.
 #' @param cols Main colors to use for the plot
