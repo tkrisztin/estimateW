@@ -3,13 +3,13 @@ Type: Package
 Title: Estimation of spatial weight matrices
 Version: 0.0.1
 Author: Tamas Krisztin [aut, cre] (<https://orcid.org/0000-0002-9241-8628>),
-    Philipp Piribauer [aut]
+    Philipp Piribauer [aut] (<https://orcid.org/0000-0002-3414-3101>)
 Authors@R: c(
     person("Tamas", "Krisztin",role =  c("aut", "cre"),email = "krisztin@iiasa.ac.at",comment = c(ORCID = "0000-0002-9241-8628")),
-    person("Philipp", "Piribauer",role =   "aut",email = "philipp.piribauer@wifo.ac.at")
+    person("Philipp", "Piribauer",role =   "aut",email = "philipp.piribauer@wifo.ac.at",comment = c(ORCID = "0000-0002-3414-3101"))
     )
 Maintainer: Tamás Krisztin <krisztin@iiasa.ac.at>
-Description: Bayesian estimation of spatial weight matrices in panel version of spatial econometric models.
+Description: Bayesian estimation of spatial weight matrices in spatial econometric panel models.
 License: GPL (>= 3)
 Depends: R (>= 3.5.0)
 Encoding: UTF-8
