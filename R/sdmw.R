@@ -1,6 +1,6 @@
 #' A Markov Chain Monte Carlo (MCMC) sampler for the panel spatial autoregressive model (SAR) with unknown spatial weight matrix
 #'
-#' The sampler uses independent an Normal-inverse-Gamma priors for the slope and variance parameters, as well as a the four-parameter
+#' The sampler uses independent  Normal-inverse-Gamma priors for the slope and variance parameters, as well as a four-parameter
 #' beta prior for the spatial autoregressive parameter \eqn{\rho}.
 #' This is a wrapper function calling \code{\link{sdmw}} with no spatially lagged exogenous variables.
 #'
@@ -59,7 +59,7 @@ sarw <- function(Y, tt, Z, niter = 200, nretain = 100,
 
 #' A Markov Chain Monte Carlo (MCMC) sampler for the panel spatial Durbin model (SDM) with unknown spatial weight matrix
 #'
-#' The sampler uses independent an Normal-inverse-Gamma priors for the slope and variance parameters, as well as a the four-parameter
+#' The sampler uses independent an Normal-inverse-Gamma priors for the slope and variance parameters, as well as a four-parameter
 #' beta prior for the spatial autoregressive parameter \eqn{\rho}. It is a wrapper around \code{\link{W_sampler}}.
 #'
 #' The considered panel spatial Durbin model (SDM) with unknown (\eqn{n} by \eqn{n}) spatial weight

@@ -1,4 +1,4 @@
-#' Simulating from an SDM data generating process
+#' Simulating from a data generating process
 #'
 #' This function can be used to generate a random data generating process for SDM,
 #' SAR (if no \eqn{\beta_1} and \eqn{\beta_2} are supplied), SLX (if \eqn{\rho = 0}) type models.
@@ -29,9 +29,9 @@
 #' to \code{c()}. Note: has to be fo same length as \eqn{\beta_1}.
 #' @param beta3 Vector of dimensions \eqn{k_2 \times 1}. Provides the values for \eqn{\beta_3} Defaults
 #' to \code{c()}.
-#' @param sigma2 The true \eqn{\sigma^2} parameter
-#' @param n_neighbor Number of neighbors for the \eqn{W} matrix
-#' @param do_symmetric Should the generated \eqn{W} matrix be symmetric? (default: FALSE)
+#' @param sigma2 The true \eqn{\sigma^2} parameter for the DGP. Has to be a scalar larger than zero.
+#' @param n_neighbor Number of neighbors for the generated \eqn{n \times n} spatial weight \eqn{W} matrix
+#' @param do_symmetric Should the generated spatial weight matrix be symmetric? (default: FALSE)
 #' @param intercept Should the first column of \eqn{Z} be an intercept? Defaults to \code{FALSE}.
 #' If \code{intercept = TRUE}, \eqn{\beta_3} has to be at least of length \code{1}.
 #'
