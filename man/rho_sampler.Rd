@@ -30,9 +30,9 @@ Ritter, C., and Tanner, M. A. (1992). Facilitating the Gibbs sampler: The Gibbs 
 
 \item{\code{curr_rho}}{The current value of \eqn{\rho}}
 
-\item{\code{curr_W}}{The current value of the spatial weight matrix \eqn{W}; an \eqn{n} by \eqn{n} matrix.}
+\item{\code{curr_W}}{The current spatial weight matrix \eqn{W}; an \eqn{n} by \eqn{n} matrix.}
 
-\item{\code{curr_A}}{The current spatial projection matrix \eqn{I - \rho W}.}
+\item{\code{curr_A}}{The current spatial filter matrix \eqn{I - \rho W}.}
 
 \item{\code{curr_AI}}{The inverse of \code{curr_A}}
 

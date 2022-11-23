@@ -7,18 +7,18 @@
 logdetPaceBarry(W, length.out = 200, rmin = -1, rmax = 1)
 }
 \arguments{
-\item{W}{numeric \eqn{n} by \eqn{n} non, negative spatial weights matrix,
+\item{W}{numeric \eqn{n} by \eqn{n} non-negative spatial weights matrix,
 with zeros on the main diagonal.}
 
 \item{length.out}{single, integer number, has to be at least 51 (due to order
 of approximation). Sets how fine the grid approximation is. Default
 value is 200.}
 
-\item{rmin}{single number between -1 and 1. Sets the minimum range of the
+\item{rmin}{single number between -1 and 1. Sets the minimum value of the
 spatial autoregressive parameter \eqn{\rho}. Has to be lower than
 \code{rmax}. Default value is -1.}
 
-\item{rmax}{single number between -1 and 1. Sets the maximum range of the
+\item{rmax}{single number between -1 and 1. Sets the maximum value of the
 spatial autoregressive parameter \eqn{\rho}. Has to be higher than
 \code{rmin}. Default value is 1.}
 }

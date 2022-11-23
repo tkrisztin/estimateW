@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotting.R
 \name{plot.estimateW}
 \alias{plot.estimateW}
-\title{Graphical summary of the estimated W matrix}
+\title{Graphical summary of the estimated adjacency matrix \eqn{\Omega}}
 \usage{
 \method{plot}{estimateW}(
   x,

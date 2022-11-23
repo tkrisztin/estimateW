@@ -43,14 +43,14 @@ used for an illustration on using the \code{\link{beta_sampler}} and \code{\link
 The considered model takes the form:
 
 \deqn{
- Y_t = X_t \beta \varepsilon_t,
+ Y_t = X_t \beta + \varepsilon_t,
  }
 
 with \eqn{\varepsilon_t \sim N(0,I_n \sigma^2)}.
 
 \eqn{Y_t} (\eqn{n \times 1}) collects the \eqn{n} cross-sectional observations for time
-\eqn{t=1,...,T}. \eqn{X_t} (\eqn{n \times k}) is a matrix of explanatory variables.
-\eqn{\beta_1} (\eqn{k \times 1}) is an unknown slope parameter matrix.
+\eqn{t=1,...,T}. \eqn{X_t} (\eqn{n \times k_1}) is a matrix of explanatory variables.
+\eqn{\beta} (\eqn{k_1 \times 1}) is an unknown slope parameter matrix.
 
 After vertically staking the \eqn{T} cross-sections  \eqn{Y=[Y_1',...,Y_T']'} (\eqn{N \times 1}),
 \eqn{X=[X_1',...,X_T']'} (\eqn{N \times k}), with \eqn{N=nT}, the final model can be expressed as:

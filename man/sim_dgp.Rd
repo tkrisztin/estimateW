@@ -42,7 +42,7 @@ to \code{c()}.}
 A list with the generated \eqn{X}, \eqn{Y} and \eqn{W} and a list of parameters.
 }
 \description{
-The panel model takes the form \eqn{Y_t = \rho W Y_t + X_t \beta_1 + W X_t \beta_2 + Z_t \beta_3 +  \epsilon}, with \eqn{\epsilon \sim N(0,I\sigma^2)}.
+The panel model takes the form \eqn{Y_t = \rho W Y_t + X_t \beta_1 + W X_t \beta_2 + Z_t \beta_3 +  \epsilon}, with \eqn{\epsilon \sim N(0,I_n\sigma^2)}.
 The non-negative, row-stochastic \eqn{n} by \eqn{n} matrix \eqn{W} is constructed using a k-nearest neighbor specification
 based on a randomly generated spatial location pattern, with coordinates sampled from a standard normal distribution.
 }

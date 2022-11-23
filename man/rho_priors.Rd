@@ -18,9 +18,11 @@ rho_priors(
 )
 }
 \arguments{
-\item{rho_a_prior}{Single number prior for the four-parameter beta distribution \code{\link{betapdf}}. Defaults to 1.}
+\item{rho_a_prior}{Single number. Prior hyperparameter for the four-parameter beta distribution \code{\link{betapdf}}.
+Defaults to 1.}
 
-\item{rho_b_prior}{Single number prior for the four-parameter beta distribution \code{\link{betapdf}}. Defaults to 1.}
+\item{rho_b_prior}{Single number. Prior hyperparameter for the four-parameter beta distribution \code{\link{betapdf}}.
+Defaults to 1.}
 
 \item{rho_min}{Minimum value for \eqn{\rho} (default: 0)}
 
@@ -28,12 +30,12 @@ rho_priors(
 
 \item{init_rho_scale}{For Metropolis-Hastings step the initial candidate variance (default: 1)}
 
-\item{griddy_n}{single, integer number, Sets how fine the grid approximation is. Default
-value is 60}
+\item{griddy_n}{single integer number. Sets how fine the grid approximation is. Default
+value is 60.}
 
-\item{use_griddy_gibbs}{Should griddy-Gibbs be used for \eqn{\rho} estimation?
-Does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification.
-Main advantage is that less draws are required for \eqn{\rho}}
+\item{use_griddy_gibbs}{Binary value. Should griddy-Gibbs be used for \eqn{\rho} estimation?
+\code{use_griddy_gibbs=TRUE} does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification.
+if TRUE: griddy-Gibbs step for sampling \eqn{\rho}; if FALSE: tuned random-walk Metropolis-Hastings step}
 
 \item{mh_tune_low}{Lower bound of acceptance rate for Metropolis-Hastings tuning
 (used if \code{use_griddy_gibbs==FALSE})}

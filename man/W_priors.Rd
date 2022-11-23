@@ -21,15 +21,21 @@ W_priors(
 
 \item{W_prior}{An \eqn{n} by \eqn{n} matrix of prior inclusion probabilities for \eqn{W}}
 
-\item{symmetric_prior}{Should the estimated adjacency matrix \eqn{\Omega} be symmetric (default: FALSE)}
+\item{symmetric_prior}{Binary value. Should the estimated adjacency matrix \eqn{\Omega} be symmetric (default: FALSE)?
+if TRUE: \eqn{\Omega} is forced symmetric; if FALSE: \eqn{\Omega} not necessarily symmetric.}
 
-\item{row_standardized_prior}{Should the estimated \eqn{W} matrix be row-standardized (default: TRUE)}
+\item{row_standardized_prior}{Binary value. Should the estimated \eqn{W} matrix be row-standardized (default: TRUE)?
+if TRUE: row-stochastic \eqn{W}; if FALSE: \eqn{W} not row-standardized.}
 
-\item{bbinom_a_prior}{Parameter a of sparsity prior (used if \code{use_bbinom_prior==TRUE})}
+\item{bbinom_a_prior}{Single value prior hyperparameter \eqn{a} of hierarchical beta binomial sparsity prior
+(used if \code{use_bbinom_prior==TRUE})}
 
-\item{bbinom_b_prior}{Parameter a of sparsity prior (used if \code{use_bbinom_prior==TRUE})}
+\item{bbinom_b_prior}{Single value prior hyperparameter \eqn{b} of hierarchical beta binomial sparsity prior
+(used if \code{use_bbinom_prior==TRUE})}
 
-\item{use_bbinom_prior}{Should hierarchical sparsity prior specifications be used? (default: TRUE)}
+\item{use_bbinom_prior}{Binary value. Should hierarchical sparsity prior specifications be used? (default: TRUE)
+if TRUE: a hierarchical beta binomial sparsity prior for \eqn{\Omega} is used;
+if FALSE: fixed Bernoulli priors in \code{W_prior} for the elements of \eqn{\Omega} are used.}
 
 \item{min_neighbors}{Minimum number of neighbors (default: 0)}
 
@@ -37,6 +43,6 @@ W_priors(
 }
 \description{
 Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},
-where \eqn{Omega} is an \eqn{n} by \eqn{n} unknown binary adjacency matrix (with zeros on the
+where \eqn{\Omega} is an \eqn{n} by \eqn{n} unknown binary adjacency matrix (with zeros on the
 main diagonal), and \eqn{f()} denotes the (optional) row-standardization function
 }

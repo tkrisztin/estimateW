@@ -24,8 +24,8 @@ spatial (\eqn{n}) times time observations (\eqn{tt=T}). Note that the observatio
 
 \item{tt}{single number greater or equal to 1. Denotes the number of time observations. \eqn{tt = T}.}
 
-\item{W}{numeric, non-negative \eqn{n} by \eqn{n} exogenous spatial weight matrix. Must have
-zeros on the main diagonal.}
+\item{W}{numeric, non-negative and row-stochastic \eqn{n} by \eqn{n} exogenous spatial weight matrix.
+Must have zeros on the main diagonal.}
 
 \item{X}{numeric \eqn{N \times k_1} design matrix of independent variables. These will be
 automatically spatially lagged. If no spatially lagged variable is included in the model
@@ -66,7 +66,7 @@ The considered panel spatial Durbin model (SDM) takes the form:
  }
 
 with \eqn{\varepsilon_t \sim N(0,I_n \sigma^2)}. The row-stochastic \eqn{n} by \eqn{n} spatial weight
-matrix \eqn{W} is non-negative and has zeros on the main diagonal. \eqn{rho} is a scalar spatial autoregressive parameter.
+matrix \eqn{W} is non-negative and has zeros on the main diagonal. \eqn{\rho} is a scalar spatial autoregressive parameter.
 
 \eqn{Y_t} (\eqn{n \times 1}) collects the \eqn{n} cross-sectional (spatial) observations for time
 \eqn{t=1,...,T}. \eqn{X_t} (\eqn{n \times k_1}) and \eqn{Z_t} (\eqn{n \times k_2}) are

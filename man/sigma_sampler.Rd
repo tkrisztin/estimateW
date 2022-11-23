@@ -16,7 +16,7 @@ Use the \link{sigma_priors} class for setup.
 \describe{
 \item{\code{sigma_prior}}{The current \code{\link{sigma_priors}}}
 
-\item{\code{curr_sigma}}{The current value of \eqn{\beta}}
+\item{\code{curr_sigma}}{The current value of \eqn{\sigma^2}}
 }
 \if{html}{\out{</div>}}
 }

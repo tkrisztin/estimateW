@@ -54,7 +54,7 @@ W_priors = function(n,
 #'   value is 60.
 #' @param use_griddy_gibbs Binary value. Should griddy-Gibbs be used for \eqn{\rho} estimation?
 #' \code{use_griddy_gibbs=TRUE} does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification.
-#' if TRUE: griddy-Gibbs step for sampling \eqn(\rho); if FALSE: tuned random-walk Metropolis-Hastings step
+#' if TRUE: griddy-Gibbs step for sampling \eqn{\rho}; if FALSE: tuned random-walk Metropolis-Hastings step
 #'
 #' @param mh_tune_low Lower bound of acceptance rate for Metropolis-Hastings tuning
 #' (used if \code{use_griddy_gibbs==FALSE})
