@@ -22,8 +22,8 @@ beta_sampler = R6::R6Class("beta_sampler",cloneable = FALSE, public = list(
     self$sample(matrix(0,2,1),matrix(0,2,k),1)
     invisible(self)
   },
-  #' @param Y The \eqn{n} by \eqn{1} matrix of responses
-  #' @param X The \eqn{n} by \eqn{k} design matrix
+  #' @param Y The \eqn{N} by \eqn{1} matrix of responses
+  #' @param X The \eqn{N} by \eqn{k} design matrix
   #' @param curr_sigma The variance parameter \eqn{\sigma^2}
   #'
   #' @export
@@ -62,8 +62,8 @@ sigma_sampler = R6::R6Class("sigma_sampler", cloneable = FALSE, public = list(
                       self$sigma_prior$sigma_shape_prior  )
     invisible(self)
   },
-  #' @param Y The \eqn{n} by \eqn{1} matrix of responses
-  #' @param mu The \eqn{n} by \eqn{1} matrix of means
+  #' @param Y The \eqn{N} by \eqn{1} matrix of responses
+  #' @param mu The \eqn{N} by \eqn{1} matrix of means
   #'
   #' @export
   sample = function(Y,mu) {
@@ -138,10 +138,10 @@ rho_sampler = R6::R6Class("rho_sampler", cloneable = FALSE, public = list(
       private$do_MHtune = FALSE
     }
   },
-  #' @param newW The updated spatial weight matrix \eqn{W}
-  #' @param newLogdet An optional value for the log determinant corresponding to \code{newW} and \code{curr_rho}
-  #' @param newA An optional value for the spatial projection matrix using \code{newW} and \code{curr_rho}
-  #' @param newAI An optional value for the matrix inverse of \code{newA}
+  #' @param newW The updated spatial weight matrix \eqn{W}.
+  #' @param newLogdet An optional value for the log determinant corresponding to \code{newW} and \code{curr_rho}.
+  #' @param newA An optional value for the spatial projection matrix using \code{newW} and \code{curr_rho}.
+  #' @param newAI An optional value for the matrix inverse of \code{newA}.
   #'
   #' @export
   setW = function(newW, newLogdet = NULL, newA = NULL, newAI = NULL) {
@@ -163,9 +163,9 @@ rho_sampler = R6::R6Class("rho_sampler", cloneable = FALSE, public = list(
     }
     invisible(self)
   },
-  #' @param Y The \eqn{n} by \eqn{tt} matrix of responses
-  #' @param mu The \eqn{n} by \eqn{tt} matrix of means
-  #' @param sigma The variance parameter \eqn{\sigma^2}
+  #' @param Y The \eqn{n} by \eqn{T} matrix of responses.
+  #' @param mu The \eqn{n} by \eqn{T} matrix of means.
+  #' @param sigma The variance parameter \eqn{\sigma^2}.
   #'
   #' @export
   sample = function(Y,mu, sigma) {
@@ -176,9 +176,9 @@ rho_sampler = R6::R6Class("rho_sampler", cloneable = FALSE, public = list(
     }
     invisible(self)
   },
-  #' @param Y The \eqn{n} by \eqn{tt} matrix of responses
-  #' @param mu The \eqn{n} by \eqn{tt} matrix of means
-  #' @param sigma The variance parameter \eqn{\sigma^2}
+  #' @param Y The \eqn{n} by \eqn{T} matrix of responses.
+  #' @param mu The \eqn{n} by \eqn{T} matrix of means.
+  #' @param sigma The variance parameter \eqn{\sigma^2}.
   #'
   #' @export
   sample_Griddy = function(Y,mu, sigma) {
@@ -204,9 +204,9 @@ rho_sampler = R6::R6Class("rho_sampler", cloneable = FALSE, public = list(
     }
     invisible(self)
   },
-  #' @param Y The \eqn{n} by \eqn{tt} matrix of responses
-  #' @param mu The \eqn{n} by \eqn{tt} matrix of means
-  #' @param sigma The variance parameter \eqn{\sigma^2}
+  #' @param Y The \eqn{n} by \eqn{T} matrix of responses.
+  #' @param mu The \eqn{n} by \eqn{T} matrix of means.
+  #' @param sigma The variance parameter \eqn{\sigma^2}.
   #'
   #' @export
   sample_MH = function(Y,mu, sigma) {

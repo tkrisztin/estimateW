@@ -13,23 +13,24 @@ sim_dgp(
   beta3 = c(),
   sigma2 = 0.5,
   n_neighbor = 7,
-  do_symmetric = FALSE
+  do_symmetric = FALSE,
+  intercept = FALSE
 )
 }
 \arguments{
-\item{n}{Number of spatial observations}
+\item{n}{Number of spatial observations \eqn{n}.}
 
-\item{tt}{Number of time observations}
+\item{tt}{Number of time observations \eqn{T}.}
 
-\item{rho}{The true rho parameter}
+\item{rho}{The true \eqn{\rho} parameter}
 
-\item{beta1}{Numeric vector of length \eqn{k_1} vector. Provides the values for \eqn{\beta_1} Defaults
-to \code{c()}.}
+\item{beta1}{Vector of dimensions \eqn{k_1 \times 1}. Provides the values for \eqn{\beta_1} Defaults
+to \code{c()}. Note: has to be fo same length as \eqn{\beta_2}.}
 
-\item{beta2}{Numeric vector of length \eqn{k_1} vector. Provides the values for \eqn{\beta_2} Defaults
-to \code{c()}.}
+\item{beta2}{Vector of dimensions \eqn{k_1 \times 1}. Provides the values for \eqn{\beta_2} Defaults
+to \code{c()}. Note: has to be fo same length as \eqn{\beta_1}.}
 
-\item{beta3}{Numeric vector of length \eqn{k_3} vector. Provides the values for \eqn{\beta_3} Defaults
+\item{beta3}{Vector of dimensions \eqn{k_2 \times 1}. Provides the values for \eqn{\beta_3} Defaults
 to \code{c()}.}
 
 \item{sigma2}{The true \eqn{\sigma^2} parameter}
@@ -37,14 +38,34 @@ to \code{c()}.}
 \item{n_neighbor}{Number of neighbors for the \eqn{W} matrix}
 
 \item{do_symmetric}{Should the generated \eqn{W} matrix be symmetric? (default: FALSE)}
+
+\item{intercept}{Should the first column of \eqn{Z} be an intercept? Defaults to \code{FALSE}.
+If \code{intercept = TRUE}, \eqn{\beta_3} has to be at least of length \code{1}.}
 }
 \value{
 A list with the generated \eqn{X}, \eqn{Y} and \eqn{W} and a list of parameters.
 }
 \description{
-The panel model takes the form \eqn{Y_t = \rho W Y_t + X_t \beta_1 + W X_t \beta_2 + Z_t \beta_3 +  \epsilon}, with \eqn{\epsilon \sim N(0,I_n\sigma^2)}.
+This function can be used to generate a random data generating process for SDM,
+SAR (if no \eqn{\beta_1} and \eqn{\beta_2} are supplied), SLX (if \eqn{\rho = 0}) type models.
+}
+\details{
+The generated spatial panel model takes the form
+
+\deqn{
+Y = \rho W Y + X \beta_1 + W X \beta_2 + Z \beta_3 +  \epsilon,
+}
+
+with \eqn{\epsilon \sim N(0,I_n\sigma^2)}. he function generates the \eqn{N \times 1} vector \eqn{Y}.
+The elements of the explanatory variable matrices \eqn{X}
+(\eqn{N \times k_1}) and \eqn{Z} (\eqn{N \times k_2}) are randomly generated from a Gaussian
+distribution with zero mean and unity variance (\eqn{N(0,1)}).
+
 The non-negative, row-stochastic \eqn{n} by \eqn{n} matrix \eqn{W} is constructed using a k-nearest neighbor specification
 based on a randomly generated spatial location pattern, with coordinates sampled from a standard normal distribution.
+
+Values for the parameters \eqn{\beta_1}, \eqn{\beta_2}, and \eqn{\beta_3}, as well as
+\eqn{\rho} and \eqn{\sigma^2} have to be provided by the user.
 }
 \examples{
 # SDM data generating process

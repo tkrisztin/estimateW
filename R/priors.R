@@ -107,12 +107,12 @@ beta_priors = function(k,
 
 #' Set prior specification for the error variance using an inverse Gamma distribution
 #'
-#' @param sigma_rate_prior Sigma rate prior parameter (scalar), default: \eqn{.1}
-#' @param sigma_shape_prior Sigma shape prior parameter (scalar), default: \eqn{.1}
+#' @param sigma_rate_prior Sigma rate prior parameter (scalar), default: \eqn{0.001}.
+#' @param sigma_shape_prior Sigma shape prior parameter (scalar), default: \eqn{0.001}.
 #'
 #' This function allows the user to specify priors for the error variance \eqn{\sigma^2}.
 #'
 #' @export
-sigma_priors = function(sigma_rate_prior = .1, sigma_shape_prior = .1) {
+sigma_priors = function(sigma_rate_prior = 0.001, sigma_shape_prior = 0.001) {
   return(list(sigma_rate_prior = sigma_rate_prior, sigma_shape_prior = sigma_shape_prior))
 }

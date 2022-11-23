@@ -95,13 +95,13 @@ Call this function to turn it off.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{newW}}{The updated spatial weight matrix \eqn{W}}
+\item{\code{newW}}{The updated spatial weight matrix \eqn{W}.}
 
-\item{\code{newLogdet}}{An optional value for the log determinant corresponding to \code{newW} and \code{curr_rho}}
+\item{\code{newLogdet}}{An optional value for the log determinant corresponding to \code{newW} and \code{curr_rho}.}
 
-\item{\code{newA}}{An optional value for the spatial projection matrix using \code{newW} and \code{curr_rho}}
+\item{\code{newA}}{An optional value for the spatial projection matrix using \code{newW} and \code{curr_rho}.}
 
-\item{\code{newAI}}{An optional value for the matrix inverse of \code{newA}}
+\item{\code{newAI}}{An optional value for the matrix inverse of \code{newA}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -117,11 +117,11 @@ Call this function to turn it off.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{Y}}{The \eqn{n} by \eqn{tt} matrix of responses}
+\item{\code{Y}}{The \eqn{n} by \eqn{T} matrix of responses.}
 
-\item{\code{mu}}{The \eqn{n} by \eqn{tt} matrix of means}
+\item{\code{mu}}{The \eqn{n} by \eqn{T} matrix of means.}
 
-\item{\code{sigma}}{The variance parameter \eqn{\sigma^2}}
+\item{\code{sigma}}{The variance parameter \eqn{\sigma^2}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -137,11 +137,11 @@ Call this function to turn it off.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{Y}}{The \eqn{n} by \eqn{tt} matrix of responses}
+\item{\code{Y}}{The \eqn{n} by \eqn{T} matrix of responses.}
 
-\item{\code{mu}}{The \eqn{n} by \eqn{tt} matrix of means}
+\item{\code{mu}}{The \eqn{n} by \eqn{T} matrix of means.}
 
-\item{\code{sigma}}{The variance parameter \eqn{\sigma^2}}
+\item{\code{sigma}}{The variance parameter \eqn{\sigma^2}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -157,11 +157,11 @@ Call this function to turn it off.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{Y}}{The \eqn{n} by \eqn{tt} matrix of responses}
+\item{\code{Y}}{The \eqn{n} by \eqn{T} matrix of responses.}
 
-\item{\code{mu}}{The \eqn{n} by \eqn{tt} matrix of means}
+\item{\code{mu}}{The \eqn{n} by \eqn{T} matrix of means.}
 
-\item{\code{sigma}}{The variance parameter \eqn{\sigma^2}}
+\item{\code{sigma}}{The variance parameter \eqn{\sigma^2}.}
 }
 \if{html}{\out{</div>}}
 }

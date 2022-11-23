@@ -54,9 +54,9 @@ Use the \link{sigma_priors} class for setup.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{Y}}{The \eqn{n} by \eqn{1} matrix of responses}
+\item{\code{Y}}{The \eqn{N} by \eqn{1} matrix of responses}
 
-\item{\code{mu}}{The \eqn{n} by \eqn{1} matrix of means}
+\item{\code{mu}}{The \eqn{N} by \eqn{1} matrix of means}
 }
 \if{html}{\out{</div>}}
 }

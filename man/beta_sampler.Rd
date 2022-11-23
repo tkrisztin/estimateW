@@ -54,9 +54,9 @@ Use the \link{beta_priors} class for setup.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{Y}}{The \eqn{n} by \eqn{1} matrix of responses}
+\item{\code{Y}}{The \eqn{N} by \eqn{1} matrix of responses}
 
-\item{\code{X}}{The \eqn{n} by \eqn{k} design matrix}
+\item{\code{X}}{The \eqn{N} by \eqn{k} design matrix}
 
 \item{\code{curr_sigma}}{The variance parameter \eqn{\sigma^2}}
 }
