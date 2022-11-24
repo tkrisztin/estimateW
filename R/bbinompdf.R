@@ -45,7 +45,7 @@
 #'   \bold{24(4)}. \doi{10.1002/jae.1057}.
 bbinompdf <- function(x, nsize, a, b, min_k = 0, max_k = nsize) {
   x2 <- base::beta(a + x, b + nsize - x) / base::beta(a, b)
-  if (any(x < min_k || x > max_k)) {
+  if (any(x < min_k) || any(x > max_k)) {
     x2[x < min_k | x > max_k] <- 0
   }
   return(x2)

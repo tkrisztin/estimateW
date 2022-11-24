@@ -9,11 +9,8 @@ W_priors(
   W_prior = matrix(0.5, n, n),
   symmetric_prior = FALSE,
   row_standardized_prior = TRUE,
-  bbinom_a_prior = 1,
-  bbinom_b_prior = 1,
-  use_bbinom_prior = TRUE,
-  min_neighbors = 0,
-  max_neighbors = n - 1
+  nr_neighbors_prior = bbinompdf(0:(n - 1), nsize = n - 1, a = 1, b = 1, min_k = 0, max_k
+    = n - 1)
 )
 }
 \arguments{
@@ -27,19 +24,10 @@ if TRUE: \eqn{\Omega} is forced symmetric; if FALSE: \eqn{\Omega} not necessaril
 \item{row_standardized_prior}{Binary value. Should the estimated \eqn{W} matrix be row-standardized (default: TRUE)?
 if TRUE: row-stochastic \eqn{W}; if FALSE: \eqn{W} not row-standardized.}
 
-\item{bbinom_a_prior}{Single value prior hyperparameter \eqn{a} of hierarchical beta binomial sparsity prior
-(used if \code{use_bbinom_prior==TRUE})}
-
-\item{bbinom_b_prior}{Single value prior hyperparameter \eqn{b} of hierarchical beta binomial sparsity prior
-(used if \code{use_bbinom_prior==TRUE})}
-
-\item{use_bbinom_prior}{Binary value. Should hierarchical sparsity prior specifications be used? (default: TRUE)
-if TRUE: a hierarchical beta binomial sparsity prior for \eqn{\Omega} is used;
-if FALSE: fixed Bernoulli priors in \code{W_prior} for the elements of \eqn{\Omega} are used.}
-
-\item{min_neighbors}{Minimum number of neighbors (default: 0)}
-
-\item{max_neighbors}{Maximum number of neighbors (default: n-1)}
+\item{nr_neighbors_prior}{An \eqn{n \times 1} vector of prior inclusion probabilities on the number of neighbors.
+Defaults to a \code{\link{bbinompdf}} prior, with prior parameters \eqn{a = 1}, \eqn{b = 1} and
+no minimum or maximum restrictions on the number of neighbors. A flat prior would be an
+\eqn{n \times 1} vector of ones.}
 }
 \description{
 Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},

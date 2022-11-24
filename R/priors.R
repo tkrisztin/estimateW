@@ -13,30 +13,24 @@
 #' if TRUE: \eqn{\Omega} is forced symmetric; if FALSE: \eqn{\Omega} not necessarily symmetric.
 #' @param row_standardized_prior Binary value. Should the estimated \eqn{W} matrix be row-standardized (default: TRUE)?
 #' if TRUE: row-stochastic \eqn{W}; if FALSE: \eqn{W} not row-standardized.
-#' @param bbinom_a_prior Single value prior hyperparameter \eqn{a} of hierarchical beta binomial sparsity prior
-#' (used if \code{use_bbinom_prior==TRUE})
-#' @param bbinom_b_prior Single value prior hyperparameter \eqn{b} of hierarchical beta binomial sparsity prior
-#' (used if \code{use_bbinom_prior==TRUE})
-#' @param use_bbinom_prior Binary value. Should hierarchical sparsity prior specifications be used? (default: TRUE)
-#' if TRUE: a hierarchical beta binomial sparsity prior for \eqn{\Omega} is used;
-#' if FALSE: fixed Bernoulli priors in \code{W_prior} for the elements of \eqn{\Omega} are used.
-#' @param min_neighbors Minimum number of neighbors (default: 0)
-#' @param max_neighbors Maximum number of neighbors (default: n-1)
+#' @param nr_neighbors_prior An \eqn{n \times 1} vector of prior inclusion probabilities on the number of neighbors.
+#' Defaults to a \code{\link{bbinompdf}} prior, with prior parameters \eqn{a = 1}, \eqn{b = 1} and
+#' no minimum or maximum restrictions on the number of neighbors. A flat prior would be an
+#' \eqn{n \times 1} vector of ones.
 #'
 #' @export
 W_priors = function(n,
                        W_prior = matrix(.5,n,n),
                        symmetric_prior = FALSE,row_standardized_prior = TRUE,
-                       bbinom_a_prior = 1, bbinom_b_prior = 1, use_bbinom_prior = TRUE,
-                       min_neighbors = 0, max_neighbors = n-1) {
+                       nr_neighbors_prior = bbinompdf(0:(n-1), nsize = n - 1,
+                                                      a = 1,b = 1,
+                                                      min_k = 0,max_k = n-1)
+                    ) {
   # Ensure diagonal of W_prior is zero
   diag(W_prior) <- 0
-  if (min_neighbors != 0 || max_neighbors != n-1) {use_reject_prior = TRUE} else {use_reject_prior = FALSE}
-  return(list(W_prior = W_prior,symmetric_prior = symmetric_prior,row_standardized_prior = row_standardized_prior,
-              bbinom_a_prior = bbinom_a_prior, bbinom_b_prior = bbinom_b_prior,
-              use_bbinom_prior = use_bbinom_prior,
-              min_neighbors = min_neighbors, max_neighbors = max_neighbors,
-              use_reject_prior = use_reject_prior))
+  return(list(W_prior = W_prior,symmetric_prior = symmetric_prior,
+              row_standardized_prior = row_standardized_prior,
+              nr_neighbors_prior = nr_neighbors_prior))
 }
 
 #' Specify prior for the spatial autoregressive parameter and sampling settings

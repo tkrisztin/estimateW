@@ -317,31 +317,15 @@ W_sampler = R6::R6Class("W_sampler", cloneable = FALSE, public =list(
       for (j in jj_samples) {
         curr.Wpr <- self$W_prior$W_prior[i, j]
         if (self$W_prior$symmetric_prior) {
-          neighb1 <- sum((self$curr_W + t(self$curr_W))[i, ])
+          neighb0 <- sum((self$curr_W + t(self$curr_W))[i, ])
+          neighb1 = neighb0 + 1
         } else {
-          neighb1 <- sum(self$curr_W[i, ])
+          neighb0 <- sum(self$curr_W[i, ])
+          neighb1 = neighb0 + 1
         }
-        if (self$W_prior$use_reject_prior) {
-          if (self$W_prior$symmetric_prior) {
-            rjct_n <- max(neighb1, sum((self$curr_W + t(self$curr_W))[j, ]))
-          } else {
-            rjct_n <- neighb1
-          }
-          if (rjct_n < self$W_prior$min_neighbors) {
-            curr.Wpr <- 1
-          } else if (rjct_n == self$W_prior$max_neighbors) {
-            curr.Wpr <- 0
-          }
-        }
-        if (self$W_prior$use_bbinom_prior) {
-          bbprior1 <- bbinompdf(neighb1, n - 1, self$W_prior$bbinom_a_prior,
-                                self$W_prior$bbinom_b_prior) * curr.Wpr
-          bbprior0 <- (1 - bbinompdf(neighb1, n - 1, self$W_prior$bbinom_a_prior,
-                                self$W_prior$bbinom_b_prior)) * (1 - curr.Wpr)
-          bbprior_ <- bbprior1 / (bbprior1 + bbprior0)
-        } else {
-          bbprior_ <- curr.Wpr
-        }
+        bbprior1 = self$W_prior$nr_neighbors_prior[neighb1+1] * (curr.Wpr)
+        bbprior0 = self$W_prior$nr_neighbors_prior[neighb0+1] * (1-curr.Wpr)
+        bbprior_ <- bbprior1 / (bbprior1 + bbprior0)
         prob.delta <- bbprior_ / (bbprior_ + (1 - bbprior_))
         if (prob.delta == 1) {
           self$curr_W[i, j] <- 1
@@ -478,53 +462,17 @@ W_sampler = R6::R6Class("W_sampler", cloneable = FALSE, public =list(
               logdet1 <- res1$logdet
             }
           }
-
           curr.W_prior <- self$W_prior$W_prior
-          # # rejection prior
-          if (self$W_prior$use_reject_prior) {
-            if (self$W_prior$symmetric_prior) {
-              W_reject1 <- rowSums(w1[c(ii, jj), ] > 0) > self$W_prior$max_neighbors
-            } else {
-              W_reject1 <- sum(W1[ii, ]) > self$W_prior$max_neighbors
-            }
-            if (sum(W_reject1) > 0) {
-              curr.W_prior[ii, jj] <- 0
-            }
-            if (self$W_prior$symmetric_prior) {
-              W_reject0 <- rowSums(w0[c(ii, jj), ] > 0) < self$W_prior$min_neighbors
-            } else {
-              W_reject0 <- sum(W0[ii, ]) < self$W_prior$min_neighbors
-            }
-            if (sum(W_reject0) > 0) {
-              curr.W_prior[ii, jj] <- 1
-            }
-          }
-          if (self$W_prior$use_bbinom_prior) {
-            if (self$W_prior$symmetric_prior) {
-              neighb0 <- sum((W0 + t(W0))[ii, ])
-            } else {
-              neighb0 <- sum(W0[ii, ])
-            }
-            # bbprior0 = bbinompdf(neighb0,n-1,bbinom_a_prior,bbinom_b_prior) * (1 - curr.W_prior[ii,jj])
-            bbprior0 <- bbinompdf(neighb0, n - 1,self$W_prior$bbinom_a_prior,
-                                  self$W_prior$bbinom_b_prior, self$W_prior$min_neighbors,
-                                  self$W_prior$max_neighbors) *
-              (1 - curr.W_prior[ii, jj])
-            # if (neighb0 == 0) {bbprior0 = 0}
-            if (self$W_prior$symmetric_prior) {
-              neighb1 <- sum((W1 + t(W1))[ii, ])
-            } else {
-              neighb1 <- sum(W1[ii, ])
-            }
-            # bbprior1 = bbinompdf(neighb1,n-1,bbinom_a_prior,bbinom_b_prior) * curr.W_prior[ii,jj]
-            bbprior1 <- bbinompdf(neighb1, n - 1, self$W_prior$bbinom_a_prior,
-                                  self$W_prior$bbinom_b_prior, self$W_prior$min_neighbors,
-                                  self$W_prior$max_neighbors) *
-              curr.W_prior[ii, jj]
-            bbprior_ <- bbprior1 / (bbprior1 + bbprior0)
+          if (self$W_prior$symmetric_prior) {
+            neighb0 <- sum((W0 + t(W0))[ii, ])
+            neighb1 <- sum((W1 + t(W1))[ii, ])
           } else {
-            bbprior_ <- curr.W_prior[ii, jj]
+            neighb0 <- sum(W0[ii, ])
+            neighb1 <- sum(W1[ii, ])
           }
+          bbprior0 = self$W_prior$nr_neighbors_prior[neighb0+1] * (1-curr.W_prior[ii, jj])
+          bbprior1 = self$W_prior$nr_neighbors_prior[neighb1+1] * curr.W_prior[ii, jj]
+          bbprior_ <- bbprior1 / (bbprior1 + bbprior0)
 
           if (!is.null(self$curr_rho)) {
             err1 <- sum((A1[ch_elmnt, ] %*% Y - mu[ch_elmnt, ] - w1[ch_elmnt,] %*% lag_mu)^2)

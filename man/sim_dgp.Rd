@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulation.R
 \name{sim_dgp}
 \alias{sim_dgp}
-\title{Simulating from an SDM data generating process}
+\title{Simulating from a data generating process}
 \usage{
 sim_dgp(
   n,
@@ -33,11 +33,11 @@ to \code{c()}. Note: has to be fo same length as \eqn{\beta_1}.}
 \item{beta3}{Vector of dimensions \eqn{k_2 \times 1}. Provides the values for \eqn{\beta_3} Defaults
 to \code{c()}.}
 
-\item{sigma2}{The true \eqn{\sigma^2} parameter}
+\item{sigma2}{The true \eqn{\sigma^2} parameter for the DGP. Has to be a scalar larger than zero.}
 
-\item{n_neighbor}{Number of neighbors for the \eqn{W} matrix}
+\item{n_neighbor}{Number of neighbors for the generated \eqn{n \times n} spatial weight \eqn{W} matrix}
 
-\item{do_symmetric}{Should the generated \eqn{W} matrix be symmetric? (default: FALSE)}
+\item{do_symmetric}{Should the generated spatial weight matrix be symmetric? (default: FALSE)}
 
 \item{intercept}{Should the first column of \eqn{Z} be an intercept? Defaults to \code{FALSE}.
 If \code{intercept = TRUE}, \eqn{\beta_3} has to be at least of length \code{1}.}

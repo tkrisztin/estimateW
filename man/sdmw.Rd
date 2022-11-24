@@ -57,7 +57,7 @@ List with posterior samples for the slope parameters, \eqn{\rho}, \eqn{\sigma^2}
 and average direct, indirect, and total effects.
 }
 \description{
-The sampler uses independent an Normal-inverse-Gamma priors for the slope and variance parameters, as well as a the four-parameter
+The sampler uses independent an Normal-inverse-Gamma priors for the slope and variance parameters, as well as a four-parameter
 beta prior for the spatial autoregressive parameter \eqn{\rho}. It is a wrapper around \code{\link{W_sampler}}.
 }
 \details{
