@@ -50,7 +50,7 @@
 #'                   beta2 = c(0,.5), beta3 = c(.2), sigma2 = .5)
 #' res = slxw(Y = dgp_dat$Y, tt = tt, X = dgp_dat$X, Z = dgp_dat$Z,
 #'                   niter = 20, nretain = 10)
-slxw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter = 200, nretain = 100,
+slxw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter = 100, nretain = 50,
                  W_prior = W_priors(n = nrow(Y)/tt),
                  beta_prior = beta_priors(k = ncol(X)*2 + ncol(Z)),sigma_prior = sigma_priors()) {
   if (ncol(X) == 0 && ncol(Z) == 0) {stop("Error: At least either X or Z matrix have to be provided.")}
