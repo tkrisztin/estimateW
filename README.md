@@ -22,14 +22,31 @@ remotes::install_github(
 ```r
 # Load the package
 library(estimateW)
+require(dplyr)
+
+tt = length(unique(covid$date))
+n = length(unique(covid$ISO3))
+
+# reorder by date and longitude
+covid = covid %>% 
+  arrange(date, LON) %>%
+  mutate(date = as.factor(date))
+  
+# Benchmark specification from Krisztin and Piribauer (2022) SEA
+Y = as.matrix(covid$infections_pc - covid$infections_pc_lag)
+X = model.matrix(~infections_pc_lag + stringency_2weekly + 
+                   precipProbability + temperatureMax + ISO3 + as.factor(date) + 0,data = covid)
+
+# use a flat prior for W
+flat_W_prior = W_priors(n = n,nr_neighbors_prior = rep(1/n,n))
 
 # Estimate a Bayesian model using covid infections data
-Y = as.matrix(covid$infections_pc)
-X = model.matrix(~infections_pc_lag + stringency_2weekly + precipProbability + temperatureMax + ISO3 + 0,data = covid)
-res = sarw(Y = Y,tt = 19,Z = X,niter = 100,nretain = 50)
-
+res = sarw(Y = Y,tt = tt,Z = X,niter = 200,nretain = 50,
+           W_prior = flat_W_prior)
+           
 # Plot the posterior of the spatial weight matrix
-plot(res)
+dimnames(res$postw)[[2]] = dimnames(res$postw)[[1]] = covid$ISO3[1:n]
+plot(res,font=3,cex.axis=0.75,las=2)
 ```
 
 ## References

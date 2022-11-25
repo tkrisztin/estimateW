@@ -11,8 +11,8 @@ sim_dgp(
   beta1 = c(),
   beta2 = c(),
   beta3 = c(),
-  sigma2 = 0.5,
-  n_neighbor = 7,
+  sigma2,
+  n_neighbor = 4,
   do_symmetric = FALSE,
   intercept = FALSE
 )
@@ -35,7 +35,8 @@ to \code{c()}.}
 
 \item{sigma2}{The true \eqn{\sigma^2} parameter for the DGP. Has to be a scalar larger than zero.}
 
-\item{n_neighbor}{Number of neighbors for the generated \eqn{n \times n} spatial weight \eqn{W} matrix}
+\item{n_neighbor}{Number of neighbors for the generated \eqn{n \times n} spatial weight \eqn{W} matrix.
+Defaults to 4.}
 
 \item{do_symmetric}{Should the generated spatial weight matrix be symmetric? (default: FALSE)}
 

@@ -39,7 +39,8 @@
 #' @param beta3 Vector of dimensions \eqn{k_2 \times 1}. Provides the values for \eqn{\beta_3} Defaults
 #' to \code{c()}.
 #' @param sigma2 The true \eqn{\sigma^2} parameter for the DGP. Has to be a scalar larger than zero.
-#' @param n_neighbor Number of neighbors for the generated \eqn{n \times n} spatial weight \eqn{W} matrix
+#' @param n_neighbor Number of neighbors for the generated \eqn{n \times n} spatial weight \eqn{W} matrix.
+#' Defaults to 4.
 #' @param do_symmetric Should the generated spatial weight matrix be symmetric? (default: FALSE)
 #' @param intercept Should the first column of \eqn{Z} be an intercept? Defaults to \code{FALSE}.
 #' If \code{intercept = TRUE}, \eqn{\beta_3} has to be at least of length \code{1}.
@@ -52,7 +53,7 @@
 #' dgp_dat = sim_dgp(n =20, tt = 10, rho = .5, beta1 = c(1,-1),
 #'                   beta2 = c(0,.5),beta3 = c(.2),sigma2 = .5)
 sim_dgp= function(n, tt, rho, beta1 = c(), beta2 = c(), beta3 = c(),
-                    sigma2 = .5, n_neighbor = 7, do_symmetric = FALSE,
+                    sigma2, n_neighbor = 4, do_symmetric = FALSE,
                   intercept = FALSE) {
   smallk = length(beta1)
   if (length(beta2) != smallk) {stop("Beta2 has to be same length as beta1!")}
