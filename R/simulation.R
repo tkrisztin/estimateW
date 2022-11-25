@@ -33,7 +33,7 @@
 #' @param tt Number of time observations \eqn{T}.
 #' @param rho The true \eqn{\rho} parameter
 #' @param beta1 Vector of dimensions \eqn{k_1 \times 1}. Provides the values for \eqn{\beta_1} Defaults
-#' to \code{c()}. Note: has to be fo same length as \eqn{\beta_2}.
+#' to \code{c()}. Note: has to be of same length as \eqn{\beta_2}.
 #' @param beta2 Vector of dimensions \eqn{k_1 \times 1}. Provides the values for \eqn{\beta_2} Defaults
 #' to \code{c()}. Note: has to be fo same length as \eqn{\beta_1}.
 #' @param beta3 Vector of dimensions \eqn{k_2 \times 1}. Provides the values for \eqn{\beta_3} Defaults
