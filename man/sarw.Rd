@@ -87,5 +87,5 @@ estimation process becomes computationally demanding and slow. Consider in this 
 n = 20; tt = 10
 dgp_dat = sim_dgp(n =n, tt = tt, rho = .5, beta3 = c(.5,1),
             sigma2 = .05,n_neighbor = 3,intercept = TRUE)
-res = sarw(Y = dgp_dat$Y,tt = tt,Z = dgp_dat$Z,niter = 30,nretain = 20)
+res = sarw(Y = dgp_dat$Y,tt = tt,Z = dgp_dat$Z,niter = 20,nretain = 10)
 }

@@ -90,5 +90,5 @@ n = 20; tt = 10
 dgp_dat = sim_dgp(n = n, tt = tt, rho = .5, beta1 = c(.5,1), beta2 = c(-1,.5),
                   beta3 = c(1.5), sigma2 = .5)
 res = sdm(Y = dgp_dat$Y, tt = tt,  W = dgp_dat$W, X = dgp_dat$X,
-          Z = dgp_dat$Z, niter = 200, nretain = 100)
+          Z = dgp_dat$Z, niter = 100, nretain = 50)
 }

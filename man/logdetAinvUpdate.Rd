@@ -24,7 +24,7 @@ updated log determinant of \eqn{A}
 }
 \description{
 While updating the elements of the spatial weight matrix in SAR and SDM type spatial models in a
-MCMC sampler, the log-determinant term has to be regularily updated, too.
+MCMC sampler, the log-determinant term has to be regularly updated, too.
 When the binary elements of the adjacency matrix are treated unknown, the Matrix Determinant Lemma
 and the Sherman-Morrison formula are used for computationally efficient updates.
 }

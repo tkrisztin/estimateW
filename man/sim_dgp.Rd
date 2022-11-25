@@ -25,7 +25,7 @@ sim_dgp(
 \item{rho}{The true \eqn{\rho} parameter}
 
 \item{beta1}{Vector of dimensions \eqn{k_1 \times 1}. Provides the values for \eqn{\beta_1} Defaults
-to \code{c()}. Note: has to be fo same length as \eqn{\beta_2}.}
+to \code{c()}. Note: has to be of same length as \eqn{\beta_2}.}
 
 \item{beta2}{Vector of dimensions \eqn{k_1 \times 1}. Provides the values for \eqn{\beta_2} Defaults
 to \code{c()}. Note: has to be fo same length as \eqn{\beta_1}.}

@@ -79,5 +79,5 @@ This is a wrapper function calling \code{\link{sdm}} with no spatially lagged de
 n = 20; tt = 10
 dgp_dat = sim_dgp(n =n, tt = tt, rho = .5, beta3 = c(1,.5), sigma2 = .5)
 res = sar(Y = dgp_dat$Y,tt = tt, W = dgp_dat$W,
-          Z = dgp_dat$Z,niter = 200,nretain = 100)
+          Z = dgp_dat$Z,niter = 100,nretain = 50)
 }
