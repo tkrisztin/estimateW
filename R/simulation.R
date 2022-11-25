@@ -1,7 +1,7 @@
 #' Simulating from a data generating process
 #'
-#' This function can be used to generate a random data generating process for SDM,
-#' SAR (if no \eqn{\beta_1} and \eqn{\beta_2} are supplied), SLX (if \eqn{\rho = 0}) type models.
+#' This function can be used to generate data from a data generating process for SDM,
+#' SAR, SLX type models.
 #'
 #' The generated spatial panel model takes the form
 #'
@@ -18,7 +18,16 @@
 #' based on a randomly generated spatial location pattern, with coordinates sampled from a standard normal distribution.
 #'
 #' Values for the parameters \eqn{\beta_1}, \eqn{\beta_2}, and \eqn{\beta_3}, as well as
-#' \eqn{\rho} and \eqn{\sigma^2} have to be provided by the user.
+#' \eqn{\rho} and \eqn{\sigma^2} have to be provided by the user. The length of \eqn{\beta_1} and
+#' \eqn{\beta_2} have to be equal.
+#' \itemize{
+#' \item{A spatial Durbin model (SDM) is constructed if \eqn{\rho} is not equal to zero and
+#' \eqn{\beta_1}, \eqn{\beta_2}, and \eqn{\beta_3} are all supplied by the user.}
+#' \item{A spatial autoregressive model is constructed if \eqn{\rho} is not equal to zero and only
+#' \eqn{\beta_3} is supplied by the user.}
+#' \item{An SLX type model is constructed if \eqn{\rho} is equal to zero and \eqn{\beta_1},
+#' \eqn{\beta_2} are supplied by the user.}
+#' }
 #'
 #' @param n Number of spatial observations \eqn{n}.
 #' @param tt Number of time observations \eqn{T}.

@@ -24,10 +24,11 @@ if TRUE: \eqn{\Omega} is forced symmetric; if FALSE: \eqn{\Omega} not necessaril
 \item{row_standardized_prior}{Binary value. Should the estimated \eqn{W} matrix be row-standardized (default: TRUE)?
 if TRUE: row-stochastic \eqn{W}; if FALSE: \eqn{W} not row-standardized.}
 
-\item{nr_neighbors_prior}{An \eqn{n \times 1} vector of prior inclusion probabilities on the number of neighbors.
-Defaults to a \code{\link{bbinompdf}} prior, with prior parameters \eqn{a = 1}, \eqn{b = 1} and
-no minimum or maximum restrictions on the number of neighbors. A flat prior would be an
-\eqn{n \times 1} vector of ones.}
+\item{nr_neighbors_prior}{An \eqn{n} dimensional vector of prior weights on the number of neighbors
+(i.e. the row sums of the adjacency matrix \eqn{\Omega}), where the first element denotes the prior probability
+of zero neighbors and the last those of \eqn{n-1}. A prior using only fixed inclusion probabilities
+for the entries in \eqn{\Omega} would be an \eqn{n} dimensional vector of \eqn{1/n}. Defaults to
+a \code{\link{bbinompdf}} prior, with prior parameters \eqn{a = 1}, \eqn{b = 1}.}
 }
 \description{
 Set prior specifications for the \eqn{n} by \eqn{n} spatial weight matrix \eqn{W=f(\Omega)},

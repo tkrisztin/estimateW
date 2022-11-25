@@ -19,8 +19,8 @@ sdmw(
 }
 \arguments{
 \item{Y}{numeric \eqn{N \times 1} matrix containing the dependent variables, where \eqn{N = nT} is the number of
-spatial (\eqn{n}) times the number of time observations (\eqn{T}, with \code{tt=T}). Note that the observations have to be ordered first by
-\eqn{n} and then by \eqn{T}.}
+spatial (\eqn{n}) times the number of time observations (\eqn{T}, with \code{tt=T}). Note that the observations
+have organized such that \eqn{Y = [Y_1',...,Y_T']'}.}
 
 \item{tt}{single number greater or equal to 1. Denotes the number of time observations. \eqn{tt = T}.}
 
@@ -57,7 +57,7 @@ List with posterior samples for the slope parameters, \eqn{\rho}, \eqn{\sigma^2}
 and average direct, indirect, and total effects.
 }
 \description{
-The sampler uses independent an Normal-inverse-Gamma priors for the slope and variance parameters, as well as a four-parameter
+The sampler uses independent Normal-inverse-Gamma priors for the slope and variance parameters, as well as a four-parameter
 beta prior for the spatial autoregressive parameter \eqn{\rho}. It is a wrapper around \code{\link{W_sampler}}.
 }
 \details{

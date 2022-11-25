@@ -18,8 +18,8 @@ sarw(
 }
 \arguments{
 \item{Y}{numeric \eqn{N \times 1} matrix containing the dependent variables, where \eqn{N = nT} is the number of
-spatial (\eqn{n}) times the number of time observations (\eqn{T}, with \code{tt=T}). Note that the observations have to be ordered first by
-\eqn{n} and then by \eqn{T}.}
+spatial (\eqn{n}) times the number of time observations (\eqn{T}, with \code{tt=T}). Note that the observations
+have organized such that \eqn{Y = [Y_1',...,Y_T']'}.}
 
 \item{tt}{single number greater or equal to 1. Denotes the number of time observations. \eqn{tt = T}.}
 

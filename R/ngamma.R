@@ -31,8 +31,8 @@
 #' data matrices have to be ordered first by the cross-sectional (spatial) units and then stacked by time.
 #'
 #' @param Y numeric \eqn{N \times 1} matrix containing the dependent variables, where \eqn{N = nT} is the number of
-#' spatial (\eqn{n}) times the number of time observations (\eqn{T}, with \code{tt=T}). Note that the observations have to be ordered first by
-#' \eqn{n} and then by \eqn{T}.
+#' spatial (\eqn{n}) times the number of time observations (\eqn{T}, with \code{tt=T}). Note that the observations
+#' have organized such that \eqn{Y = [Y_1',...,Y_T']'}.
 #' @param tt single number greater or equal to 1. Denotes the number of time observations. \eqn{tt = T}.
 #' @param X numeric \eqn{N \times k_1} design matrix of independent variables.
 #' @param niter single number greater or equal to 1, indicating the total number of draws.
