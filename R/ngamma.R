@@ -150,7 +150,7 @@ normalgamma <- function(Y, tt, X = matrix(1,nrow(Y),1), niter = 200, nretain = 1
 #' dgp_dat = sim_dgp(n = n, tt = tt, rho = .5, beta1 = c(.5,1), beta2 = c(-1,.5),
 #'                   beta3 = c(1.5), sigma2 = .5)
 #' res = sdm(Y = dgp_dat$Y, tt = tt,  W = dgp_dat$W, X = dgp_dat$X,
-#'           Z = dgp_dat$Z, niter = 200, nretain = 100)
+#'           Z = dgp_dat$Z, niter = 100, nretain = 50)
 sdm <- function(Y, tt, W, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter = 200, nretain = 100,
                 rho_prior = rho_priors(),beta_prior = beta_priors(k = ncol(X)*2 + ncol(Z)),
                 sigma_prior = sigma_priors()) {
@@ -299,7 +299,7 @@ sdm <- function(Y, tt, W, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter
 #' n = 20; tt = 10
 #' dgp_dat = sim_dgp(n =n, tt = tt, rho = .5, beta3 = c(1,.5), sigma2 = .5)
 #' res = sar(Y = dgp_dat$Y,tt = tt, W = dgp_dat$W,
-#'           Z = dgp_dat$Z,niter = 200,nretain = 100)
+#'           Z = dgp_dat$Z,niter = 100,nretain = 50)
 sar <- function(Y, tt, W, Z = matrix(1,nrow(Y),1), niter = 200, nretain = 100,
                 rho_prior = rho_priors(),beta_prior = beta_priors(k = ncol(Z)),
                 sigma_prior = sigma_priors()) {
