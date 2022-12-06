@@ -37,12 +37,12 @@ summary.normalgamma = function(object, ...) {
 }
 
 #' @exportS3Method
-print.normalgamma = function(x, ...) {
+print.normalgamma = function(x, probs = c(.05,.5,.95), ...) {
   print.estimateW(x)
 }
 
 #' @exportS3Method
-print.exoW = function(x, ...) {
+print.exoW = function(x, probs = c(.05,.5,.95), ...) {
   print.estimateW(x)
 }
 

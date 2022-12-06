@@ -17,7 +17,6 @@ plot.estimateW = function(x,
                           breaks=c(0,0.5,0.75,1),
                           ...) {
   w_pip <- apply(x$postw>0,c(1,2),mean)
-  graphics::par(mar=c(3.0, 3.0, 3.0, 3.0))
   plot(w_pip,
        col=cols,main="Posterior incl. prob. of W",
        breaks=breaks,border = NA,...)
@@ -32,7 +31,6 @@ plot.estimateW = function(x,
 #' @import plot.matrix
 #' @export
 plot.sim_dgp = function(x, ...) {
-  graphics::par(mar=c(3.0, 3.0, 3.0, 3.0))
   W = as.matrix(x$W); W[W>0] = 1;
   plot(W,
        col=c("white","black"),main = "Spatial weight matrix",
