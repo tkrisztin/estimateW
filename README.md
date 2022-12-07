@@ -4,13 +4,23 @@
 [![CRAN status](https://www.r-pkg.org/badges/version/estimateW)](https://CRAN.R-project.org/package=estimateW)
 <!-- badges: end -->
 
-This is the development repository of the [`R`](https://www.r-project.org/) package `estimateW`.
+This is the development repository of the [`R`](https://www.r-project.org/) package [`estimateW`](https://cran.r-project.org/package=estimateW).
 
 ## Features
 
 The package provides methods to estimate spatial weight matrices in spatial autoregressive type models.
 
-## Installation
+## Install CRAN Version
+
+Type into your `R` session:
+
+```r
+install.packages("estimateW")
+```
+
+For more information, please visit the [CRAN page](https://cran.r-project.org/package=estimateW) of the package.
+
+## Install Latest Development Version
 
 Type into your `R` session:
 
