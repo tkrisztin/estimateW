@@ -1,4 +1,8 @@
 # estimateW
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/estimateW)](https://CRAN.R-project.org/package=estimateW)
+<!-- badges: end -->
+
 This is the development repository of the [`R`](https://www.r-project.org/) package `estimateW`.
 
 ## Features
