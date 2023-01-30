@@ -1,16 +1,25 @@
 #' Simulating from a data generating process
 #'
 #' This function can be used to generate data from a data generating process for SDM,
-#' SAR, SLX type models.
+#' SAR, SEM, and SLX type models.
 #'
-#' The generated spatial panel model takes the form
+#' For the SDM, SAR, and SLX models the generated spatial panel model takes the form
 #'
 #' \deqn{
 #' Y = \rho W Y + X \beta_1 + W X \beta_2 + Z \beta_3 +  \epsilon,
 #' }
 #'
-#' with \eqn{\epsilon \sim N(0,I_n\sigma^2)}. he function generates the \eqn{N \times 1} vector \eqn{Y}.
-#' The elements of the explanatory variable matrices \eqn{X}
+#' with \eqn{\epsilon \sim N(0,I_n\sigma^2)}.
+#'
+#' For the SEM model the generated spatial panel model takes the form
+#'
+#' \deqn{
+#' Y = X \beta_1 + W X \beta_2 + Z \beta_3 +  \epsilon,
+#' }
+#'
+#' with \eqn{\epsilon \sim N(0,(I_n - \rho W)\sigma^2)}.
+#'
+#' The function generates the \eqn{N \times 1} vector \eqn{Y}. The elements of the explanatory variable matrices \eqn{X}
 #' (\eqn{N \times k_1}) and \eqn{Z} (\eqn{N \times k_2}) are randomly generated from a Gaussian
 #' distribution with zero mean and unity variance (\eqn{N(0,1)}).
 #'
@@ -21,12 +30,14 @@
 #' \eqn{\rho} and \eqn{\sigma^2} have to be provided by the user. The length of \eqn{\beta_1} and
 #' \eqn{\beta_2} have to be equal.
 #' \itemize{
-#' \item{A spatial Durbin model (SDM) is constructed if \eqn{\rho} is not equal to zero and
-#' \eqn{\beta_1}, \eqn{\beta_2}, and \eqn{\beta_3} are all supplied by the user.}
-#' \item{A spatial autoregressive model is constructed if \eqn{\rho} is not equal to zero and only
-#' \eqn{\beta_3} is supplied by the user.}
-#' \item{An SLX type model is constructed if \eqn{\rho} is equal to zero and \eqn{\beta_1},
-#' \eqn{\beta_2} are supplied by the user.}
+#' \item{A spatial Durbin model (SDM) is constructed if \eqn{\rho} is not equal to zero,
+#' \code{spatial_error} is \code{FALSE}, and \eqn{\beta_1}, \eqn{\beta_2}, and \eqn{\beta_3} are all supplied by the user.}
+#' \item{A spatial autoregressive model is constructed if \eqn{\rho} is not equal to zero,
+#' \code{spatial_error} is \code{FALSE}, and only \eqn{\beta_3} is supplied by the user.}
+#' \item{An SLX type model is constructed if \eqn{\rho} is equal to zero, \code{spatial_error} is \code{FALSE},
+#' and \eqn{\beta_1}, \eqn{\beta_2} are supplied by the user.}
+#' \item{An SEM type model is constructed if \code{spatial_error} is \code{TRUE} and either only
+#'  \eqn{\beta_3} or \eqn{\beta_1}, \eqn{\beta_2}, and \eqn{\beta_3} are supplied by the user.}
 #' }
 #'
 #' @param n Number of spatial observations \eqn{n}.
@@ -44,6 +55,7 @@
 #' @param do_symmetric Should the generated spatial weight matrix be symmetric? (default: FALSE)
 #' @param intercept Should the first column of \eqn{Z} be an intercept? Defaults to \code{FALSE}.
 #' If \code{intercept = TRUE}, \eqn{\beta_3} has to be at least of length \code{1}.
+#' @param spatial_error Should a spatial error model be constructed? Defaults to \code{FALSE}.
 #'
 #' @return A list with the generated \eqn{X}, \eqn{Y} and \eqn{W} and a list of parameters.
 #' @export sim_dgp
@@ -54,7 +66,7 @@
 #'                   beta2 = c(0,.5),beta3 = c(.2),sigma2 = .5)
 sim_dgp= function(n, tt, rho, beta1 = c(), beta2 = c(), beta3 = c(),
                     sigma2, n_neighbor = 4, do_symmetric = FALSE,
-                  intercept = FALSE) {
+                  intercept = FALSE, spatial_error = FALSE) {
   smallk = length(beta1)
   if (length(beta2) != smallk) {stop("Beta2 has to be same length as beta1!")}
   k_dum = length(beta3)
@@ -82,12 +94,17 @@ sim_dgp= function(n, tt, rho, beta1 = c(), beta2 = c(), beta3 = c(),
   if (k_dum > 0 && intercept) {
     Z[,1] = 1
   }
-  MU = stats::rnorm(n*tt, mean = 0,sd = sqrt(sigma2))
+  ERR = stats::rnorm(n*tt, mean = 0,sd = sqrt(sigma2))
+  MU = matrix(0,n*tt,1)
   if (smallk > 0) {
     MU = MU + cbind(X, kronecker(Matrix::.sparseDiagonal(tt),W) %*% X) %*% c(beta1,beta2)
   }
   if (k_dum > 0) {MU = MU + Z %*% beta3}
-  Y = kronecker(Matrix::.sparseDiagonal(tt),Ainv) %*% MU
+  if (spatial_error == FALSE) {
+    Y = kronecker(Matrix::.sparseDiagonal(tt),Ainv) %*% MU + ERR
+  } else {
+    Y = MU +  kronecker(Matrix::.sparseDiagonal(tt),Ainv) %*% ERR
+  }
 
   ret <- list(Y = as.matrix(Y),
               X = as.matrix(X),
@@ -102,7 +119,8 @@ sim_dgp= function(n, tt, rho, beta1 = c(), beta2 = c(), beta3 = c(),
                           xy = xy,
                           n_neighbor = n_neighbor,
                           do_symmetric = do_symmetric,
-                          intercept = intercept))
+                          intercept = intercept,
+                          spatial_error = spatial_error))
   class(ret) = "sim_dgp"
   return(ret)
 }

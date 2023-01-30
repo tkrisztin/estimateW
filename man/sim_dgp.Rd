@@ -14,7 +14,8 @@ sim_dgp(
   sigma2,
   n_neighbor = 4,
   do_symmetric = FALSE,
-  intercept = FALSE
+  intercept = FALSE,
+  spatial_error = FALSE
 )
 }
 \arguments{
@@ -42,23 +43,34 @@ Defaults to 4.}
 
 \item{intercept}{Should the first column of \eqn{Z} be an intercept? Defaults to \code{FALSE}.
 If \code{intercept = TRUE}, \eqn{\beta_3} has to be at least of length \code{1}.}
+
+\item{spatial_error}{Should a spatial error model be constructed? Defaults to \code{FALSE}.}
 }
 \value{
 A list with the generated \eqn{X}, \eqn{Y} and \eqn{W} and a list of parameters.
 }
 \description{
 This function can be used to generate data from a data generating process for SDM,
-SAR, SLX type models.
+SAR, SEM, and SLX type models.
 }
 \details{
-The generated spatial panel model takes the form
+For the SDM, SAR, and SLX models the generated spatial panel model takes the form
 
 \deqn{
 Y = \rho W Y + X \beta_1 + W X \beta_2 + Z \beta_3 +  \epsilon,
 }
 
-with \eqn{\epsilon \sim N(0,I_n\sigma^2)}. he function generates the \eqn{N \times 1} vector \eqn{Y}.
-The elements of the explanatory variable matrices \eqn{X}
+with \eqn{\epsilon \sim N(0,I_n\sigma^2)}.
+
+For the SEM model the generated spatial panel model takes the form
+
+\deqn{
+Y = X \beta_1 + W X \beta_2 + Z \beta_3 +  \epsilon,
+}
+
+with \eqn{\epsilon \sim N(0,(I_n - \rho W)\sigma^2)}.
+
+The function generates the \eqn{N \times 1} vector \eqn{Y}. The elements of the explanatory variable matrices \eqn{X}
 (\eqn{N \times k_1}) and \eqn{Z} (\eqn{N \times k_2}) are randomly generated from a Gaussian
 distribution with zero mean and unity variance (\eqn{N(0,1)}).
 
@@ -69,12 +81,14 @@ Values for the parameters \eqn{\beta_1}, \eqn{\beta_2}, and \eqn{\beta_3}, as we
 \eqn{\rho} and \eqn{\sigma^2} have to be provided by the user. The length of \eqn{\beta_1} and
 \eqn{\beta_2} have to be equal.
 \itemize{
-\item{A spatial Durbin model (SDM) is constructed if \eqn{\rho} is not equal to zero and
-\eqn{\beta_1}, \eqn{\beta_2}, and \eqn{\beta_3} are all supplied by the user.}
-\item{A spatial autoregressive model is constructed if \eqn{\rho} is not equal to zero and only
-\eqn{\beta_3} is supplied by the user.}
-\item{An SLX type model is constructed if \eqn{\rho} is equal to zero and \eqn{\beta_1},
-\eqn{\beta_2} are supplied by the user.}
+\item{A spatial Durbin model (SDM) is constructed if \eqn{\rho} is not equal to zero,
+\code{spatial_error} is \code{FALSE}, and \eqn{\beta_1}, \eqn{\beta_2}, and \eqn{\beta_3} are all supplied by the user.}
+\item{A spatial autoregressive model is constructed if \eqn{\rho} is not equal to zero,
+\code{spatial_error} is \code{FALSE}, and only \eqn{\beta_3} is supplied by the user.}
+\item{An SLX type model is constructed if \eqn{\rho} is equal to zero, \code{spatial_error} is \code{FALSE},
+and \eqn{\beta_1}, \eqn{\beta_2} are supplied by the user.}
+\item{An SEM type model is constructed if \code{spatial_error} is \code{TRUE} and either only
+ \eqn{\beta_3} or \eqn{\beta_1}, \eqn{\beta_2}, and \eqn{\beta_3} are supplied by the user.}
 }
 }
 \examples{
