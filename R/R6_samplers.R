@@ -492,8 +492,8 @@ W_sampler = R6::R6Class("W_sampler", cloneable = FALSE, public =list(
               err0 <- sum((A0[ch_elmnt, ] %*% Y - mu[ch_elmnt, ] - w0[ch_elmnt,] %*% lag_mu)^2)
             } else {
               # SEM
-              err1 <- sum((A1[ch_elmnt, ] %*% (Y - mu[ch_elmnt, ] - w1[ch_elmnt,] %*% lag_mu))^2)
-              err0 <- sum((A0[ch_elmnt, ] %*% (Y - mu[ch_elmnt, ] - w0[ch_elmnt,] %*% lag_mu))^2)
+              err1 <- sum((A1[ch_elmnt, ] %*% (Y[ch_elmnt, ] - mu[ch_elmnt, ] - w1[ch_elmnt,] %*% lag_mu))^2)
+              err0 <- sum((A0[ch_elmnt, ] %*% (Y[ch_elmnt, ] - mu[ch_elmnt, ] - w0[ch_elmnt,] %*% lag_mu))^2)
             }
           } else {
             # SLX
