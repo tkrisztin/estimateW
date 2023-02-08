@@ -275,6 +275,7 @@ rho_sampler = R6::R6Class("rho_sampler", cloneable = FALSE, public = list(
 #' @field curr_rho single number between -1 and 1 or NULL, depending on whether the sampler updates
 #'         the spatial autoregressive parameter \eqn{\rho}. Set while invoking \code{initialize}
 #'         or using the function \code{set_rho}.
+#' @field spatial_error Should a spatial error model be constructed? Defaults to \code{FALSE}.
 #'
 #' @docType class
 #' @importFrom R6 R6Class
@@ -292,16 +293,26 @@ W_sampler = R6::R6Class("W_sampler", cloneable = FALSE, public =list(
   curr_AI = NULL,
   curr_logdet = NULL,
   curr_rho = NULL,
+  spatial_error = FALSE,
   #' @param W_prior The list returned by \code{\link{W_priors}}
-  #' @param curr_rho optional single number between -1 and 1. Value of the spatial autoregressive
+  #' @param curr_rho Optional single number between -1 and 1. Value of the spatial autoregressive
   #'  parameter \eqn{\rho}. Defaults to NULL, in which case no updates of the log-determinant, the spatial
   #'   projection matrix, and its inverse are carried out.
+  #' @param spatial_error Optional binary, specifying whether the sampler is for a spatial
+  #' error model (TRUE) or for a spatial autoregressive specification (FALSE).
+  #' Defaults to FALSE. If \code{spatial_error = TRUE} then a value \code{curr_rho} has to be supplied
+  #' at initialization.
   #'
   #' @export
-  initialize = function(W_prior,curr_rho = NULL) {
+  initialize = function(W_prior,curr_rho = NULL, spatial_error = FALSE) {
     self$W_prior = W_prior
     n = nrow(self$W_prior$W_prior)
     self$curr_W <- matrix(0, n, n) # not standardized W
+    self$spatial_error = spatial_error
+    if (is.null(curr_rho) && spatial_error == TRUE) {
+      stop("If spatial_error = TRUE then a value for
+           spatial_error has to supplied. (can also be zero).")
+    }
     ### generate curr_W from the prior distribution
     if (self$W_prior$symmetric_prior) {
       ii_samples <- sample(2:n, n - 1, replace = F)
@@ -475,9 +486,17 @@ W_sampler = R6::R6Class("W_sampler", cloneable = FALSE, public =list(
           bbprior_ <- bbprior1 / (bbprior1 + bbprior0)
 
           if (!is.null(self$curr_rho)) {
-            err1 <- sum((A1[ch_elmnt, ] %*% Y - mu[ch_elmnt, ] - w1[ch_elmnt,] %*% lag_mu)^2)
-            err0 <- sum((A0[ch_elmnt, ] %*% Y - mu[ch_elmnt, ] - w0[ch_elmnt,] %*% lag_mu)^2)
+            if (!self$spatial_error) {
+              # SAR
+              err1 <- sum((A1[ch_elmnt, ] %*% Y - mu[ch_elmnt, ] - w1[ch_elmnt,] %*% lag_mu)^2)
+              err0 <- sum((A0[ch_elmnt, ] %*% Y - mu[ch_elmnt, ] - w0[ch_elmnt,] %*% lag_mu)^2)
+            } else {
+              # SEM
+              err1 <- sum((A1[ch_elmnt, ] %*% (Y - mu[ch_elmnt, ] - w1[ch_elmnt,] %*% lag_mu))^2)
+              err0 <- sum((A0[ch_elmnt, ] %*% (Y - mu[ch_elmnt, ] - w0[ch_elmnt,] %*% lag_mu))^2)
+            }
           } else {
+            # SLX
             err1 = sum( (Y[ch_elmnt,] - w1[ch_elmnt,] %*% lag_mu - mu[ch_elmnt,])^2 )
             err0 = sum( (Y[ch_elmnt,] - w0[ch_elmnt,] %*% lag_mu - mu[ch_elmnt,])^2 )
           }

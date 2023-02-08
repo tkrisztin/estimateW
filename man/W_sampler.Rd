@@ -42,6 +42,8 @@ row-standardized.}
 \item{\code{curr_rho}}{single number between -1 and 1 or NULL, depending on whether the sampler updates
 the spatial autoregressive parameter \eqn{\rho}. Set while invoking \code{initialize}
 or using the function \code{set_rho}.}
+
+\item{\code{spatial_error}}{Should a spatial error model be constructed? Defaults to \code{FALSE}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -58,7 +60,7 @@ or using the function \code{set_rho}.}
 \if{latex}{\out{\hypertarget{method-W_sampler-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{W_sampler$new(W_prior, curr_rho = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{W_sampler$new(W_prior, curr_rho = NULL, spatial_error = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -66,9 +68,14 @@ or using the function \code{set_rho}.}
 \describe{
 \item{\code{W_prior}}{The list returned by \code{\link{W_priors}}}
 
-\item{\code{curr_rho}}{optional single number between -1 and 1. Value of the spatial autoregressive
+\item{\code{curr_rho}}{Optional single number between -1 and 1. Value of the spatial autoregressive
 parameter \eqn{\rho}. Defaults to NULL, in which case no updates of the log-determinant, the spatial
  projection matrix, and its inverse are carried out.}
+
+\item{\code{spatial_error}}{Optional binary, specifying whether the sampler is for a spatial
+error model (TRUE) or for a spatial autoregressive specification (FALSE).
+Defaults to FALSE. If \code{spatial_error = TRUE} then a value \code{curr_rho} has to be supplied
+at initialization.}
 }
 \if{html}{\out{</div>}}
 }
