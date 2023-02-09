@@ -2,6 +2,8 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/tkrisztin/estimateW/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/tkrisztin/estimateW/actions/workflows/check-standard.yaml)
 [![CRAN status](https://www.r-pkg.org/badges/version/estimateW)](https://CRAN.R-project.org/package=estimateW)
+[![month](https://cranlogs.r-pkg.org/badges/estimateW)](https://www.r-pkg.org/pkg/estimateW)
+[![total](https://cranlogs.r-pkg.org/badges/grand-total/estimateW)](https://www.r-pkg.org/pkg/estimateW)
 <!-- badges: end -->
 
 This is the development repository of the [`R`](https://www.r-project.org/) package [`estimateW`](https://cran.r-project.org/package=estimateW).
