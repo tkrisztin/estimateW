@@ -107,7 +107,7 @@ semw <- function(Y, tt, Z, niter = 100, nretain = 50,
 #' @return List with posterior samples for the slope parameters, \eqn{\rho}, \eqn{\sigma^2}, \eqn{W},
 #' and average direct, indirect, and total effects.
 #'
-#' @export sdmw
+#' @export sdemw
 #'
 #' @examples
 #' n = 20; tt = 10
