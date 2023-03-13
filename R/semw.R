@@ -153,7 +153,7 @@ sdemw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter 
   # save the posterior draws here
   postb <- matrix(0, k, nretain)
   rownames(postb) <- varnames
-  posts <- matrix(0, 1, nretain); rownames(posts) = "sigma"
+  posts <- matrix(0, 1, nretain); rownames(posts) = "sigma2"
   postr <- matrix(0, 1, nretain); rownames(postr) = "rho"
   postw <- array(0, c(n, n, nretain))
   postwprob <- array(0, c(n, n, nretain))

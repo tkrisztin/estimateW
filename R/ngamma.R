@@ -60,7 +60,7 @@ normalgamma <- function(Y, tt, X = matrix(1,nrow(Y),1), niter = 200, nretain = 1
   if (is.null(colnames(X))) {colnames(X) = paste0("X",1:k)}
   varnames = colnames(X)
   postb <- matrix(0, k, nretain); rownames(postb) <- colnames(X)
-  posts <- matrix(0, 1, nretain); rownames(posts) = "sigma"
+  posts <- matrix(0, 1, nretain); rownames(posts) = "sigma2"
 
   sampler_beta = beta_sampler$new(beta_prior)
   sampler_sigma = sigma_sampler$new(sigma_prior)
@@ -186,7 +186,7 @@ sdm <- function(Y, tt, W, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter
   # save the posterior draws here
   postb <- matrix(0, k, nretain)
   rownames(postb) <- varnames
-  posts <- matrix(0, 1, nretain); rownames(posts) = "sigma"
+  posts <- matrix(0, 1, nretain); rownames(posts) = "sigma2"
   postr <- matrix(0, 1, nretain); rownames(postr) = "rho"
 
   post.direct <- matrix(0, smallk + k_dum, nretain)
@@ -446,7 +446,7 @@ sdem <- function(Y, tt, W, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), nite
   # save the posterior draws here
   postb <- matrix(0, k, nretain)
   rownames(postb) <- varnames
-  posts <- matrix(0, 1, nretain); rownames(posts) = "sigma"
+  posts <- matrix(0, 1, nretain); rownames(posts) = "sigma2"
   postr <- matrix(0, 1, nretain); rownames(postr) = "rho"
 
   # initilize wdraws
