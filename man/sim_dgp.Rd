@@ -13,6 +13,7 @@ sim_dgp(
   beta3 = c(),
   sigma2,
   n_neighbor = 4,
+  W = NULL,
   do_symmetric = FALSE,
   intercept = FALSE,
   spatial_error = FALSE
@@ -38,6 +39,9 @@ to \code{c()}.}
 
 \item{n_neighbor}{Number of neighbors for the generated \eqn{n \times n} spatial weight \eqn{W} matrix.
 Defaults to 4.}
+
+\item{W}{Ecogeneous spatial weight matrix for the data generating process. Defaults to
+\code{NULL}, in which case a nearest neighbour matrix with \code{n_neighbor} will be generated.}
 
 \item{do_symmetric}{Should the generated spatial weight matrix be symmetric? (default: FALSE)}
 

@@ -52,6 +52,8 @@
 #' @param sigma2 The true \eqn{\sigma^2} parameter for the DGP. Has to be a scalar larger than zero.
 #' @param n_neighbor Number of neighbors for the generated \eqn{n \times n} spatial weight \eqn{W} matrix.
 #' Defaults to 4.
+#' @param W Ecogeneous spatial weight matrix for the data generating process. Defaults to
+#' \code{NULL}, in which case a nearest neighbour matrix with \code{n_neighbor} will be generated.
 #' @param do_symmetric Should the generated spatial weight matrix be symmetric? (default: FALSE)
 #' @param intercept Should the first column of \eqn{Z} be an intercept? Defaults to \code{FALSE}.
 #' If \code{intercept = TRUE}, \eqn{\beta_3} has to be at least of length \code{1}.
@@ -65,26 +67,28 @@
 #' dgp_dat = sim_dgp(n =20, tt = 10, rho = .5, beta1 = c(1,-1),
 #'                   beta2 = c(0,.5),beta3 = c(.2),sigma2 = .5)
 sim_dgp= function(n, tt, rho, beta1 = c(), beta2 = c(), beta3 = c(),
-                    sigma2, n_neighbor = 4, do_symmetric = FALSE,
+                    sigma2, n_neighbor = 4, W = NULL,
+                  do_symmetric = FALSE,
                   intercept = FALSE, spatial_error = FALSE) {
   smallk = length(beta1)
   if (length(beta2) != smallk) {stop("Beta2 has to be same length as beta1!")}
   k_dum = length(beta3)
   if (smallk == 0 && k_dum == 0) {stop("At least beta1 or beta2 has to be specified.")}
 
-
-  # Randomly generated spatial patterns
-  xy <- cbind(stats::runif(n),stats::runif(n))
-  dist = as.matrix(dist(xy))
-  diag(dist) = Inf
-  dist = 1/dist
-  W = t(apply(dist,c(1),function(x) {x[x<sort(x,decreasing = TRUE)[n_neighbor]] = 0; x[x>0] = 1; return(x)} ))
-  if (do_symmetric) {
-    W = t(W) + W
-    W[W>0] = 1
+  if (is.null(W)) {
+    # Randomly generated spatial patterns
+    xy <- cbind(stats::runif(n),stats::runif(n))
+    dist = as.matrix(dist(xy))
+    diag(dist) = Inf
+    dist = 1/dist
+    W = t(apply(dist,c(1),function(x) {x[x<sort(x,decreasing = TRUE)[n_neighbor]] = 0; x[x>0] = 1; return(x)} ))
+    if (do_symmetric) {
+      W = t(W) + W
+      W[W>0] = 1
+    }
+    W = as.matrix(W/rowSums(W))
+    diag(W) = 0
   }
-  W = as.matrix(W/rowSums(W))
-  diag(W) = 0
 
   A <- as.matrix(diag(n) - rho*W)
   Ainv <- solve(A)
