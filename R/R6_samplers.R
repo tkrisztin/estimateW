@@ -492,8 +492,8 @@ W_sampler = R6::R6Class("W_sampler", cloneable = FALSE, public =list(
               err0 <- sum((A0[ch_elmnt, ] %*% Y - mu[ch_elmnt, ] - w0[ch_elmnt,] %*% lag_mu)^2)
             } else {
               # SEM
-              err1 <- sum((A1[ch_elmnt, ] %*% (Y[ch_elmnt, ] - mu[ch_elmnt, ] - w1[ch_elmnt,] %*% lag_mu))^2)
-              err0 <- sum((A0[ch_elmnt, ] %*% (Y[ch_elmnt, ] - mu[ch_elmnt, ] - w0[ch_elmnt,] %*% lag_mu))^2)
+              err1 <- sum((A1[ch_elmnt, ] %*% (Y - mu - w1 %*% lag_mu))^2)
+              err0 <- sum((A0[ch_elmnt, ] %*% (Y - mu - w0 %*% lag_mu))^2)
             }
           } else {
             # SLX
@@ -508,8 +508,8 @@ W_sampler = R6::R6Class("W_sampler", cloneable = FALSE, public =list(
             # change 23.02.2022
             #p1 =   bbprior_ * exp(logdet1*tt) * dnorm(err1,0,sqrt(curr.sigma))
             #p0 = (1- bbprior_) * exp(logdet0*tt) * dnorm(err0,0,sqrt(curr.sigma))
-            p1 <- bbprior_ * exp(logdet1 * tt) * exp(-err1 / (curr_sigma))
-            p0 <- (1 - bbprior_) * exp(logdet0 * tt) * exp(-err0 / (curr_sigma))
+            p1 <- bbprior_ * exp(logdet1 * tt) * exp(-err1 / (2*curr_sigma))
+            p0 <- (1 - bbprior_) * exp(logdet0 * tt) * exp(-err0 / (2*curr_sigma))
           } else {
             p1 =   bbprior_ * stats::dnorm(err1,0,sqrt(curr_sigma))
             p0 = (1- bbprior_) * stats::dnorm(err0,0,sqrt(curr_sigma))
