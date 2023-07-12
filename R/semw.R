@@ -208,7 +208,7 @@ sdemw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter 
     sampler_W$set_rho(new_rho = sampler_rho$curr_rho,
                       newLogdet = sampler_rho$curr_logdet,
                       newA = sampler_rho$curr_A, newAI = sampler_rho$curr_AI)
-    sampler_W$sample(Y = tY - curr_mu,curr_sigma = sampler_sigma$curr_sigma,
+    sampler_W$sample_fast(Y = tY - curr_mu,curr_sigma = sampler_sigma$curr_sigma,
                      mu = matrix(0,n,tt),lag_mu = curr_mu_lag)
     curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),sampler_W$curr_w) %*% X)
     tX = cbind(X,curr.WX,Z)

@@ -399,6 +399,30 @@ W_sampler = R6::R6Class("W_sampler", cloneable = FALSE, public =list(
   #' the estimated \eqn{W}. Defaults to a matrix with zero elements.
   #'
   #' @export
+  sample_fast = function(Y,curr_sigma,
+                    mu,
+                    lag_mu  = matrix(0,nrow(tY),ncol(tY))) {
+    res_cpp = sampleW_fast(Y, curr_sigma, mu,lag_mu,
+                        as.matrix(self$W_prior$W_prior), as.matrix(self$curr_W), as.matrix(self$curr_w),
+                        as.matrix(self$curr_A), as.matrix(self$curr_AI),
+                        self$curr_logdet, self$curr_rho,
+                        as.vector(self$W_prior$nr_neighbors_prior),
+                        self$W_prior$symmetric_prior,
+                        self$spatial_error,
+                        self$W_prior$row_standardized_prior)
+    self$curr_W = res_cpp$curr_W
+    self$curr_w = res_cpp$curr_w
+    self$curr_A = res_cpp$curr_A
+    self$curr_AI = res_cpp$curr_AI
+    self$curr_logdet = res_cpp$curr_logdet
+  },
+  #' @param Y The \eqn{n} by \eqn{tt} matrix of responses
+  #' @param curr_sigma The variance parameter \eqn{\sigma^2}
+  #' @param mu The \eqn{n} by \eqn{tt} matrix of means.
+  #' @param lag_mu \eqn{n} by \eqn{tt} matrix of means that will be spatially lagged with
+  #' the estimated \eqn{W}. Defaults to a matrix with zero elements.
+  #'
+  #' @export
   sample = function(Y,curr_sigma,
                     mu,
                     lag_mu  = matrix(0,nrow(tY),ncol(tY))) {

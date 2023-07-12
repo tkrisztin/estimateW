@@ -20,5 +20,9 @@ Imports:
     matrixcalc,
     plot.matrix,
     stats,
-    R6
+    R6,
+    Rcpp
 RoxygenNote: 7.2.3
+LinkingTo: 
+    Rcpp,
+    RcppArmadillo
