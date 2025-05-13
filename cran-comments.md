@@ -1,21 +1,25 @@
-## Resubmission
-This is a resubmission. In this version I have:
+## Update to CRAN: estimateW 0.1.0
 
-* Converted the DESCRIPTION title to title case.
+This is an update to the existing CRAN package `estimateW`.
 
-* Added additional description and a doi reference to the description field in DESCRIPTION 
+### Changes in this version:
 
-* Removed changes to the user's par options from plotting
+* Added new dataset: `nuts1growth`.
+* Added new function: `semw()` for handling spatial error models.
+* Corrected labeling of `sigma` to `sigma2` in results.
+* Added option to `sim_dgp()` for supplying an exogenous spatial weight matrix.
 
-> Please ensure that your functions do not write by default or in your examples/vignettes/tests in the user's home filespace (including the package directory and getwd()). This is not allowed by CRAN policies.
-Please omit any default path in writing functions. In your examples/vignettes/tests you can write to tempdir().
+### R CMD check results
 
-* I am aware of this point, and to the best of my knowledge I do not do this: the package does not write, as is CRAN policy. I have checked again, without finding the mentioned problems. I am unsure which line of code gave the wrong impression or what I am overlooking. Please let me know and I will happily fix it.
+There were no ERRORs or WARNINGs.  
+There was one NOTE:
 
-## R CMD check results
+* `checking for future file timestamps ... NOTE`
+  - This is due to system time validation in my local environment and is not related to package functionality.  
+  - To my knowledge, this is safe to ignore and does not affect CRAN policy compliance.
 
-There were no ERRORs or WARNINGs. 
+The package passes `R CMD check --as-cran` on:
+- macOS Sonoma (local), R 4.3.2
+- Ubuntu 22.04 (Docker), R 4.3.2
 
-There was 1 NOTE:
-
-* This is a new release.
+I have verified that the package does not write to the user’s home directory or use default write paths. All examples and functions use safe temporary file paths where applicable.
