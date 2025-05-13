@@ -56,9 +56,9 @@
 #’ Data comes from the Annual Regional Database of the European Commission's Directorate General for Regional and Urban Policy (ARDECO), and the Eurostat regional database.
 #’ The data set can be viewed as a reduced form of the application in Piribauer et al. (2023).
 #'
-#' Data is provided for NUTS-1 regions of the following countries: ...
+#' The dataset contains annual regional data for 26 European Union countries, disaggregated at the NUTS-1 level. The countries covered are: Austria, Belgium, Bulgaria, Cyprus, Czechia, Denmark, Estonia, Finland, France, Germany, Hungary, Ireland, Italy, Lithuania, Luxembourg, Latvia, Malta, Netherlands, Poland, Portugal, Romania, Sweden, Slovenia, and Slovakia. The NUTS-1 codes identify the first-level administrative regions within these countries.
 #'
-#' The dataset includes growth of GDP per worker
+#' The dataset includes the following variables: annual output per worker growth (in percent), the natural logarithm of initial gross value added (GVA) per worker, and the share of the population with low and high levels of education based on the International Standard Classification of Education (ISCED). This structure allows for analyzing regional economic performance in relation to educational attainment across the European Union.
 #'
 #' @name nuts1growth
 #' @keywords regional growth
