@@ -5,7 +5,7 @@
 \alias{sigma_sampler}
 \title{An R6 class for sampling for sampling \eqn{\sigma^2}}
 \format{
-An \code{\link{R6Class}} generator object
+An \code{\link[R6]{R6Class}} generator object
 }
 \description{
 This class samples nuisance parameter which an inverse Gamma prior from the conditional posterior.

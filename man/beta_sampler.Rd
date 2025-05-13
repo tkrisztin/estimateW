@@ -5,7 +5,7 @@
 \alias{beta_sampler}
 \title{An R6 class for sampling slope parameters}
 \format{
-An \code{\link{R6Class}} generator object
+An \code{\link[R6]{R6Class}} generator object
 }
 \description{
 This class samples slope parameters with a Gaussian prior from the conditional posterior.

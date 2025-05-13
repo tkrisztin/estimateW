@@ -5,7 +5,7 @@
 \alias{W_sampler}
 \title{An R6 class for sampling the elements of \eqn{W}}
 \format{
-An \code{\link{R6Class}} generator object
+An \code{\link[R6]{R6Class}} generator object
 }
 \description{
 An R6 class for sampling the elements of \eqn{W}

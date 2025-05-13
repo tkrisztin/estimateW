@@ -9,7 +9,7 @@
 #' @docType class
 #' @importFrom R6 R6Class
 #' @export
-#' @format An \code{\link{R6Class}} generator object
+#' @format An \code{\link[R6]{R6Class}} generator object
 beta_sampler = R6::R6Class("beta_sampler",cloneable = FALSE, public = list(
   beta_prior = NULL,
   curr_beta = NULL,
@@ -49,7 +49,7 @@ beta_sampler = R6::R6Class("beta_sampler",cloneable = FALSE, public = list(
 #' @docType class
 #' @importFrom R6 R6Class
 #' @export
-#' @format An \code{\link{R6Class}} generator object
+#' @format An \code{\link[R6]{R6Class}} generator object
 sigma_sampler = R6::R6Class("sigma_sampler", cloneable = FALSE, public = list(
   sigma_prior = NULL,
   curr_sigma = NULL,
@@ -94,7 +94,7 @@ sigma_sampler = R6::R6Class("sigma_sampler", cloneable = FALSE, public = list(
 #' @docType class
 #' @importFrom R6 R6Class
 #' @export
-#' @format An \code{\link{R6Class}} generator object
+#' @format An \code{\link[R6]{R6Class}} generator object
 #'
 #' @references
 #'  Ritter, C., and Tanner, M. A. (1992). Facilitating the Gibbs sampler: The Gibbs stopper
@@ -280,7 +280,7 @@ rho_sampler = R6::R6Class("rho_sampler", cloneable = FALSE, public = list(
 #' @docType class
 #' @importFrom R6 R6Class
 #' @export
-#' @format An \code{\link{R6Class}} generator object
+#' @format An \code{\link[R6]{R6Class}} generator object
 #'
 #' @references
 #'  Krisztin, T., and Piribauer, P. (2022) A Bayesian approach for the estimation
