@@ -16,7 +16,7 @@ An R6 class for sampling the spatial autoregressive parameter \eqn{\rho}
 This class samples the spatial autoregressive parameter using either a tuned random-walk
 Metropolis-Hastings or a griddy Gibbs step. Use the \code{\link{rho_priors}} class for setup.
 
-For the Griddy-Gibbs algorithm see Ritter and Tanner (1992).
+For the griddy Gibbs algorithm see Ritter and Tanner (1992).
 }
 \references{
 Ritter, C., and Tanner, M. A. (1992). Facilitating the Gibbs sampler: The Gibbs stopper

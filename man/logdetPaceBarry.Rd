@@ -35,7 +35,7 @@ of the log-determinant is computationally expensive.
 }
 \details{
 This function wraps the log-determinant approximation by Barry and Pace (1999), which
-can be used to precompute the log-determinants over a grid of \eqn{\rho} values.
+can be used to pre-compute the log-determinants over a grid of \eqn{\rho} values.
 }
 \references{
 Barry, R. P., and Pace, R. K. (1999) Monte Carlo estimates of the

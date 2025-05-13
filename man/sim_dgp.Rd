@@ -30,7 +30,7 @@ sim_dgp(
 to \code{c()}. Note: has to be of same length as \eqn{\beta_2}.}
 
 \item{beta2}{Vector of dimensions \eqn{k_1 \times 1}. Provides the values for \eqn{\beta_2} Defaults
-to \code{c()}. Note: has to be fo same length as \eqn{\beta_1}.}
+to \code{c()}. Note: has to be of same length as \eqn{\beta_1}.}
 
 \item{beta3}{Vector of dimensions \eqn{k_2 \times 1}. Provides the values for \eqn{\beta_3} Defaults
 to \code{c()}.}
@@ -40,8 +40,8 @@ to \code{c()}.}
 \item{n_neighbor}{Number of neighbors for the generated \eqn{n \times n} spatial weight \eqn{W} matrix.
 Defaults to 4.}
 
-\item{W}{Ecogeneous spatial weight matrix for the data generating process. Defaults to
-\code{NULL}, in which case a nearest neighbour matrix with \code{n_neighbor} will be generated.}
+\item{W}{Exogeneous spatial weight matrix for the data generating process. Defaults to
+\code{NULL}, in which case a nearest neighbor matrix with \code{n_neighbor} will be generated.}
 
 \item{do_symmetric}{Should the generated spatial weight matrix be symmetric? (default: FALSE)}
 

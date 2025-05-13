@@ -1,24 +1,36 @@
-Package: estimateW
 Type: Package
+Package: estimateW
 Title: Estimation of Spatial Weight Matrices
-Version: 0.0.1
-Author: Tamas Krisztin [aut, cre] (<https://orcid.org/0000-0002-9241-8628>),
-    Philipp Piribauer [aut] (<https://orcid.org/0000-0002-3414-3101>)
+Version: 0.1.0
 Authors@R: c(
-    person("Tamas", "Krisztin",role =  c("aut", "cre"),email = "krisztin@iiasa.ac.at",comment = c(ORCID = "0000-0002-9241-8628")),
-    person("Philipp", "Piribauer",role =   "aut",email = "philipp.piribauer@wifo.ac.at",comment = c(ORCID = "0000-0002-3414-3101"))
-    )
+    person("Tamas", "Krisztin", , "krisztin@iiasa.ac.at", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-9241-8628")),
+    person("Philipp", "Piribauer", , "philipp.piribauer@wifo.ac.at", role = "aut",
+           comment = c(ORCID = "0000-0002-3414-3101"))
+  )
+Author: Tamas Krisztin [aut, cre]
+    (<https://orcid.org/0000-0002-9241-8628>), Philipp Piribauer [aut]
+    (<https://orcid.org/0000-0002-3414-3101>)
 Maintainer: Tamas Krisztin <krisztin@iiasa.ac.at>
-Description: Bayesian estimation of spatial weight matrices in spatial econometric panel models. Allows for estimation of spatial autoregressive (SAR), spatial Durbin (SDM), and spatially lagged explanatory variable (SLX) type specifications featuring an unknown spatial weight matrix. Methodological details are given in Krisztin and Piribauer (2022) <doi:10.1080/17421772.2022.2095426>.
+Description: Bayesian estimation of spatial weight matrices in spatial
+    econometric panel models. Allows for estimation of spatial
+    autoregressive (SAR), spatial error (SEM), spatial Durbin (SDM),
+    spatial error Durbin (SDEM) and spatially lagged explanatory variable
+    (SLX) type specifications featuring an unknown spatial weight matrix.
+    Methodological details are given in Krisztin and Piribauer (2022)
+    <doi:10.1080/17421772.2022.2095426>.
 License: GPL (>= 3)
-Depends: R (>= 3.5.0)
-Encoding: UTF-8
-Language: EN-US
-LazyData: true
+Depends: 
+    R (>= 3.5.0)
 Imports: 
+    graphics,
     Matrix,
     matrixcalc,
     plot.matrix,
+    R6,
     stats,
-    R6
+    utils
+Encoding: UTF-8
+Language: EN-US
+LazyData: true
 RoxygenNote: 7.3.2

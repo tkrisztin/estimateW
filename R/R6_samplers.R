@@ -80,7 +80,7 @@ sigma_sampler = R6::R6Class("sigma_sampler", cloneable = FALSE, public = list(
 #' This class samples the spatial autoregressive parameter using either a tuned random-walk
 #' Metropolis-Hastings or a griddy Gibbs step. Use the \code{\link{rho_priors}} class for setup.
 #'
-#' For the Griddy-Gibbs algorithm see Ritter and Tanner (1992).
+#' For the griddy Gibbs algorithm see Ritter and Tanner (1992).
 #'
 #' @field rho_prior The current \code{\link{rho_priors}}
 #' @field curr_rho The current value of \eqn{\rho}

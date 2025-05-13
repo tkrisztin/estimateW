@@ -6,7 +6,7 @@
 #' of the log-determinant is computationally expensive.
 #'
 #' This function wraps the log-determinant approximation by Barry and Pace (1999), which
-#' can be used to precompute the log-determinants over a grid of \eqn{\rho} values.
+#' can be used to pre-compute the log-determinants over a grid of \eqn{\rho} values.
 #'
 #' @param W numeric \eqn{n} by \eqn{n} non-negative spatial weights matrix,
 #'   with zeros on the main diagonal.

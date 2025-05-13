@@ -46,14 +46,14 @@
 #' @param beta1 Vector of dimensions \eqn{k_1 \times 1}. Provides the values for \eqn{\beta_1} Defaults
 #' to \code{c()}. Note: has to be of same length as \eqn{\beta_2}.
 #' @param beta2 Vector of dimensions \eqn{k_1 \times 1}. Provides the values for \eqn{\beta_2} Defaults
-#' to \code{c()}. Note: has to be fo same length as \eqn{\beta_1}.
+#' to \code{c()}. Note: has to be of same length as \eqn{\beta_1}.
 #' @param beta3 Vector of dimensions \eqn{k_2 \times 1}. Provides the values for \eqn{\beta_3} Defaults
 #' to \code{c()}.
 #' @param sigma2 The true \eqn{\sigma^2} parameter for the DGP. Has to be a scalar larger than zero.
 #' @param n_neighbor Number of neighbors for the generated \eqn{n \times n} spatial weight \eqn{W} matrix.
 #' Defaults to 4.
-#' @param W Ecogeneous spatial weight matrix for the data generating process. Defaults to
-#' \code{NULL}, in which case a nearest neighbour matrix with \code{n_neighbor} will be generated.
+#' @param W Exogeneous spatial weight matrix for the data generating process. Defaults to
+#' \code{NULL}, in which case a nearest neighbor matrix with \code{n_neighbor} will be generated.
 #' @param do_symmetric Should the generated spatial weight matrix be symmetric? (default: FALSE)
 #' @param intercept Should the first column of \eqn{Z} be an intercept? Defaults to \code{FALSE}.
 #' If \code{intercept = TRUE}, \eqn{\beta_3} has to be at least of length \code{1}.
