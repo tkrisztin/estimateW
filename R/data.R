@@ -46,3 +46,27 @@
 #'   COVID-19 in real time. \emph{The Lancet Infectious Diseases}, \bold{20(5)}, 533–534.
 #'   \doi{10.1016/S1473-3099(20)30120-1}.
 "covid"
+
+#' Regional growth data
+#'
+#' Regional growth data set contains information on annual growth rates of GVA per worker
+#' (labor productivity) for 90 European NUTS-1 regions for the period 1999-2019.
+#’ The data set moreover contains initial log-levels of labor productivity as well as information
+#’ on the share of low- and tertiary education attainment on working age population.
+#’ Data comes from the Annual Regional Database of the European Commission's Directorate General for Regional and Urban Policy (ARDECO), and the Eurostat regional database.
+#’ The data set can be viewed as a reduced form of the application in Piribauer et al. (2023).
+#'
+#' Data is provided for NUTS-1 regions of the following countries: ...
+#'
+#' The dataset includes growth of GDP per worker
+#'
+#' @name nuts1growth
+#' @keywords regional growth
+#'
+#' @docType data
+#'
+#' @format A \code{data.frame} object.
+#'
+#' @references
+#'   Piribauer, P., Glocker, C., & Krisztin, T. (2023). Beyond distance: The spatial relationships of European regional economic growth. Journal of Economic Dynamics and Control, 155, 104735.
+"nuts1growth"

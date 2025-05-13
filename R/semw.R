@@ -113,7 +113,7 @@ semw <- function(Y, tt, Z, niter = 100, nretain = 50,
 #' n = 20; tt = 10
 #' dgp_dat = sim_dgp(n =n, tt = tt, rho = .75, beta1 = c(.5,1),beta2 = c(-1,.5),
 #'             beta3 = c(1.5), sigma2 = .05,n_neighbor = 3,intercept = TRUE, spatial_error = TRUE)
-#' # res = sdemw(Y = dgp_dat$Y,tt = tt,X = dgp_dat$X,Z = dgp_dat$Z,niter = 20,nretain = 10)
+#' res = sdemw(Y = dgp_dat$Y,tt = tt,X = dgp_dat$X,Z = dgp_dat$Z,niter = 20,nretain = 10)
 sdemw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter = 100, nretain = 50,
                   W_prior = W_priors(n = nrow(Y)/tt),rho_prior = rho_priors(),
                   beta_prior = beta_priors(k = ncol(X)*2 + ncol(Z)),sigma_prior = sigma_priors()) {
@@ -208,7 +208,9 @@ sdemw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter 
     sampler_W$set_rho(new_rho = sampler_rho$curr_rho,
                       newLogdet = sampler_rho$curr_logdet,
                       newA = sampler_rho$curr_A, newAI = sampler_rho$curr_AI)
-    sampler_W$sample_fast(Y = tY - curr_mu,curr_sigma = sampler_sigma$curr_sigma,
+    # sampler_W$sample_fast(Y = tY - curr_mu,curr_sigma = sampler_sigma$curr_sigma,
+    #                  mu = matrix(0,n,tt),lag_mu = curr_mu_lag)
+    sampler_W$sample(Y = tY - curr_mu,curr_sigma = sampler_sigma$curr_sigma,
                      mu = matrix(0,n,tt),lag_mu = curr_mu_lag)
     curr.WX = as.matrix(kronecker(Matrix::.sparseDiagonal(tt),sampler_W$curr_w) %*% X)
     tX = cbind(X,curr.WX,Z)

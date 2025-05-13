@@ -52,7 +52,6 @@ or using the function \code{set_rho}.}
 \itemize{
 \item \href{#method-W_sampler-new}{\code{W_sampler$new()}}
 \item \href{#method-W_sampler-set_rho}{\code{W_sampler$set_rho()}}
-\item \href{#method-W_sampler-sample_fast}{\code{W_sampler$sample_fast()}}
 \item \href{#method-W_sampler-sample}{\code{W_sampler$sample()}}
 }
 }
@@ -102,34 +101,6 @@ used for a consistent update. At least the new scalar value for \eqn{\rho} must 
 \item{\code{newA}}{An optional value for the spatial projection matrix using \code{newW} and \code{curr_rho}}
 
 \item{\code{newAI}}{An optional value for the matrix inverse of \code{newA}}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-W_sampler-sample_fast"></a>}}
-\if{latex}{\out{\hypertarget{method-W_sampler-sample_fast}{}}}
-\subsection{Method \code{sample_fast()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{W_sampler$sample_fast(
-  Y,
-  curr_sigma,
-  mu,
-  lag_mu = matrix(0, nrow(tY), ncol(tY))
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{Y}}{The \eqn{n} by \eqn{tt} matrix of responses}
-
-\item{\code{curr_sigma}}{The variance parameter \eqn{\sigma^2}}
-
-\item{\code{mu}}{The \eqn{n} by \eqn{tt} matrix of means.}
-
-\item{\code{lag_mu}}{\eqn{n} by \eqn{tt} matrix of means that will be spatially lagged with
-the estimated \eqn{W}. Defaults to a matrix with zero elements.}
 }
 \if{html}{\out{</div>}}
 }
