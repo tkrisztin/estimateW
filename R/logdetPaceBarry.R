@@ -75,3 +75,49 @@ logdetPaceBarry <-
 
     return(cbind(lndetmat, rho =alpha))
   }
+
+#' Spline-based log determinant approximation
+#'
+#' Bayesian estimates of parameters of SAR and SDM type spatial models require the computation
+#' of the log-determinant of positive-definite spatial projection matrices of the form
+#' \eqn{(I_n - \rho W)}, where \eqn{W} is a \eqn{n} by \eqn{n} spatial weight matrix. However, direct computation
+#' of the log-determinant is computationally expensive.
+#'
+#' This function uses a grid search and splines to pre-compute the log-determinants over a grid of \eqn{\rho} values.
+#'
+#' @param W numeric \eqn{n} by \eqn{n} non-negative spatial weights matrix,
+#'   with zeros on the main diagonal.
+#' @param length.out single, integer number, has to be at least 11 (due to order
+#'   of approximation). Sets how fine the grid approximation is. Default
+#'   value is 200.
+#' @param rmin single number between -1 and 1. Sets the minimum value of the
+#'   spatial autoregressive parameter \eqn{\rho}. Has to be lower than
+#'   \code{rmax}. Default value is -1.
+#' @param rmax single number between -1 and 1. Sets the maximum value of the
+#'   spatial autoregressive parameter \eqn{\rho}. Has to be higher than
+#'   \code{rmin}. Default value is 1.
+#'
+#' @return numeric \code{length.out} by  \code{2} matrix; the first column
+#'   contains the approximated log-determinants the second column the \eqn{\rho} values
+#'   ranging between \code{rmin} and \code{rmax}.
+#' @export
+logdetSpline <-
+  function(W,
+           length.out = 200,
+           rmin = -1,
+           rmax = 1) {
+
+    n = nrow(W)
+
+    nr_tests = 10
+
+    rho_tests = seq(rmin,rmax,length.out = nr_tests+2)[-c(1,nr_tests + 2)]
+    logdet_tests = sapply(rho_tests, function(x) {log(Matrix::det(Matrix::.sparseDiagonal(n) - x*W))})
+
+    rho_vals = seq(rmin,rmax,length.out = length.out+2)[-c(1,length.out+2)]
+    logdet_vals = stats::spline(x = rho_tests,
+                                y = logdet_tests,
+                                xout = rho_vals)$y
+
+    return(cbind(lndetmat = logdet_vals, rho =rho_vals))
+  }

@@ -12,6 +12,7 @@ rho_priors(
   init_rho_scale = 1,
   griddy_n = 60,
   use_griddy_gibbs = TRUE,
+  use_pace_barry = FALSE,
   mh_tune_low = 0.4,
   mh_tune_high = 0.6,
   mh_tune_scale = 0.1
@@ -36,6 +37,10 @@ value is 60.}
 \item{use_griddy_gibbs}{Binary value. Should griddy-Gibbs be used for \eqn{\rho} estimation?
 \code{use_griddy_gibbs=TRUE} does not work if \code{row_standardized_prior = FALSE} is specified in the \eqn{W} prior specification.
 if TRUE: griddy-Gibbs step for sampling \eqn{\rho}; if FALSE: tuned random-walk Metropolis-Hastings step}
+
+\item{use_pace_barry}{Binary value. If griddy-Gibbs is used should this be done using
+Pace and Barry or spline approximation \eqn{\rho} estimation? (default value is \code{FALSE})
+\code{use_pace_barry=TRUE} does not work if \code{use_griddy_gibbs = FALSE} is specified.}
 
 \item{mh_tune_low}{Lower bound of acceptance rate for Metropolis-Hastings tuning
 (used if \code{use_griddy_gibbs==FALSE})}

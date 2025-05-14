@@ -157,9 +157,15 @@ rho_sampler = R6::R6Class("rho_sampler", cloneable = FALSE, public = list(
       self$curr_logdet <- log(Matrix::det(self$curr_A))
     } else {self$curr_logdet = newLogdet}
     if (self$rho_prior$use_griddy_gibbs) {
-      self$curr_logdets <- logdetPaceBarry(self$curr_W, length.out = self$rho_prior$griddy_n,
-                                        rmin = self$rho_prior$rho_min,
-                                        rmax = self$rho_prior$rho_max)[-self$rho_prior$griddy_n, ]
+      if (self$rho_prior$use_pace_barry) {
+        self$curr_logdets <- logdetPaceBarry(self$curr_W, length.out = self$rho_prior$griddy_n,
+                                             rmin = self$rho_prior$rho_min,
+                                             rmax = self$rho_prior$rho_max)[-self$rho_prior$griddy_n, ]
+      } else {
+        self$curr_logdets <- logdetSpline(self$curr_W, length.out = self$rho_prior$griddy_n,
+                                             rmin = self$rho_prior$rho_min,
+                                             rmax = self$rho_prior$rho_max)[-self$rho_prior$griddy_n, ]
+      }
     }
     invisible(self)
   },
