@@ -55,6 +55,7 @@ semw <- function(Y, tt, Z, niter = 100, nretain = 50,
   ret = sdemw(Y = Y, tt =tt, X = matrix(0,nrow(Y),0),Z = Z, niter = niter, nretain = nretain,
              W_prior = W_prior,rho_prior = rho_prior,
              beta_prior = beta_prior,sigma_prior = sigma_prior)
+  ret$model_type = "SEM"
   return(ret)
 }
 
@@ -231,7 +232,8 @@ sdemw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter 
     postb = postb, posts = posts, postr = postr, postw = postw,
     W_prior = W_prior,rho_prior = rho_prior,
     beta_prior = beta_prior,sigma_prior = sigma_prior,
-    param = list(niter = niter, nretain = nretain)
+    param = list(niter = niter, nretain = nretain),
+    model_type = "SDEM"
   )
   class(ret) = "estimateW"
   return(ret)

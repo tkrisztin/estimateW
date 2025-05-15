@@ -138,7 +138,8 @@ slxw <- function(Y, tt, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter =
              postb = postb, posts = posts, postw = postw,
              W_prior = W_prior,
              beta_prior = beta_prior,sigma_prior = sigma_prior,
-             param = list(niter = niter, nretain = nretain)
+             param = list(niter = niter, nretain = nretain),
+             model_type = "SLX"
   )
   class(ret) = "estimateW"
   return(ret)

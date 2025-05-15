@@ -1,8 +1,6 @@
 #' @exportS3Method
 print.estimateW <- function(x, probs = c(.05,.5,.95),...) {
-  if (is.null(x[["postr"]])) {
-    model_type = "SLX"} else if (is.null(x[["Z"]])) {
-      model_type = "SAR"} else {model_type = "SDM"}
+  model_type = x$model_type
   cat("Model type: ", model_type, "\n", sep = "")
   cat("Draws (total): ", x$param$nretain, " (", x$param$niter, ")\n", sep = "")
   coefs = rbind(x$postb,x$posts)
@@ -11,7 +9,7 @@ print.estimateW <- function(x, probs = c(.05,.5,.95),...) {
   print.default(format(t(apply(coefs,c(1),stats::quantile,probs)), digits = 3L),
                 print.gap = 2L, quote = FALSE)
   cat("\n")
-  if (model_type != "SLX") {
+  if (model_type %in% c("SAR","SDM")) {
     cat("Direct effect:\n")
     print.default(format(t(apply(x$post.direct,c(1),stats::quantile,probs)), digits = 3L),
                   print.gap = 2L, quote = FALSE)

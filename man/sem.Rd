@@ -51,7 +51,7 @@ used as an illustration on using the \code{\link{beta_sampler}}, \code{\link{sig
 and \code{\link{rho_sampler}} classes.
 }
 \details{
-The considered panel spatial error model (SDEM) takes the form:
+The considered panel spatial error model (SEM) takes the form:
 
 \deqn{
  Y_t = Z \beta + \varepsilon_t,

@@ -88,7 +88,8 @@ normalgamma <- function(Y, tt, X = matrix(1,nrow(Y),1), niter = 200, nretain = 1
   ret = list(Y = Y, X = X,
              postb = postb, posts = posts,
              beta_prior = beta_prior,sigma_prior = sigma_prior,
-             param = list(niter = niter, nretain = nretain)
+             param = list(niter = niter, nretain = nretain),
+             model_type = "normalgamma"
   )
   class(ret) = "normalgamma"
   return(ret)
@@ -250,7 +251,8 @@ sdm <- function(Y, tt, W, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter
              post.direct = post.direct, post.indirect = post.indirect, post.total = post.total,
              postb = postb, posts = posts,postr = postr,
              beta_prior = beta_prior,sigma_prior = sigma_prior,
-             param = list(niter = niter, nretain = nretain)
+             param = list(niter = niter, nretain = nretain),
+             model_type = "SDM"
   )
   class(ret) = "exoW"
   return(ret)
@@ -306,6 +308,7 @@ sar <- function(Y, tt, W, Z = matrix(1,nrow(Y),1), niter = 200, nretain = 100,
   ret = sdm(Y = Y, tt =tt,W = W, X = matrix(0,nrow(Y),0),Z = Z, niter = niter, nretain = nretain,
              rho_prior = rho_prior,
              beta_prior = beta_prior,sigma_prior = sigma_prior)
+  ret$model_type = "SAR"
   return(ret)
 }
 
@@ -316,7 +319,7 @@ sar <- function(Y, tt, W, Z = matrix(1,nrow(Y),1), niter = 200, nretain = 100,
 #' used as an illustration on using the \code{\link{beta_sampler}}, \code{\link{sigma_sampler}},
 #' and \code{\link{rho_sampler}} classes.
 #'
-#' The considered panel spatial error model (SDEM) takes the form:
+#' The considered panel spatial error model (SEM) takes the form:
 #'
 #' \deqn{
 #'  Y_t = Z \beta + \varepsilon_t,
@@ -361,6 +364,7 @@ sem <- function(Y, tt, W, Z = matrix(1,nrow(Y),1), niter = 200, nretain = 100,
   ret = sdem(Y = Y, tt =tt, W = W, Z = Z, niter = niter, nretain = nretain,
               rho_prior = rho_prior,
               beta_prior = beta_prior,sigma_prior = sigma_prior)
+  ret$model_type = "SEM"
   return(ret)
 }
 
@@ -499,7 +503,8 @@ sdem <- function(Y, tt, W, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), nite
   ret = list(Y = Y, X = X, Z = Z, W = W,
              postb = postb, posts = posts,postr = postr,
              beta_prior = beta_prior,sigma_prior = sigma_prior,
-             param = list(niter = niter, nretain = nretain)
+             param = list(niter = niter, nretain = nretain),
+             model_type = "SDEM"
   )
   class(ret) = "exoW"
   return(ret)
@@ -636,7 +641,8 @@ slx <- function(Y, tt, W, X = matrix(0,nrow(Y),0),Z = matrix(1,nrow(Y),1), niter
   ret = list( Y = Y, X = X,Z = Z,W = W,
               postb = postb, posts = posts,
               beta_prior = beta_prior,sigma_prior = sigma_prior,
-              param = list(niter = niter, nretain = nretain)
+              param = list(niter = niter, nretain = nretain),
+              model_type = "SLX"
   )
   class(ret) = "exoW"
   return(ret)

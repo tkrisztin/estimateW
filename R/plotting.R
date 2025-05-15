@@ -41,7 +41,11 @@ plot.sim_dgp = function(x, ...) {
 
 #' @exportS3Method
 plot.exoW <- function(x, ...) {
-  plot(c(x$postr),type="l", main = "Rho posterior draws")
+  if (x$model_type %in% c("SAR","SEM","SDEM","SDM")) {
+    plot(c(x$postr),type="l", main = "Rho posterior draws")
+  } else{
+    plot(c(x$posts),type="l", main = "Sigma posterior draws")
+  }
 }
 
 #' @exportS3Method
