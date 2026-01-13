@@ -62,10 +62,11 @@ and \code{\link{rho_sampler}} classes.
 The considered panel spatial Durbin error model (SDEM) takes the form:
 
 \deqn{
- Y_t = X_t \beta_1 + W X_t \beta_2 + Z \beta_3 + \varepsilon_t,
+ Y_t = X_t \beta_1 + W X_t \beta_2 + Z \beta_3 + u_t,\\
+ u_t=\rho u_t+\varepsilon_t,
  }
 
-with \eqn{\varepsilon_t \sim N(0,(I_n - \rho W) \sigma^2)}. The row-stochastic \eqn{n} by \eqn{n} spatial weight
+with \eqn{\varepsilon_t \sim N(0,I_n \sigma^2)}. The row-stochastic \eqn{n} by \eqn{n} spatial weight
 matrix \eqn{W} is non-negative and has zeros on the main diagonal. \eqn{\rho} is a scalar spatial autoregressive parameter.
 
 \eqn{Y_t} (\eqn{n \times 1}) collects the \eqn{n} cross-sectional (spatial) observations for time
@@ -79,10 +80,10 @@ After vertically staking the \eqn{T} cross-sections  \eqn{Y=[Y_1',...,Y_T']'} (\
 with \eqn{N=nT}, the final model can be expressed as:
 
 \deqn{
- Y =  X \beta_1 + \tilde{W} X \beta_2 + Z \beta_3 + \varepsilon,
+ Y =  X \beta_1 + \tilde{W} X \beta_2 + Z \beta_3 + u,
 }
 
-where \eqn{\tilde{W}=I_T \otimes W} and \eqn{\varepsilon \sim N(0,\sigma^2 (I_n \otimes (I_n - \rho W)  )}. Note that the input
+where \eqn{\tilde{W}=I_T \otimes W}. Note that the input
 data matrices have to be ordered first by the cross-sectional spatial units and then stacked by time.
 }
 \examples{

@@ -3,21 +3,32 @@
 \docType{data}
 \name{nuts1growth}
 \alias{nuts1growth}
-\title{Regional growth data}
+\title{Regional growth data for European NUTS-1 regions}
 \format{
+A data frame with 1710 observations (90 regions × 19 years) and 6 variables:
+\describe{
+  \item{\code{NUTS1}}{NUTS-1 region code}
+  \item{\code{year}}{Year (2001-2019)}
+  \item{\code{growth_gdp_pw}}{Annual growth rate of GVA per worker (log differences), for year \code{year} vs. \code{year-1}}
+  \item{\code{init_gdp_pw}}{Log initial GVA per worker (measured at \code{year-1})}
+  \item{\code{loweduc}}{Share of working-age population with low education (ISCED 0-2, at \code{year-1})}
+  \item{\code{higheduc}}{Share of working-age population with tertiary education (ISCED 5-8, at \code{year-1})}
+}
+
 A \code{data.frame} object.
+}
+\source{
+ARDECO (European Commission DG REGIO) and Eurostat regional database.
 }
 \usage{
 nuts1growth
 }
 \description{
-Regional growth data set contains information on annual growth rates of GVA per worker
-(labor productivity) for 90 European NUTS-1 regions for the period 1999-2019.
+Annual growth rates of GVA per worker (labor productivity) for 90 NUTS-1 regions, 2001-2019 (T=19).
+Explanatory variables are lagged by one year.
 }
 \details{
 The dataset contains annual regional data for 26 European Union countries, disaggregated at the NUTS-1 level. The countries covered are: Austria, Belgium, Bulgaria, Cyprus, Czechia, Denmark, Estonia, Finland, France, Germany, Hungary, Ireland, Italy, Lithuania, Luxembourg, Latvia, Malta, Netherlands, Poland, Portugal, Romania, Sweden, Slovenia, and Slovakia. The NUTS-1 codes identify the first-level administrative regions within these countries.
-
-The dataset includes the following variables: annual output per worker growth (in percent), the natural logarithm of initial gross value added (GVA) per worker, and the share of the population with low and high levels of education based on the International Standard Classification of Education (ISCED). This structure allows for analyzing regional economic performance in relation to educational attainment across the European Union.
 }
 \references{
 Piribauer, P., Glocker, C., & Krisztin, T. (2023). Beyond distance: The spatial relationships of European regional economic growth. Journal of Economic Dynamics and Control, 155, 104735.

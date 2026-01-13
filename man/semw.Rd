@@ -58,10 +58,11 @@ The considered panel spatial error model (SEM) with unknown (\eqn{n} by \eqn{n})
 matrix \eqn{W} takes the form:
 
 \deqn{
- Y_t = Z \beta + \varepsilon_t,
+ Y_t = Z \beta + u_t,\\
+ u_t=\rho u_t+\varepsilon_t,
  }
 
-with \eqn{\varepsilon_t \sim N(0,(I_n - \rho W) \sigma^2)} and \eqn{W = f(\Omega)}. The \eqn{n} by \eqn{n}
+with \eqn{\varepsilon_t \sim N(0, I_n \sigma^2)} and \eqn{W = f(\Omega)}. The \eqn{n} by \eqn{n}
 matrix \eqn{\Omega} is an unknown binary adjacency matrix with zeros on the main diagonal and
 \eqn{f(\cdot)} is the (optional) row-standardization function. \eqn{\rho} is a scalar spatial autoregressive parameter.
 
@@ -73,10 +74,10 @@ After vertically staking the \eqn{T} cross-sections  \eqn{Y=[Y_1',...,Y_T']'} (\
 and \eqn{Z=[Z_1', ..., Z_T']'} (\eqn{N \times k_3}), with \eqn{N=nT}. The final model can be expressed as:
 
 \deqn{
- Y =  Z \beta + \varepsilon,
+ Y =  Z \beta + u,
 }
 
-where \eqn{\tilde{W}=I_T \otimes W} and \eqn{\varepsilon \sim N(0,\sigma^2 (I_n \otimes (I_n - \rho W)  )}.
+where \eqn{\tilde{W}=I_T \otimes W}.
 Note that the input data matrices have to be ordered first by the cross-sectional spatial units
 and then stacked by time.
 
