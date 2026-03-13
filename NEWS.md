@@ -1,3 +1,12 @@
+# estimateW 0.2.0
+
+* Added `slx()` function for estimating Spatial Lag of X (SLX) models with exogenous spatial weight matrices.
+* Added `logdetSpline()` function implementing spline-based approximations for the log-determinant in rho sampling.
+* Updated default rho prior to utilize the Pace and Barry approximation for improved computational efficiency.
+* Fixed bug where `print` and `plot` methods failed to correctly handle `SEM` and `SLX` model objects.
+* Corrected temporal indices in the `NUTS1` growth dataset.
+* Optimized posterior sampling routines for improved convergence in high-dimensional settings.
+
 # v0.1.0 estimateW
 
 - Added new dataset: `nuts1growth`.
